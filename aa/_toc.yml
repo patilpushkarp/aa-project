@@ -4,14 +4,14 @@
 format: jb-book
 root: intro
 parts:
-  - captions: Models
-    chapters:
-      sections:
-      - file: notebooks/Corporate Credit Rating Classification.ipynb
-      - file: r_files/exploratory_data_analysis.md
-      - file: r_files/data_preprocessing.md
-      - file: r_files/data_modelling.md
-  - captions: Extras
-    chapters:
-    - file: references.md
-    - file: appendix.md
+- captions: Models
+  chapters:
+  - file: notebooks/Corporate Credit Rating Classification.ipynb
+    sections:
+    - file: r_files/exploratory_data_analysis.md
+    - file: r_files/data_preprocessing.md
+    - file: r_files/data_modelling.md
+- captions: Extras
+  chapters:
+  - file: references.md
+  - file: appendix.md
