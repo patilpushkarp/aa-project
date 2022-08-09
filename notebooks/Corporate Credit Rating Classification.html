@@ -1,0 +1,739 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Corporate Credit Rating &#8212; Project - Advanced Analytics 1</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Exploratory Data Analysis" href="../r_files/exploratory_data_analysis.html" />
+    <link rel="prev" title="Project: Advanced Analytics - I" href="../intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Project - Advanced Analytics 1</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Project: Advanced Analytics - I
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Corporate Credit Rating
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../r_files/exploratory_data_analysis.html">
+   Exploratory Data Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../r_files/data_preprocessing.html">
+   Data Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../r_files/data_modelling.html">
+   Data Modelling
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix.html">
+   Appendix
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<div class="menu-dropdown menu-dropdown-launch-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Launch interactive content">
+      <i class="fas fa-rocket"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/notebooks/Corporate Credit Rating Classification.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Launch on Binder"
+>
+  
+
+<span class="headerbtn__icon-container">
+  
+    <img src="../_static/images/logo_binder.svg">
+  </span>
+<span class="headerbtn__text-container">Binder</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fnotebooks/Corporate Credit Rating Classification.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/notebooks/Corporate Credit Rating Classification.ipynb"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.ipynb</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-related-news">
+   Key Related News
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-dataset">
+   About the dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dataset-description">
+     Dataset Description
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#features-description">
+   Features Description
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Corporate Credit Rating</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-related-news">
+   Key Related News
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#about-the-dataset">
+   About the dataset
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#dataset-description">
+     Dataset Description
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#features-description">
+   Features Description
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="corporate-credit-rating">
+<h1>Corporate Credit Rating<a class="headerlink" href="#corporate-credit-rating" title="Permalink to this headline">#</a></h1>
+<p>A corporate credit rating is a numerical or quantified assessment of a company’s creditworthiness, which shows investors the likelihood of a company defaulting on its debt obligations or outstanding bonds. These ratings are issued by rating agencies agencies which helps investors decide how risky it is to invest in a specific country, security, or bond by providing independent, objective assessments of the creditworthiness of companies and countries.  <span id="id1">[<a class="reference internal" href="../references.html#id2" title="Reem Heakal. What is a corporate credit rating? Jul 2022. URL: https://www.investopedia.com/articles/03/102203.asp.">Hea22</a>]</span>.
+Corporate cresit rating assessment is crucial for credit risk management of the financial institutionsas well as governments across the globe. It helps financial institutions to guage the debtors ability to meet its payable obligations. Apart from financial institutions and governments, it is also used by debt investors and bond issuers to manage financial risks. Credit rating is heavily relied on to make better decision makings and for making regulatory changes. A few of the well known credit reting agencies include Standard and Poors’s, Moody’s, Fitch’s etc. These agencies charge a hefty amount as a lot of resources in performing the credit rating process. Also, the ratings provided by these agencies may experience a lag which may not represent the real situation. Thus, it is necessary to simulate the credit rating process.
+The prediction accuracy of credit rating has a significant impact on financial institutions’ profitability and government regulations. Even a 1% improvement on the prediction accuracy of the corporate credit rating will decrease a significant loss and risk for both financial institutions and government <span id="id2">[<a class="reference internal" href="../references.html#id3" title="Mingfu Wang and Hyejin Ku. Utilizing historical data for corporate credit rating assessment. Expert Systems with Applications, 165:113925, 2021. doi:10.1016/j.eswa.2020.113925.">WK21</a>]</span>.</p>
+<section id="key-related-news">
+<h2>Key Related News<a class="headerlink" href="#key-related-news" title="Permalink to this headline">#</a></h2>
+<ol class="simple">
+<li><p><a class="reference external" href="https://www.fitchratings.com/research/banks/fitch-downgrades-credit-suisse-group-to-bbb-outlook-negative-04-08-2022">Fitch Downgrades Credit Suisse Group to ‘BBB’; Outlook Negative</a></p></li>
+<li><p><a class="reference external" href="https://www.moodys.com/research/Moodys-assigns-Meta-Platforms-new-bond-issuance-A1-senior-unsecured--PR_468358">Moody’s assigns Meta Platforms’ new bond issuance A1 senior unsecured debt ratings; outlook stable</a></p></li>
+<li><p><a class="reference external" href="https://www.suffolknewsherald.com/2022/08/06/aaa-bond-ratings-paint-healthy-financial-picture-for-city-of-suffolk/">AAA bond ratings paint healthy financial picture for city of Suffolk</a></p></li>
+<li><p><a class="reference external" href="https://timesofindia.indiatimes.com/business/india-business/rbi-cracks-down-on-credit-enhancement-by-rating-agencies/articleshow/93379948.cms">RBI cracks down on ‘credit enhancement’ by rating agencies</a></p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Loading required package: ggplot2
+
+Loading required package: lattice
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="about-the-dataset">
+<h2>About the dataset<a class="headerlink" href="#about-the-dataset" title="Permalink to this headline">#</a></h2>
+<p>The dataset named “<a class="reference external" href="https://www.kaggle.com/datasets/kirtandelwadia/corporate-credit-rating-with-financial-ratios">Corporate Credit Rating with Financial Ratios</a>” is sourced from kaggle.</p>
+<section id="dataset-description">
+<h3>Dataset Description<a class="headerlink" href="#dataset-description" title="Permalink to this headline">#</a></h3>
+<p>Corporate credit ratings, issued by specialist agencies, provide an assessment about the credit worthiness of a company and acts as a pivotal financial indication to potential investors. It helps provide investors with a concrete idea about the risk associated with the company’s credit investment returns. Every company aims to attain a good credit rating for seeking more investment and lower debt interest rates.
+Most of the credit rating agencies have a unique discrete ordinal rating scale. The rating scale of the S&amp;P is: {AAA, AA+, AA, AA−, A+, A, A−, BBB+, BBB, BBB−, BB+, BB, BB−, B+, B, B−, CCC+, CCC, CCC−, CC, C, D} – a total of 22 grades that are ordered from AAA, the most promising one to D, the most risky one. S&amp;P broadly classifies the companies with rating higher than BB+ as investment grade companies and others as junk grade companies. Credit ratings are mostly determined by financial ratios coming from balance sheets, income statements, and cash-flow statements.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>Measurements</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Timeframe</p></td>
+<td><p>2010-2016</p></td>
+</tr>
+<tr class="row-odd"><td><p>Datapoints</p></td>
+<td><p>7805</p></td>
+</tr>
+<tr class="row-even"><td><p>Companies Covered</p></td>
+<td><p>678</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rating Agency</p></td>
+<td><p>7</p></td>
+</tr>
+<tr class="row-even"><td><p>Sector</p></td>
+<td><p>12</p></td>
+</tr>
+<tr class="row-odd"><td><p>Rating Scale</p></td>
+<td><p>S&amp;P 22-grades</p></td>
+</tr>
+<tr class="row-even"><td><p>Financial Ratios</p></td>
+<td><p>16</p></td>
+</tr>
+</tbody>
+</table>
+<p>The size of the dataset is approximately 1.64 MB.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read the data</span>
+<span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&#39;./../data/classification_data/input/corporate_credit_rating.csv&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the dimensions of data</span>
+<span class="nf">dim</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>7805</li><li>25</li></ol>
+</div></div>
+</div>
+<p>The dataset has 7805 rows and 25 columns</p>
+</section>
+</section>
+<section id="features-description">
+<h2>Features Description<a class="headerlink" href="#features-description" title="Permalink to this headline">#</a></h2>
+<p>The corporate credit rating is based on the financial statements of the company which tells us about the financial health of the company. Financial ratios from the financial statements are used to calculate the credit rating.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">colnames</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style>
+.list-inline {list-style: none; margin:0; padding: 0}
+.list-inline>li {display: inline-block}
+.list-inline>li:not(:last-child)::after {content: "\00b7"; padding: 0 .5ex}
+</style>
+<ol class=list-inline><li>'Rating.Agency'</li><li>'Corporation'</li><li>'Rating'</li><li>'Rating.Date'</li><li>'CIK'</li><li>'Binary.Rating'</li><li>'SIC.Code'</li><li>'Sector'</li><li>'Ticker'</li><li>'Current.Ratio'</li><li>'Long.term.Debt...Capital'</li><li>'Debt.Equity.Ratio'</li><li>'Gross.Margin'</li><li>'Operating.Margin'</li><li>'EBIT.Margin'</li><li>'EBITDA.Margin'</li><li>'Pre.Tax.Profit.Margin'</li><li>'Net.Profit.Margin'</li><li>'Asset.Turnover'</li><li>'ROE...Return.On.Equity'</li><li>'Return.On.Tangible.Equity'</li><li>'ROA...Return.On.Assets'</li><li>'ROI...Return.On.Investment'</li><li>'Operating.Cash.Flow.Per.Share'</li><li>'Free.Cash.Flow.Per.Share'</li></ol>
+</div></div>
+</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Sr. No.</p></th>
+<th class="text-align:left head"><p>Features</p></th>
+<th class="text-align:left head"><p>Description</p></th>
+<th class="text-align:left head"><p>Source</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td class="text-align:left"><p>Rating Agency</p></td>
+<td class="text-align:left"><p>Name of the agency who provided the rating</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>2</p></td>
+<td class="text-align:left"><p>Corporation</p></td>
+<td class="text-align:left"><p>Name of the corporation or company for which the rating is provided</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>3</p></td>
+<td class="text-align:left"><p>Rating</p></td>
+<td class="text-align:left"><p>Rating given to the Corporation by the Rating Agency</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>4</p></td>
+<td class="text-align:left"><p>Rating Date</p></td>
+<td class="text-align:left"><p>Gives the date at which the company was rated</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>5</p></td>
+<td class="text-align:left"><p>CIK</p></td>
+<td class="text-align:left"><p>Unique identifier for the company provided by SEC</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>6</p></td>
+<td class="text-align:left"><p>Binary Rating</p></td>
+<td class="text-align:left"><p>Binary representation of rating, where ‘0’ represents junk grade company while ‘1’ represents investment</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>7</p></td>
+<td class="text-align:left"><p>SIC Code</p></td>
+<td class="text-align:left"><p>Standard Industrial Classification Codes (SIC Codes) are used to identify primary line of business of a company</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td class="text-align:left"><p>Sector</p></td>
+<td class="text-align:left"><p>Provides business sector of a company. For e.g. the sector of Starbucks is ‘Shops’</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>9</p></td>
+<td class="text-align:left"><p>Ticker</p></td>
+<td class="text-align:left"><p>Unique Identifier of a company in the tradable market</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>10</p></td>
+<td class="text-align:left"><p>Current Ratio</p></td>
+<td class="text-align:left"><p>Current ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>11</p></td>
+<td class="text-align:left"><p>Long-term Debt Capital</p></td>
+<td class="text-align:left"><p>Long-term loans of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>12</p></td>
+<td class="text-align:left"><p>Debt-Equity Ratio</p></td>
+<td class="text-align:left"><p>Debt to Equity ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>13</p></td>
+<td class="text-align:left"><p>Gross Margin</p></td>
+<td class="text-align:left"><p>Gross margin of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>14</p></td>
+<td class="text-align:left"><p>Operating Margin</p></td>
+<td class="text-align:left"><p>Operating Margin of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>15</p></td>
+<td class="text-align:left"><p>EBIT Margin</p></td>
+<td class="text-align:left"><p>Earnings Before Interest Tax Margin of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>16</p></td>
+<td class="text-align:left"><p>EBITDA Margin</p></td>
+<td class="text-align:left"><p>Earnings Before Interest Tax Depreciation and Amortization Margin of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>17</p></td>
+<td class="text-align:left"><p>Pre-Tax Profit Margin</p></td>
+<td class="text-align:left"><p>Pre-tax profit margin of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>18</p></td>
+<td class="text-align:left"><p>Net Profit Margin</p></td>
+<td class="text-align:left"><p>Net profit margin of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>19</p></td>
+<td class="text-align:left"><p>Asset Turnover</p></td>
+<td class="text-align:left"><p>Asset Turnover ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>20</p></td>
+<td class="text-align:left"><p>ROE - Return on Equity</p></td>
+<td class="text-align:left"><p>Return on Equity ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>21</p></td>
+<td class="text-align:left"><p>Return on Tangible Equity</p></td>
+<td class="text-align:left"><p>Return on Tangible Equity ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>22</p></td>
+<td class="text-align:left"><p>ROA - Return on Assets</p></td>
+<td class="text-align:left"><p>Return on Assets ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>23</p></td>
+<td class="text-align:left"><p>ROI - Return on Investments</p></td>
+<td class="text-align:left"><p>Return on Investments ratio of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-odd"><td><p>24</p></td>
+<td class="text-align:left"><p>Operating Cash Flow Per Share</p></td>
+<td class="text-align:left"><p>Operating cash flow per share of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+<tr class="row-even"><td><p>25</p></td>
+<td class="text-align:left"><p>Free cash flow per share</p></td>
+<td class="text-align:left"><p>Free cash flow per share of the corporation</p></td>
+<td class="text-align:left"><p></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "r"
+        },
+        kernelOptions: {
+            kernelName: "ir",
+            path: "./notebooks"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'ir'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../intro.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Project: Advanced Analytics - I</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="../r_files/exploratory_data_analysis.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Exploratory Data Analysis</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Aalok, Linsa, Mayukh, Pushkar, Tapan<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>

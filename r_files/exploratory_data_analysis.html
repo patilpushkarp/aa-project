@@ -1,0 +1,786 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Exploratory Data Analysis &#8212; Project - Advanced Analytics 1</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Data Preprocessing" href="data_preprocessing.html" />
+    <link rel="prev" title="Corporate Credit Rating" href="../notebooks/Corporate%20Credit%20Rating%20Classification.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Project - Advanced Analytics 1</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Project: Advanced Analytics - I
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../notebooks/Corporate%20Credit%20Rating%20Classification.html">
+   Corporate Credit Rating
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Exploratory Data Analysis
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_preprocessing.html">
+   Data Preprocessing
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="data_modelling.html">
+   Data Modelling
+  </a>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix.html">
+   Appendix
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fr_files/exploratory_data_analysis.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/r_files/exploratory_data_analysis.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#features-analysis">
+   Features Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#univariate-analysis">
+   Univariate Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#categorical-variables">
+     Categorical Variables
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multivariate-analysis">
+   Multivariate Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-analysis">
+   Correlation Analysis
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Exploratory Data Analysis</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#features-analysis">
+   Features Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#univariate-analysis">
+   Univariate Analysis
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#categorical-variables">
+     Categorical Variables
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#multivariate-analysis">
+   Multivariate Analysis
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#correlation-analysis">
+   Correlation Analysis
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="exploratory-data-analysis">
+<h1>Exploratory Data Analysis<a class="headerlink" href="#exploratory-data-analysis" title="Permalink to this headline">#</a></h1>
+<p>Exploratory Data Analysis enables us to understand the dataset clearly.
+It also helps in cleaning the data which will further help us to
+maximize the output from the machine learning models.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">DataExplorer</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 
+## Attaching package: &#39;dplyr&#39;
+
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag
+
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">inspectdf</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/input/corporate_credit_rating.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">head</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                        Rating.Agency                    Corporation Rating
+## 1 Standard &amp; Poor&#39;s Ratings Services      American States Water Co.     A-
+## 2 Standard &amp; Poor&#39;s Ratings Services Automatic Data Processing Inc.    AAA
+## 3 Standard &amp; Poor&#39;s Ratings Services                     Avnet Inc.   BBB-
+## 4 Standard &amp; Poor&#39;s Ratings Services   California Water Service Co.    AA-
+## 5 Standard &amp; Poor&#39;s Ratings Services           Cardinal Health Inc.      A
+## 6 Standard &amp; Poor&#39;s Ratings Services           Cardinal Health Inc.   BBB+
+##   Rating.Date     CIK Binary.Rating SIC.Code Sector Ticker Current.Ratio
+## 1  2010-07-30 1056903             1     4941  Utils    AWR        1.1507
+## 2  2010-09-16    8670             1     7374  BusEq    ADP        1.1129
+## 3  2010-11-23    8858             1     5065  Shops    AVT        1.9276
+## 4  2010-06-29 1035201             1     4941  Utils    CWT        0.8358
+## 5  2010-07-14  721371             1     5122  Shops    CAH        1.2931
+## 6  2010-09-16  721371             1     5122  Shops    CAH        1.2931
+##   Long.term.Debt...Capital Debt.Equity.Ratio Gross.Margin Operating.Margin
+## 1                   0.4551            0.8847      77.6230          19.4839
+## 2                   0.0072            0.0073      43.6619          19.8327
+## 3                   0.2924            0.4255      11.9008           3.3173
+## 4                   0.4708            0.9491      64.5096          18.4549
+## 5                   0.2644            0.4036       3.8385           1.3269
+## 6                   0.2644            0.4036       3.8385           1.3269
+##   EBIT.Margin EBITDA.Margin Pre.Tax.Profit.Margin Net.Profit.Margin
+## 1     19.4839       28.9834               13.6093            8.3224
+## 2     19.8327       23.9379               20.8699           13.5690
+## 3      3.3173        3.6338                3.0536            2.1418
+## 4     18.4549       27.9377               15.1135            9.0246
+## 5      1.3269        1.5847                1.2304            0.6518
+## 6      1.3269        1.5847                1.2304            0.6518
+##   Asset.Turnover ROE...Return.On.Equity Return.On.Tangible.Equity
+## 1         0.3173                 8.1724                    8.1978
+## 2         0.3324                22.0354                   47.2858
+## 3         2.4620                13.6376                   16.7991
+## 4         0.2946                 9.6412                    9.7015
+## 5         4.9276                11.1256                   19.4184
+## 6         4.9276                11.1256                   19.4184
+##   ROA...Return.On.Assets ROI...Return.On.Investment
+## 1                 2.6385                     4.4530
+## 2                 4.4944                    21.8765
+## 3                 5.2731                     9.6494
+## 4                 2.6583                     5.1018
+## 5                 2.9364                     8.1844
+## 6                 2.9364                     8.1844
+##   Operating.Cash.Flow.Per.Share Free.Cash.Flow.Per.Share
+## 1                        1.9957                  -0.1333
+## 2                        0.2501                   0.3132
+## 3                       -7.6079                  -7.3231
+## 4                        1.7438                  -0.8999
+## 5                        1.9725                   2.4174
+## 6                        1.9725                   2.4174
+</pre></div>
+</div>
+<section id="features-analysis">
+<h2>Features Analysis<a class="headerlink" href="#features-analysis" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">colnames</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##  [1] &quot;Rating.Agency&quot;                 &quot;Corporation&quot;                  
+##  [3] &quot;Rating&quot;                        &quot;Rating.Date&quot;                  
+##  [5] &quot;CIK&quot;                           &quot;Binary.Rating&quot;                
+##  [7] &quot;SIC.Code&quot;                      &quot;Sector&quot;                       
+##  [9] &quot;Ticker&quot;                        &quot;Current.Ratio&quot;                
+## [11] &quot;Long.term.Debt...Capital&quot;      &quot;Debt.Equity.Ratio&quot;            
+## [13] &quot;Gross.Margin&quot;                  &quot;Operating.Margin&quot;             
+## [15] &quot;EBIT.Margin&quot;                   &quot;EBITDA.Margin&quot;                
+## [17] &quot;Pre.Tax.Profit.Margin&quot;         &quot;Net.Profit.Margin&quot;            
+## [19] &quot;Asset.Turnover&quot;                &quot;ROE...Return.On.Equity&quot;       
+## [21] &quot;Return.On.Tangible.Equity&quot;     &quot;ROA...Return.On.Assets&quot;       
+## [23] &quot;ROI...Return.On.Investment&quot;    &quot;Operating.Cash.Flow.Per.Share&quot;
+## [25] &quot;Free.Cash.Flow.Per.Share&quot;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">column_types</span> <span class="o">&lt;-</span> <span class="nf">inspect_types</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">column_types</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## # A tibble: 3 × 4
+##   type        cnt  pcnt col_name    
+##   &lt;chr&gt;     &lt;int&gt; &lt;dbl&gt; &lt;named list&gt;
+## 1 numeric      17    68 &lt;chr [17]&gt;  
+## 2 character     6    24 &lt;chr [6]&gt;   
+## 3 integer       2     8 &lt;chr [2]&gt;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">column_types</span> <span class="o">%&gt;%</span> <span class="nf">show_plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-6-1.png" /><!-- --></p>
+<p>Columns such as <em>CIK</em>, and <em>SIC Code</em> have wrong data types associated
+with them.</p>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Column Name</p></th>
+<th class="head"><p>Present Date Type</p></th>
+<th class="head"><p>Target Data Type</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>CIK</p></td>
+<td><p>integer</p></td>
+<td><p>character</p></td>
+</tr>
+<tr class="row-odd"><td><p>SIC Code</p></td>
+<td><p>double</p></td>
+<td><p>character</p></td>
+</tr>
+</tbody>
+</table>
+<p>Wrong data types associated columns</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Convert wrongly associated data types to correct ones.</span>
+<span class="n">df</span><span class="o">$</span><span class="n">CIK</span> <span class="o">&lt;-</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">CIK</span><span class="p">)</span>
+<span class="n">df</span><span class="o">$</span><span class="n">SIC.Code</span> <span class="o">&lt;-</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">SIC.Code</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Let us visualize the structure of the dataset.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_str</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">introduce</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##   rows columns discrete_columns continuous_columns all_missing_columns
+## 1 7805      25                8                 17                   0
+##   total_missing_values complete_rows total_observations memory_usage
+## 1                    0          7805             195125      1772048
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_intro</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-10-1.png" /><!-- --></p>
+<p>There are no missing values in the dataset which is a boon in disguise.
+Also the number of categorical numbers to deal with and convert to
+machine readable, interpretable numbers are quite less as compared to
+the number of numerical columns. Moreover, not every categorical column
+is relevant for creating a model.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">inspect_imb</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## # A tibble: 8 × 4
+##   col_name      value                          pcnt   cnt
+##   &lt;chr&gt;         &lt;chr&gt;                         &lt;dbl&gt; &lt;int&gt;
+## 1 Rating.Agency Egan-Jones Ratings Company   36.2    2826
+## 2 Sector        Other                        16.0    1251
+## 3 Rating        BBB                          11.7     910
+## 4 Rating.Date   2012-06-15                    5.34    417
+## 5 SIC.Code      1311                          4.96    387
+## 6 CIK           1129137                       0.538    42
+## 7 Ticker        AMX                           0.538    42
+## 8 Corporation   Mondelez International, Inc.  0.295    23
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">inspect_imb</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">show_plot</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
+## &quot;none&quot;)` instead.
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-12-1.png" /><!-- --></p>
+<p>The above graph shows the imbalance in the most dominant class in the
+categorical variables. Following are some observations that can be made:</p>
+<ol class="simple">
+<li><p>The <em>Rating Agency</em> is dominated by “Egan-Jones Ratings Company”,
+but it will more useful to know credit rating agency which does not
+have enough representation.</p></li>
+<li><p><em>CIK</em>, <em>Ticker</em>, and <em>Corporation</em> should have very high variance of
+categories and hence will be useful to remove them before modelling.</p></li>
+<li><p>The dataset is led by companies with “BBB” rating, though 11.66%
+representation by the dominant may not be consider as a serious
+imbalance which will require treatment. But it will be noteworthy to
+find the rating that is under-represented which can be treated as
+outliers, or will need specialized treatment such as oversampling.</p></li>
+</ol>
+<p>These variables will be analyzed separately in the univariate analysis
+section.</p>
+</section>
+<section id="univariate-analysis">
+<h2>Univariate Analysis<a class="headerlink" href="#univariate-analysis" title="Permalink to this headline">#</a></h2>
+<section id="categorical-variables">
+<h3>Categorical Variables<a class="headerlink" href="#categorical-variables" title="Permalink to this headline">#</a></h3>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_bar</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 5 columns ignored with more than 50 categories.
+## Corporation: 1377 categories
+## Rating.Date: 1414 categories
+## CIK: 686 categories
+## SIC.Code: 240 categories
+## Ticker: 678 categories
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-13-1.png" /><!-- --></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Rating.Agency</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                                 Var1 Freq
+## 1                               DBRS   26
+## 2         Egan-Jones Ratings Company 2826
+## 3                      Fitch Ratings  477
+## 4  HR Ratings de Mexico S.A. de C.V.    5
+## 5    Japan Credit Rating Agency,Ltd.   22
+## 6          Moody&#39;s Investors Service 1636
+## 7 Standard &amp; Poor&#39;s Ratings Services 2813
+</pre></div>
+</div>
+<p>The number of companies rated by last three credit rating agencies are
+too few to be useful for analysis. It will be beneficial to remove them
+from the dataset. Thus, data for following credit rating agencies will
+be removed:</p>
+<ol class="simple">
+<li><p>DBRS</p></li>
+<li><p>Japan Credit Rating Agency, Ltd.</p></li>
+<li><p>HR Ratings de Mexico S.A. de C.V.</p></li>
+</ol>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find data associated with ratings having less 10 observations</span>
+<span class="n">ratings.count.df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Rating</span><span class="p">))</span>
+<span class="nf">colnames</span><span class="p">(</span><span class="n">ratings.count.df</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1] &quot;Var1&quot; &quot;Freq&quot;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">rtl.data</span> <span class="o">&lt;-</span> <span class="n">ratings.count.df</span><span class="p">[</span><span class="n">ratings.count.df</span><span class="o">$</span><span class="n">Freq</span><span class="o">&lt;</span><span class="m">10</span><span class="p">,]</span>
+<span class="n">rtl.data</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##    Var1 Freq
+## 19  CC+    1
+## 23    D    5
+</pre></div>
+</div>
+<p>Data associated with these ratings will also be removed since, they are
+insufficient for model to generate any insight.</p>
+<p>There are no categorical columns which have low variance and hence no
+data treatment is required for that consideration.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_histogram</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-16-1.png" /><!-- --></p>
+<p>Almost every numerical columns seems to have data points which can be
+considered as outliers. But it is not appropriate to alter those data
+points as they are crucial for modelling the data. More appropriate plot
+to identify the columns with extreme values is box plot (to be analyzed
+in the next section).</p>
+</section>
+</section>
+<section id="multivariate-analysis">
+<h2>Multivariate Analysis<a class="headerlink" href="#multivariate-analysis" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_boxplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s">&#39;Rating&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-17-1.png" /><!-- --><img alt="" src="../_images/unnamed-chunk-17-2.png" /><!-- --></p>
+<p>Some prominent outliers are present in the following columns:</p>
+<ol class="simple">
+<li><p>Asset Turnover Ratio</p></li>
+<li><p>Long-term Debt Capital</p></li>
+<li><p>Return on Tangible Equity</p></li>
+<li><p>Return on Assets</p></li>
+<li><p>Return on Equity</p></li>
+<li><p>Operating Cash Flow Per Share</p></li>
+<li><p>Return on Investments</p></li>
+</ol>
+<p>Though outliers are present in individual features but they may not be
+true outliers and there is a possibility of information by removing
+them. To mitigate this issue, it will be more appropriate to consider an
+observation as a whole to find the true outliers.</p>
+</section>
+<section id="correlation-analysis">
+<h2>Correlation Analysis<a class="headerlink" href="#correlation-analysis" title="Permalink to this headline">#</a></h2>
+<p>Correlation analysis can only be perform on numerical columns and hence
+appropriate data needs to be subset.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Select data with only numerical columns</span>
+<span class="n">num.data</span> <span class="o">&lt;-</span> <span class="n">df</span> <span class="o">%&gt;%</span> <span class="n">dplyr</span><span class="o">::</span><span class="nf">select</span><span class="p">(</span><span class="nf">where</span><span class="p">(</span><span class="n">is.numeric</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_correlation</span><span class="p">(</span><span class="n">num.data</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-19-1.png" /><!-- --></p>
+<p>It can be observed that <em>Operating Margin</em>, <em>EBIT Margin</em>, <em>EBITDA
+Margin</em>, <em>Pre Tax Profit Margin</em>, <em>Return on Assets</em> and <em>Net Profit
+Margin</em> are highly correlated with each other. Hence it will be better
+to remove correlated columns. Consider the threshold to be 0.7.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./r_files"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="../notebooks/Corporate%20Credit%20Rating%20Classification.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Corporate Credit Rating</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="data_preprocessing.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Data Preprocessing</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Aalok, Linsa, Mayukh, Pushkar, Tapan<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
