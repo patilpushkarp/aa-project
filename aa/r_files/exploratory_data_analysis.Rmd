@@ -1,0 +1,156 @@
+---
+title: "Exploratory Data Analysis"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Exploratory Data Analysis
+
+Exploratory Data Analysis enables us to understand the dataset clearly. It also helps in cleaning the data which will further help us to maximize the output from the machine learning models.
+
+```{r}
+library(DataExplorer)
+library(dplyr)
+library(inspectdf)
+```
+
+```{r}
+df <- read.csv("./../data/classification_data/input/corporate_credit_rating.csv")
+```
+
+```{r}
+head(df)
+```
+
+## Features Analysis
+
+```{r}
+colnames(df)
+```
+
+```{r}
+column_types <- inspect_types(df)
+column_types
+```
+
+```{r}
+column_types %>% show_plot()
+```
+
+Columns such as *CIK*, and *SIC Code* have wrong data types associated with them.
+
+| Column Name | Present Date Type | Target Data Type |
+|-------------|-------------------|------------------|
+| CIK         | integer           | character        |
+| SIC Code    | double            | character        |
+
+: Wrong data types associated columns
+
+```{r}
+# Convert wrongly associated data types to correct ones.
+df$CIK <- as.factor(df$CIK)
+df$SIC.Code <- as.factor(df$SIC.Code)
+```
+
+Let us visualize the structure of the dataset.
+
+```{r}
+plot_str(df)
+```
+
+```{r}
+introduce(df)
+```
+
+```{r}
+plot_intro(df)
+```
+
+There are no missing values in the dataset which is a boon in disguise. Also the number of categorical numbers to deal with and convert to machine readable, interpretable numbers are quite less as compared to the number of numerical columns. Moreover, not every categorical column is relevant for creating a model.
+
+```{r}
+inspect_imb(df)
+```
+
+```{r}
+inspect_imb(df) %>% show_plot()
+```
+
+The above graph shows the imbalance in the most dominant class in the categorical variables. Following are some observations that can be made:
+
+1.  The *Rating Agency* is dominated by "Egan-Jones Ratings Company", but it will more useful to know credit rating agency which does not have enough representation.
+
+2.  *CIK*, *Ticker*, and *Corporation* should have very high variance of categories and hence will be useful to remove them before modelling.
+
+3.  The dataset is led by companies with "BBB" rating, though 11.66% representation by the dominant may not be consider as a serious imbalance which will require treatment. But it will be noteworthy to find the rating that is under-represented which can be treated as outliers, or will need specialized treatment such as oversampling.
+
+These variables will be analyzed separately in the univariate analysis section.
+
+## Univariate Analysis
+
+### Categorical Variables
+
+```{r fig.height=5, fig.width=7}
+plot_bar(df)
+```
+
+```{r}
+data.frame(table(df$Rating.Agency))
+```
+
+The number of companies rated by last three credit rating agencies are too few to be useful for analysis. It will be beneficial to remove them from the dataset. Thus, data for following credit rating agencies will be removed:
+
+1.  DBRS
+2.  Japan Credit Rating Agency, Ltd.
+3.  HR Ratings de Mexico S.A. de C.V.
+
+```{r}
+# Find data associated with ratings having less 10 observations
+ratings.count.df <- data.frame(table(df$Rating))
+rtl.data <- ratings.count.df[ratings.count.df$Freq<10,]
+rtl.data
+```
+
+Data associated with these ratings will also be removed since, they are insufficient for model to generate any insight.
+
+There are no categorical columns which have low variance and hence no data treatment is required for that consideration.
+
+```{r}
+plot_histogram(df)
+```
+
+Almost every numerical columns seems to have data points which can be considered as outliers. But it is not appropriate to alter those data points as they are crucial for modelling the data. More appropriate plot to identify the columns with extreme values is box plot (to be analyzed in the next section).
+
+## Multivariate Analysis
+
+```{r fig.height=5, fig.width=7}
+plot_boxplot(df, by='Rating')
+```
+
+Some prominent outliers are present in the following columns:
+
+1.  Asset Turnover Ratio
+2.  Long-term Debt Capital
+3.  Return on Tangible Equity
+4.  Return on Assets
+5.  Return on Equity
+6.  Operating Cash Flow Per Share
+7.  Return on Investments
+
+Though outliers are present in individual features but they may not be true outliers and there is a possibility of information by removing them. To mitigate this issue, it will be more appropriate to consider an observation as a whole to find the true outliers.
+
+## Correlation Analysis
+
+Correlation analysis can only be perform on numerical columns and hence appropriate data needs to be subset.
+
+```{r}
+# Select data with only numerical columns
+num.data <- df %>% dplyr::select(where(is.numeric))
+```
+
+```{r fig.height=5, fig.width=7}
+plot_correlation(num.data)
+```
+
+It can be observed that *Operating Margin*, *EBIT Margin*, *EBITDA Margin*, *Pre Tax Profit Margin*, *Return on Assets* and *Net Profit Margin* are highly correlated with each other. Hence it will be better to remove correlated columns. Consider the threshold to be 0.7.

@@ -1,0 +1,16 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: intro
+parts:
+  - captions: Classification
+    chapters:
+    - file: notebooks/Corporate Credit Rating Classification.ipynb
+    - file: r_files/exploratory_data_analysis.md
+    - file: r_files/data_preprocessing.md
+    - file: r_files/data_modelling.md
+  - captions: Extras
+    chapters:
+    - file: references.md
+    - file: appendix.md

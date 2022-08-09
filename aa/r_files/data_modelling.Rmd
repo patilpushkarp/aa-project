@@ -1,0 +1,53 @@
+---
+title: "Data Modelling"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Data Modelling
+
+Since the data has been cleaned, it can now be used to create the models.
+
+```{r}
+# Load libraries
+library(caret)
+library(nnet)
+```
+
+Since not many outliers are removed, there is very little information loss and hence the data without outliers can be used.
+
+```{r}
+# Load the data
+df <- read.csv("./../data/classification_data/intermediates/preprocessed_data_without_outliers.csv")
+```
+
+## Partition the data
+
+To evaluate the model, there should be a set of which the model has not seen and for which the labels are known. Hence, it is necessary to split the data into training and testing set.
+
+```{r}
+# Partitioning the data
+partition = createDataPartition(df$Rating, p=0.8, list = FALSE)
+train = df[partition,]
+test = df[-partition,]
+```
+
+## Logistic Regression
+
+The model is first trained on the training data and then evaluated on testing data.
+
+```{r}
+# Model training
+multinom.model <- multinom(Rating~., data=train, )
+```
+
+```{r}
+# Predict the samples from test data using the model
+result <- predict(multinom.model, test)
+
+# Print the Confusion matrix
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
+
+The model has a very low accuracy and is not better than random guesses.
