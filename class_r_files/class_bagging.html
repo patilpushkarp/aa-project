@@ -1,0 +1,680 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Bagging &#8212; Project - Advanced Analytics 1</title>
+    
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" href="../_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Random Forest" href="class_random_forest.html" />
+    <link rel="prev" title="Decision Tree" href="class_decision_tree.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
+
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      
+      
+      <h1 class="site-logo" id="site-title">Project - Advanced Analytics 1</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../intro.html">
+                    Project: Advanced Analytics - I
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="../notebooks/Corporate%20Credit%20Rating%20Classification.html">
+   Classification: Corporate Credit Rating
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="exploratory_data_analysis.html">
+     Exploratory Data Analysis
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="data_preprocessing.html">
+     Data Preprocessing
+    </a>
+   </li>
+   <li class="toctree-l2 current active has-children">
+    <a class="reference internal" href="data_modelling.html">
+     Data Modelling
+    </a>
+    <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+    <label for="toctree-checkbox-2">
+     <i class="fas fa-chevron-down">
+     </i>
+    </label>
+    <ul class="current">
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_logistic_regression.html">
+       Logistic Regression
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_support_vector_machine.html">
+       Support Vector Machine
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_knn.html">
+       kNN
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_naive_bayes.html">
+       Naive Bayes
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_decision_tree.html">
+       Decision Tree
+      </a>
+     </li>
+     <li class="toctree-l3 current active">
+      <a class="current reference internal" href="#">
+       Bagging
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_random_forest.html">
+       Random Forest
+      </a>
+     </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="class_gradient_boosting.html">
+       Gradient Boosting
+      </a>
+     </li>
+    </ul>
+   </li>
+  </ul>
+ </li>
+</ul>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../references.html">
+   References
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="../appendix.html">
+   Appendix
+  </a>
+ </li>
+</ul>
+
+    </div>
+</nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
+    </div>
+    <div id="rtd-footer-container"></div>
+</div>
+
+
+          
+
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
+<div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
+
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
+    </div>
+    <div class="header-article__right">
+<button onclick="toggleFullScreen()"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fclass_r_files/class_bagging.html&body=Your%20issue%20content%20here."
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Open an issue"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="headerbtn__text-container">open issue</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="../_sources/class_r_files/class_bagging.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
+    </div>
+</div>
+
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-data">
+   Import Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-training">
+   Model Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-validation">
+   Model Validation
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Bagging</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-data">
+   Import Data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-training">
+   Model Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#model-validation">
+   Model Validation
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
+                
+              <div>
+                
+  <section class="tex2jax_ignore mathjax_ignore" id="bagging">
+<h1>Bagging<a class="headerlink" href="#bagging" title="Permalink to this headline">#</a></h1>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load libraries</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ipred</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Loading required package: ggplot2
+
+## Loading required package: lattice
+</pre></div>
+</div>
+<section id="import-data">
+<h2>Import Data<a class="headerlink" href="#import-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read training and testing data</span>
+<span class="n">train</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/train.csv&quot;</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/test.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="model-training">
+<h2>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">bag.model</span> <span class="o">=</span> <span class="nf">bagging</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Rating</span><span class="p">)</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
+<span class="n">bag.model</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 
+## Bagging classification trees with 25 bootstrap replications 
+## 
+## Call: bagging.data.frame(formula = as.factor(Rating) ~ ., data = train)
+</pre></div>
+</div>
+</section>
+<section id="model-validation">
+<h2>Model Validation<a class="headerlink" href="#model-validation" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">bag.model</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">type</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">)</span>
+
+<span class="nf">confusionMatrix</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">Rating</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
+##         1    8   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0
+##         2    3  16   1   1   1   1   0   1   0   0   0   0   0   0   0   0   0
+##         3    1   0  20   3   4   5   2   0   0   1   0   0   0   0   0   0   0
+##         4    1   0   1  36  10   2   1   0   0   0   0   0   0   0   0   0   0
+##         5    1   1   1   4  66  12   3   1   1   1   0   0   0   0   0   0   0
+##         6    1   0   6   1   3 113  13  13  10   5   0   0   0   0   0   0   0
+##         7    0   0   1   2   3  14  90  22   8   3   0   0   0   0   0   0   0
+##         8    0   0   0   0   3  15  17 110  33  10   0   0   0   0   0   0   0
+##         9    1   0   1   0   3  10   4  29  96  34   0   0   0   0   0   0   0
+##         10   0   0   0   0   5   3   3   3  22  89   0   0   0   0   0   0   0
+##         11   0   0   0   0   0   0   0   0   0   0  71  20   7   5   2   2   0
+##         12   0   0   0   0   0   0   0   0   0   0  26  46  14  12   3   4   1
+##         13   0   0   0   0   0   0   0   0   0   0   6  11  33  10   9   2   3
+##         14   0   0   0   0   0   0   0   0   0   0   1   5  16  48  16   9   5
+##         15   0   0   0   0   0   0   0   0   0   0   3   0   0  10  25   5   3
+##         16   0   0   0   0   0   0   0   0   0   0   3   2   7   6   6  28   2
+##         17   0   0   0   0   0   0   0   0   0   0   0   1   2   1   3   6  14
+##         18   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   1
+##         19   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
+##         20   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
+##         21   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0   0   0
+##           Reference
+## Prediction  18  19  20  21
+##         1    0   0   0   0
+##         2    0   0   0   0
+##         3    0   0   0   0
+##         4    0   0   0   0
+##         5    0   0   0   0
+##         6    0   0   0   0
+##         7    0   0   0   0
+##         8    0   0   0   0
+##         9    0   0   0   0
+##         10   0   0   0   0
+##         11   1   0   0   0
+##         12   0   0   0   0
+##         13   2   0   0   0
+##         14   1   0   1   0
+##         15   2   0   0   0
+##         16   1   0   1   0
+##         17   0   1   1   0
+##         18   3   0   0   1
+##         19   0   0   0   0
+##         20   1   0   0   0
+##         21   0   0   0   1
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.5902          
+##                  95% CI : (0.5652, 0.6148)
+##     No Information Rate : 0.1157          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.5555          
+##                                           
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6
+## Sensitivity          0.500000  0.94118  0.64516  0.75000  0.66667  0.64571
+## Specificity          0.998694  0.99477  0.98945  0.98999  0.98273  0.96210
+## Pos Pred Value       0.800000  0.66667  0.55556  0.70588  0.72527  0.68485
+## Neg Pred Value       0.994795  0.99934  0.99272  0.99198  0.97734  0.95514
+## Prevalence           0.010343  0.01099  0.02004  0.03103  0.06399  0.11312
+## Detection Rate       0.005171  0.01034  0.01293  0.02327  0.04266  0.07304
+## Detection Prevalence 0.006464  0.01551  0.02327  0.03297  0.05882  0.10666
+## Balanced Accuracy    0.749347  0.96797  0.81730  0.87000  0.82470  0.80391
+##                      Class: 7 Class: 8 Class: 9 Class: 10 Class: 11 Class: 12
+## Sensitivity           0.67669  0.61453  0.56471   0.62238   0.63964   0.54118
+## Specificity           0.96252  0.94298  0.94045   0.97436   0.97423   0.95896
+## Pos Pred Value        0.62937  0.58511  0.53933   0.71200   0.65741   0.43396
+## Neg Pred Value        0.96937  0.94923  0.94595   0.96203   0.97220   0.97294
+## Prevalence            0.08597  0.11571  0.10989   0.09244   0.07175   0.05495
+## Detection Rate        0.05818  0.07111  0.06206   0.05753   0.04590   0.02973
+## Detection Prevalence  0.09244  0.12153  0.11506   0.08080   0.06981   0.06852
+## Balanced Accuracy     0.81960  0.77875  0.75258   0.79837   0.80694   0.75007
+##                      Class: 13 Class: 14 Class: 15 Class: 16 Class: 17
+## Sensitivity            0.41772   0.52174   0.38462   0.48276   0.48276
+## Specificity            0.97071   0.96289   0.98448   0.98120   0.99012
+## Pos Pred Value         0.43421   0.47059   0.52083   0.50000   0.48276
+## Neg Pred Value         0.96873   0.96955   0.97332   0.97988   0.99012
+## Prevalence             0.05107   0.05947   0.04202   0.03749   0.01875
+## Detection Rate         0.02133   0.03103   0.01616   0.01810   0.00905
+## Detection Prevalence   0.04913   0.06593   0.03103   0.03620   0.01875
+## Balanced Accuracy      0.69421   0.74231   0.68455   0.73198   0.73644
+##                      Class: 18 Class: 19 Class: 20 Class: 21
+## Sensitivity           0.272727 0.0000000 0.0000000 0.5000000
+## Specificity           0.997396 0.9993532 0.9993523 0.9993528
+## Pos Pred Value        0.428571 0.0000000 0.0000000 0.5000000
+## Neg Pred Value        0.994805 0.9993532 0.9980595 0.9993528
+## Prevalence            0.007111 0.0006464 0.0019392 0.0012928
+## Detection Rate        0.001939 0.0000000 0.0000000 0.0006464
+## Detection Prevalence  0.004525 0.0006464 0.0006464 0.0012928
+## Balanced Accuracy     0.635062 0.4996766 0.4996762 0.7496764
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">varImp</span><span class="p">(</span><span class="n">bag.model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                                                     Overall
+## Asset.Turnover                                   1311.88586
+## Binary.Rating                                     403.94236
+## Current.Ratio                                    1669.41440
+## Debt.Equity.Ratio                                1444.78361
+## Free.Cash.Flow.Per.Share                          919.13640
+## Gross.Margin                                     1458.33980
+## Long.term.Debt...Capital                         1590.15072
+## Net.Profit.Margin                                1394.85674
+## Operating.Cash.Flow.Per.Share                     940.95661
+## Rating.Agency_Egan.Jones.Ratings.Company          164.75492
+## Rating.Agency_Fitch.Ratings                       151.19488
+## Rating.Agency_Moody.s.Investors.Service           304.28225
+## Rating.Agency_Standard...Poor.s.Ratings.Services  326.69173
+## Return.On.Tangible.Equity                        1147.87283
+## ROA...Return.On.Assets                           1211.18170
+## ROE...Return.On.Equity                           1225.49649
+## ROI...Return.On.Investment                       1098.04759
+## Sector_BusEq                                      199.60001
+## Sector_Chems                                      108.44646
+## Sector_Durbl                                       82.44091
+## Sector_Enrgy                                      168.67990
+## Sector_Hlth                                       187.86587
+## Sector_Manuf                                      203.32567
+## Sector_Money                                       64.59691
+## Sector_NoDur                                      121.17749
+## Sector_Other                                      231.00154
+## Sector_Shops                                      167.03081
+## Sector_Telcm                                       94.15670
+## Sector_Utils                                      108.93167
+## X                                                2010.87979
+## X.1                                              2190.19838
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./class_r_files"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="class_decision_tree.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Decision Tree</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="class_random_forest.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Random Forest</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
+</div>
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
+  
+    By Aalok, Linsa, Mayukh, Pushkar, Tapan<br/>
+  
+      &copy; Copyright 2022.<br/>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+
+
+  </body>
+</html>
