@@ -1,0 +1,37 @@
+---
+title: "Gradient Boosting Classifier"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Gradient Boosting
+
+```{r}
+# Load libraries
+library(gbm)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+gbm.model = gbm(as.factor(Rating)~., data=train, distribution = "multinomial")
+gbm.model
+```
+
+```{r}
+result <- predict(gbm.model, test)
+
+final.result = colnames(result)[apply(result,1,which.max)]
+
+confusionMatrix(as.factor(final.result), as.factor(test$Rating))
+```

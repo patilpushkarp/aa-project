@@ -1,0 +1,41 @@
+---
+title: "Bagging Classifier"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Bagging
+
+```{r}
+# Load libraries
+library(ipred)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+bag.model = bagging(as.factor(Rating)~., data=train)
+bag.model
+```
+
+## Model Validation
+
+```{r}
+result <- predict(bag.model, test, type="class")
+
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
+
+```{r}
+varImp(bag.model)
+```

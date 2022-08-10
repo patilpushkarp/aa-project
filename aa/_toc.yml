@@ -8,9 +8,18 @@ parts:
   chapters:
   - file: notebooks/Corporate Credit Rating Classification.ipynb
     sections:
-    - file: r_files/exploratory_data_analysis.md
-    - file: r_files/data_preprocessing.md
-    - file: r_files/data_modelling.md
+    - file: class_r_files/exploratory_data_analysis.md
+    - file: class_r_files/data_preprocessing.md
+    - file: class_r_files/data_modelling.md
+      sections:
+      - file: class_r_files/class_logistic_regression.md
+      - file: class_r_files/class_support_vector_machine.md
+      - file: class_r_files/class_knn.md
+      - file: class_r_files/class_naive_bayes.md
+      - file: class_r_files/class_decision_tree.md
+      - file: class_r_files/class_bagging.md
+      - file: class_r_files/class_random_forest.md
+      - file: class_r_files/class_gradient_boosting.md
 - captions: Extras
   chapters:
   - file: references.md

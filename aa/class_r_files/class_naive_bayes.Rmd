@@ -1,0 +1,39 @@
+---
+title: "Naive Bayes"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Naive Bayes
+
+```{r}
+# Load libraries
+library(e1071)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+nb.model <- naiveBayes(Rating~., data=train)
+nb.model
+```
+
+## Model Validation
+
+```{r}
+result <- predict(nb.model, test)
+
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
+
+## 

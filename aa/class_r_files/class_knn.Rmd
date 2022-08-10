@@ -1,0 +1,60 @@
+---
+title: "kNN Classifier"
+output:
+  md_document:
+    variant: gfm
+---
+
+# kNN
+
+```{r}
+# Load libraries
+library(e1071)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+ks <- c(3, 5, 9, 15, 23)
+initial_accuracy <- 0
+for (k in ks){
+  print(k)
+  knn.model <- knn3(as.factor(Rating)~., data=train, k=k)
+  result <- predict(knn.model, test, type="class")
+  sum(is.na(result))
+  sum(is.na(test$Rating))
+  accuracy <- mean(as.factor(result)==as.factor(test$Rating))
+  print(accuracy)
+  if (initial_accuracy < accuracy){
+    initial_accuracy <- accuracy
+    chosen_k <- k
+  }
+  print("\n")
+}
+print(chosen_k)
+```
+
+```{r}
+# Retrain the model with chosen value of k
+knn.model <- knn3(as.factor(Rating)~., data=train, k=chosen_k)
+knn.model
+```
+
+## Model Validation
+
+```{r}
+# Use the new model for prediction
+result <- predict(knn.model, test, type="class")
+
+# Get the confusion matrix with the predicted results
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```

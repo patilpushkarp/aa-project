@@ -10,9 +10,7 @@ output:
 Since the data has been cleaned, it can now be used to create the models.
 
 ```{r}
-# Load libraries
 library(caret)
-library(nnet)
 ```
 
 Since not many outliers are removed, there is very little information loss and hence the data without outliers can be used.
@@ -33,21 +31,21 @@ train = df[partition,]
 test = df[-partition,]
 ```
 
-## Logistic Regression
-
-The model is first trained on the training data and then evaluated on testing data.
-
 ```{r}
-# Model training
-multinom.model <- multinom(Rating~., data=train, )
+# Save the training and testing data
+# write.csv(train, "./../data/classification_data/intermediates/train.csv", row.names = TRUE)
+# write.csv(test, "./../data/classification_data/intermediates/test.csv", row.names = TRUE)
 ```
 
-```{r}
-# Predict the samples from test data using the model
-result <- predict(multinom.model, test)
+## Classification Algorithms
 
-# Print the Confusion matrix
-confusionMatrix(as.factor(result), as.factor(test$Rating))
-```
+Following are the classification algorithms that will be used to model the data:
 
-The model has a very low accuracy and is not better than random guesses.
+1.  Multinomial Logistic Regression
+2.  Support Vector Machine
+3.  Naive Bayes
+4.  kNN
+5.  Decision Tree
+6.  Bagging
+7.  Random Forest
+8.  Gradient Boosting

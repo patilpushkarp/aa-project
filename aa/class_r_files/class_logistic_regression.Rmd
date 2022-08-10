@@ -1,0 +1,52 @@
+---
+title: "Logistic Regression"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Logistic Regression
+
+Since the data has been cleaned, it can now be used to create the models.
+
+```{r}
+# Load libraries
+library(caret)
+library(nnet)
+library(MASS)
+```
+
+## Import data
+
+To evaluate the model, there should be a set of which the model has not seen and for which the labels are known. Hence, it is necessary to split the data into training and testing set.
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+The model is first trained on the training data and then evaluated on testing data.
+
+```{r}
+# Model training
+multinom.model <- multinom(Rating~., data=train, )
+```
+
+```{r}
+summary(multinom.model)
+```
+
+## Model Validation
+
+```{r}
+# Predict the samples from test data using the model
+result <- predict(multinom.model, test)
+
+# Print the Confusion matrix
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
+
+The model has a very low accuracy and is not better than random guesses.

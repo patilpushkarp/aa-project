@@ -1,0 +1,41 @@
+---
+title: "Random Forest Classifier"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Random Forest
+
+```{r}
+# Load libraries
+library(randomForest)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+rf.model <- randomForest(as.factor(Rating)~., data=train)
+rf.model
+```
+
+## Model Validation
+
+```{r}
+result <- predict(rf.model, test, type="class")
+
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
+
+```{r}
+varImp(rf.model)
+```

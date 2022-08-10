@@ -1,0 +1,41 @@
+---
+title: "Decision Tree Classifier"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Decision Tree
+
+```{r}
+# Load libraries
+library(rpart)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+dtree.model <- rpart(Rating~., data=train, method = 'class')
+summary(dtree.model)
+```
+
+## Model Validation
+
+```{r}
+result <- predict(dtree.model, test, type="class")
+
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
+
+```{r}
+varImp(dtree.model)
+```

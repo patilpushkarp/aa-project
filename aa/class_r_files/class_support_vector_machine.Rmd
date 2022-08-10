@@ -1,0 +1,37 @@
+---
+title: "Support Vector Machine"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Support Vector Machine
+
+```{r}
+# Load libraries
+library(e1071)
+library(caret)
+```
+
+## Import Data
+
+```{r}
+# Read training and testing data
+train <- read.csv("./../data/classification_data/intermediates/train.csv")
+test <- read.csv("./../data/classification_data/intermediates/test.csv")
+```
+
+## Model Training
+
+```{r}
+svm.model <- svm(as.factor(Rating)~., data=train, type='C-classification')
+summary(svm.model)
+```
+
+## Model Validation
+
+```{r}
+result = predict(svm.model, test, type="raw")
+
+confusionMatrix(as.factor(result), as.factor(test$Rating))
+```
