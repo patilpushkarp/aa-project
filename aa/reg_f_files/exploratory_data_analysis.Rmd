@@ -1,0 +1,138 @@
+---
+title: "Exploratory Data Analysis: Regression"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Exploratory Data Analysis
+
+Exploratory Data Analysis enables us to understand the dataset clearly. It also helps in cleaning the data which will further help us to maximize the output from the machine learning models.
+
+```{r}
+library(caret)
+library(DataExplorer)
+library(dplyr)
+library(inspectdf)
+```
+
+```{r}
+df <- read.csv("./../data/regression_data/input/player_data.csv")
+```
+
+```{r}
+head(df)
+```
+
+## Features Analysis
+
+```{r}
+colnames(df)
+```
+
+```{r}
+column_types <- inspect_types(df)
+column_types
+```
+
+```{r}
+column_types %>% show_plot()
+```
+
+The column *X* is just an index number and hence it can be removed since it will provide to information to the models. Moreover, the column *Transfer Value* contains a range which can be splitted into 2 columns which will contain the lower value and the upper value of the transfer of the player.
+
+Let us visualize the structure of the dataset.
+
+```{r}
+plot_str(df)
+```
+
+```{r}
+introduce(df)
+```
+
+```{r}
+plot_intro(df)
+```
+
+There are no missing values in the dataset. The dataset is mostly composed of numbers rather than categories and hence the amount of preprocessing that will be required to make it fit for modelling will be less.
+
+```{r}
+inspect_imb(df)
+```
+
+```{r}
+inspect_imb(df) %>% show_plot()
+```
+
+The percentage of dominant class is low in all the 3 categorical columns and hence no preprocessing related to sampling will be required for modelling the data.
+
+## Univariate Analysis
+
+### Categorical Variables
+
+```{r}
+data.frame(table(df$Based))
+```
+
+The number of locations is quite large and hence it will be not be possible to understand the distribution by plotting. But it can be noted that a lot of locations are represented by only 1 or 2 players and hence the information related to such observations may not be useful for modelling the data. But since the number of observations present are less in number it will not be apt to remove those observations. On the other hand, the *Based* column can itself be removed so that its information is not used by the model and create any bias in the models.
+
+```{r}
+# Identify the locations represented by only 1 player
+based.count.df <- data.frame(table(df$Based))
+bc.data <- based.count.df[based.count.df$Freq==1,]
+bc.data
+```
+
+There are 17 locations which are represented by 1 player only.
+
+```{r}
+plot_histogram(df)
+```
+
+There are few variables which have outliers in them but more clear picture will be given in multivariate by comparing with the target variable. Also some variables have 1 value as most dominant and hence columns with low or near zero variance needs to be identified and acted upon.
+
+```{r}
+colnames(df[,nearZeroVar(df)])
+```
+
+These columns have variances which are near zero meaning they have little information that can contribute to the model learning. Hence it will be better to remove such columns.
+
+## Multivariate Analysis
+
+```{r fig.height=5, fig.width=7}
+plot_boxplot(df, by='CA')
+```
+
+Some prominent outliers are present in the following columns:
+
+1.  Gaols divided by expected goals
+2.  Number of saves
+3.  Penalty score ratio
+4.  Expected goals
+5.  Shots caught
+6.  Percentage of expected saves
+7.  Average transfer value
+
+Though outliers are present in individual features but they may not be true outliers and there is a possibility of information loss by removing them. To mitigate this issue, it will be more appropriate to consider an observation as a whole to find the true outliers.
+
+## Correlation Analysis
+
+Correlation analysis can only be perform on numerical columns and hence appropriate data needs to be subset.
+
+```{r}
+# Select data with only numerical columns
+num.data <- df %>% dplyr::select(where(is.numeric))
+```
+
+```{r fig.height=5, fig.width=7}
+plot_correlation(num.data)
+```
+
+For the above heatmap, it can be observed that there exist some highly correlated features which are:
+
+1.  Penalty saved ratio, Penalty Score ratio
+2.  Saves, Clearances per game, Shots caught, shots repelled, shots blocked
+3.  Aerial attempts per game, Clearances in total, Interceptions made per game
+
+Correlated features should be removes to build better models.

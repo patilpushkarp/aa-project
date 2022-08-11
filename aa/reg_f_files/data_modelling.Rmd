@@ -1,0 +1,59 @@
+---
+title: "Data Modelling: Regression"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Data Modelling
+
+Since the data has been cleaned, it can now be used to create the models.
+
+```{r}
+library(caret)
+```
+
+Let the start modelling with the data from which outliers are removed.
+
+```{r}
+# Load the data
+df <- read.csv("./../data/regression_data/intermediates/preprocessed_data_without_outliers.csv")
+```
+
+```{r}
+# Get the dimensions of data
+dim(df)
+```
+
+## Partition the data
+
+To evaluate the model, there should be a set of which the model has not seen and for which the labels are known. Hence, it is necessary to split the data into training and testing set.
+
+```{r}
+# Partitioning the data
+?write.csv
+partition = createDataPartition(df$CA, p=0.8, list = FALSE)
+train = df[partition,]
+test = df[-partition,]
+```
+
+```{r}
+names(train)
+```
+
+```{r}
+# Save the training and testing data
+write.csv(train, "./../data/regression_data/intermediates/train.csv", row.names = FALSE)
+write.csv(test, "./../data/regression_data/intermediates/test.csv", row.names = FALSE)
+```
+
+## Regression Algorithms
+
+Following are the classification algorithms that will be used to model the data:
+
+1.  Linear Regression
+2.  kNN
+3.  Decision Tree
+4.  Bagging
+5.  Random Forest
+6.  Gradient Boosting

@@ -1,0 +1,122 @@
+---
+title: "Data Preprocessing: Regression"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Data Preprocessing
+
+```{r}
+# Load libraries
+library(caret)
+library(mltools)
+library(data.table)
+library(car)
+library(dplyr)
+library(stringr)
+```
+
+```{r}
+# Read the data
+df <- read.csv("./../data/regression_data/input/player_data.csv")
+```
+
+```{r}
+# Get initial dimensions
+dim(df)
+```
+
+```{r}
+names(df)
+```
+
+Following data preprocessing operations needs to be performed on the data:
+
+```{r}
+## Remove unnecessary columns
+remove.columns <- c("X", "Based", "Name")
+df <- df[,!(names(df) %in% remove.columns)]
+
+## Remove correlated columns
+cor.columns <- c("Int.90", "Clear", "Svt", "Svp", "Svh", "Saves", "Pens.Saved.Ratio")
+df <- df[, !(names(df) %in% cor.columns)]
+
+## Split the transfer value
+df[c("Lower.Transfer.Value", "Upper.Transfer.Value")] <- str_split_fixed(df$Transfer.Value ," - ", 2)
+
+# Function to clean transfer value
+clean.transfer.value <- function(x){
+  if (grepl("€", x, fixed = TRUE)){
+    x = sub("€","",as.character(x))
+  }
+  
+  if (grepl("K", x, fixed = TRUE)){
+    return (as.numeric(sub("K","",as.character(x))) * 1000)
+  } else if (grepl("M", x, fixed = TRUE)){
+    return (as.numeric(sub("M","",as.character(x))) * 1000000)
+  } else{
+    return (x)
+  }
+}
+
+# Clean Upper limit of transfer value
+df$Upper.Transfer.Value <- as.numeric(unlist(apply(df["Upper.Transfer.Value"], 1, clean.transfer.value)))
+df$Upper.Transfer.Value[is.na(df$Upper.Transfer.Value)] <-0 
+# Clean Lower limit of transfer value
+df$Lower.Transfer.Value <- as.numeric(unlist(apply(df["Lower.Transfer.Value"], 1, clean.transfer.value)))
+# Swap values if upper limit < lower limit
+swap_index = rownames(df[df$Upper.Transfer.Value<df$Lower.Transfer.Value,]) # Find the indexes for which upper limit < lower limit
+for (i in 1:length(swap_index)){
+  # Iterate over indexes swapping values
+  temp = df$Lower.Transfer.Value[i]
+  df$Lower.Transfer.Value[i] = df$Upper.Transfer.Value[i]
+  df$Upper.Transfer.Value[i] = temp
+}
+# Remove the original column
+df <- df[, !(names(df) %in% c("Transfer.Value"))]
+
+## Remove columns with near zero variance
+nz.columns <- c("Pen.R", "Con.90", "xSv..", "Sv..", "Svh", "Svt", "Svp", "Pens.Saved.Ratio", "Saves", "Saves.xSv.")
+df <- df[, !(names(df) %in% nz.columns)]
+```
+
+Write this preprocessed data to a file so that it can be used for comparing models.
+
+```{r}
+# Save the data with outliers
+write.csv(df, "./../data/regression_data/intermediates/preprocessed_data.csv", row.names = FALSE)
+```
+
+## Outliers Analysis
+
+Though individual features seems to have a lot of outliers, the reality may not be the same. The data should be viewed holistically with the effect of variables on each other.
+
+```{r}
+## Check for outliers
+
+# Create a model
+glm.model <- glm(CA~., data=df)
+
+# Get the outliers
+outliers <- outlierTest(glm.model)
+exclusion <- names(outliers[[1]])
+exclusion <- as.numeric(unlist(exclusion))
+
+df[exclusion,]
+```
+
+The outlier detection algorithm has detected outliers which can be removed from the dataset.
+
+```{r}
+# Remove the outliers
+for(i in 1: length(exclusion))
+{
+  df = df[-exclusion[i],]
+}
+```
+
+```{r}
+# Save this new data to a file
+write.csv(df, "./../data/regression_data/intermediates/preprocessed_data_without_outliers.csv", row.names = FALSE)
+```
