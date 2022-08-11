@@ -249,12 +249,6 @@ be removed:
 ``` r
 # Find data associated with ratings having less 10 observations
 ratings.count.df <- data.frame(table(df$Rating))
-colnames(ratings.count.df)
-```
-
-    ## [1] "Var1" "Freq"
-
-``` r
 rtl.data <- ratings.count.df[ratings.count.df$Freq<10,]
 rtl.data
 ```
