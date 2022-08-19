@@ -32,6 +32,7 @@ parts:
       - file: reg_f_files/reg_bagging.md
       - file: reg_f_files/reg_random_forest.md
       - file: reg_f_files/reg_gradient_descent.md
+    - file: reg_f_files/results.md
 - captions: Extras
   chapters:
   - file: references.md
