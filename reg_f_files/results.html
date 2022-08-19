@@ -445,21 +445,50 @@ title="Print to PDF"
                 
   <section class="tex2jax_ignore mathjax_ignore" id="regression-results">
 <h1>Regression Results<a class="headerlink" href="#regression-results" title="Permalink to this headline">#</a></h1>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load libraries</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+</pre></div>
+</div>
 <p>Every algorithm has its own pros and cons depending upon the underlying
 assumptions and statistical methods used. Thus, to summarize</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/output/result.csv&quot;</span><span class="p">)</span>
-<span class="n">df</span>
+<span class="nf">kable</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                     Algorithm      RMSE       MAE
-## 1           Linear Regression 12.697598 10.429024
-## 2              kNN Regression  9.851694  7.554406
-## 3    Decision Tree Regression 10.094446  7.985458
-## 4     Regression with Bagging  9.160999  7.144364
-## 5    Random Forest Regression  8.042740  6.107289
-## 6 Gradient Descent Regression  8.135001  6.217862
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p>Algorithm</p></th>
+<th class="text-align:right head"><p>RMSE</p></th>
+<th class="text-align:right head"><p>MAE</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Linear Regression</p></td>
+<td class="text-align:right"><p>12.697598</p></td>
+<td class="text-align:right"><p>10.429024</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>kNN Regression</p></td>
+<td class="text-align:right"><p>9.851694</p></td>
+<td class="text-align:right"><p>7.554406</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Decision Tree Regression</p></td>
+<td class="text-align:right"><p>10.094446</p></td>
+<td class="text-align:right"><p>7.985458</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Regression with Bagging</p></td>
+<td class="text-align:right"><p>9.160999</p></td>
+<td class="text-align:right"><p>7.144364</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Random Forest Regression</p></td>
+<td class="text-align:right"><p>8.042740</p></td>
+<td class="text-align:right"><p>6.107289</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Gradient Descent Regression</p></td>
+<td class="text-align:right"><p>8.135001</p></td>
+<td class="text-align:right"><p>6.217862</p></td>
+</tr>
+</tbody>
+</table>
 <p>For this case, Random Forest algorithm has given the best performance.</p>
 </section>
 
