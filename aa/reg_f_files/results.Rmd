@@ -7,11 +7,16 @@ output:
 
 # Regression Results
 
+```{r}
+# Load libraries
+library(knitr)
+```
+
 Every algorithm has its own pros and cons depending upon the underlying assumptions and statistical methods used. Thus, to summarize
 
 ```{r}
 df <- read.csv("./../data/regression_data/output/result.csv")
-df
+kable(df)
 ```
 
 For this case, Random Forest algorithm has given the best performance.
