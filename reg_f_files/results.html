@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>kNN Regression &#8212; Project - Advanced Analytics 1</title>
+    <title>Regression Results &#8212; Project - Advanced Analytics 1</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,8 +52,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Decision Tree" href="reg_decision_tree.html" />
-    <link rel="prev" title="Linear Regression" href="reg_linear_regression.html" />
+    <link rel="next" title="References" href="../references.html" />
+    <link rel="prev" title="Gradient Descent" href="reg_gradient_descent.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -203,23 +203,23 @@ const thebe_selector_output = ".output, .cell_output"
      Data Preprocessing
     </a>
    </li>
-   <li class="toctree-l2 current active has-children">
+   <li class="toctree-l2 has-children">
     <a class="reference internal" href="data_modelling.html">
      Data Modelling
     </a>
-    <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+    <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
     <label for="toctree-checkbox-4">
      <i class="fas fa-chevron-down">
      </i>
     </label>
-    <ul class="current">
+    <ul>
      <li class="toctree-l3">
       <a class="reference internal" href="reg_linear_regression.html">
        Linear Regression
       </a>
      </li>
-     <li class="toctree-l3 current active">
-      <a class="current reference internal" href="#">
+     <li class="toctree-l3">
+      <a class="reference internal" href="reg_knn_regression.html">
        kNN Regression
       </a>
      </li>
@@ -245,8 +245,8 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
     </ul>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="results.html">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
      Regression Results
     </a>
    </li>
@@ -354,7 +354,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Freg_f_files/reg_knn_regression.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Freg_f_files/results.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -382,7 +382,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="../_sources/reg_f_files/reg_knn_regression.md"
+        <a href="../_sources/reg_f_files/results.md"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -419,80 +419,23 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
-  
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#import-data">
-   Import data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-training">
-   Model Training
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-validation">
-   Model Validation
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>kNN Regression</h1>
+                <h1>Regression Results</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#import-data">
-   Import data
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-training">
-   Model Training
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#model-validation">
-   Model Validation
-  </a>
- </li>
-</ul>
-
-                        </nav>
                     </div>
                 </div>
             </div>
@@ -500,75 +443,24 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="knn-regression">
-<h1>kNN Regression<a class="headerlink" href="#knn-regression" title="Permalink to this headline">#</a></h1>
-<p>Since the data has been cleaned, it can now be used to create the
-models.</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load libraries</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
+  <section class="tex2jax_ignore mathjax_ignore" id="regression-results">
+<h1>Regression Results<a class="headerlink" href="#regression-results" title="Permalink to this headline">#</a></h1>
+<p>Every algorithm has its own pros and cons depending upon the underlying
+assumptions and statistical methods used. Thus, to summarize</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/output/result.csv&quot;</span><span class="p">)</span>
+<span class="n">df</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Loading required package: ggplot2
-
-## Loading required package: lattice
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                     Algorithm      RMSE       MAE
+## 1           Linear Regression 12.697598 10.429024
+## 2              kNN Regression  9.851694  7.554406
+## 3    Decision Tree Regression 10.094446  7.985458
+## 4     Regression with Bagging  9.160999  7.144364
+## 5    Random Forest Regression  8.042740  6.107289
+## 6 Gradient Descent Regression  8.135001  6.217862
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">e1071</span><span class="p">)</span>
-<span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
-
-<span class="c1"># Load helpers</span>
-<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-<section id="import-data">
-<h2>Import data<a class="headerlink" href="#import-data" title="Permalink to this headline">#</a></h2>
-<p>To evaluate the model, there should be a set of which the model has not
-seen and for which the labels are known. Hence, it is necessary to split
-the data into training and testing set.</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read training and testing data</span>
-<span class="n">train</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/train.csv&quot;</span><span class="p">)</span>
-<span class="n">test</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/test.csv&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
-<section id="model-training">
-<h2>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h2>
-<p>The model is first trained on the training data and then evaluated on
-testing data.</p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model training</span>
-<span class="n">knn.model</span> <span class="o">&lt;-</span> <span class="nf">knnreg</span><span class="p">(</span><span class="n">CA</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">knn.model</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##         Length Class  Mode   
-## learn   2      -none- list   
-## k       1      -none- numeric
-## terms   3      terms  call   
-## xlevels 0      -none- list   
-## theDots 0      -none- list
-</pre></div>
-</div>
-</section>
-<section id="model-validation">
-<h2>Model Validation<a class="headerlink" href="#model-validation" title="Permalink to this headline">#</a></h2>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict the samples from test data using the model</span>
-<span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">knn.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
-
-<span class="c1"># Print the RMSE and MAE</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
-</pre></div>
-</div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  9.85169422012323 
-##  MAE:  7.55440600754502
-</pre></div>
-</div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
-<span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;kNN Regression&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</section>
+<p>For this case, Random Forest algorithm has given the best performance.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -598,17 +490,17 @@ testing data.</p>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="reg_linear_regression.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="reg_gradient_descent.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Linear Regression</p>
+            <p class="prev-next-title">Gradient Descent</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="reg_decision_tree.html" title="next page">
+    <a class='right-next' id="next-link" href="../references.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Decision Tree</p>
+        <p class="prev-next-title">References</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
