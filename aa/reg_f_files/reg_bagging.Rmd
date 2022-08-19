@@ -14,6 +14,9 @@ Since the data has been cleaned, it can now be used to create the models.
 library(caret)
 library(ipred)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -51,4 +54,9 @@ cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
 
 ```{r}
 varImp(bag.model)
+```
+
+```{r}
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Regression with Bagging")
 ```

@@ -1,0 +1,7 @@
+"Algorithm","RMSE","MAE"
+"Linear Regression","12.6975984315159","10.4290241532838"
+"kNN Regression","9.85169422012323","7.55440600754502"
+"Decision Tree Regression","10.0944462277776","7.98545835211613"
+"Regression with Bagging","9.16099943663795","7.14436430115907"
+"Random Forest Regression","8.04274000385915","6.10728908819134"
+"Gradient Descent Regression","8.1350006151556","6.21786180796963"

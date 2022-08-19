@@ -66,10 +66,15 @@ df <- df[!names(df) %in% col.remove]
 # Remove ID columns and other irrelevant columns
 df <- df[!names(df) %in% c("SIC.Code", "CIK", "Ticker", "Corporation", "Rating.Date")]
 
+# Clean the incorrect categories
+df$Rating[df$Rating=="CC+"] <- "CC"
+
 # Remove under-represented target variable observations
 ratings.count.df <- data.frame(table(df$Rating))
 rtl.data <- ratings.count.df[ratings.count.df$Freq<10,]
 df <- df[!df$Rating %in% rtl.data$Var1,]
+
+rtl.data
 
 # Encode categorical columns
 # Encode Rating Agencies and Sectors
@@ -122,5 +127,5 @@ for(i in 1: length(exclusion))
 
 ```{r}
 # Save this new data to a file
-write.csv(new.df, "./../data/classification_data/intermediates/preprocessed_data_without_outliers.csv", row.names = TRUE)
+# write.csv(new.df, "./../data/classification_data/intermediates/preprocessed_data_without_outliers.csv", row.names = TRUE)
 ```

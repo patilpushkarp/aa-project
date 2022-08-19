@@ -20,6 +20,9 @@ library(gbm)
 
 ``` r
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -53,36 +56,36 @@ summary(gbm.model)
 ![](reg_gradient_descent_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 
     ##                                       var     rel.inf
-    ## Value                               Value 53.89717110
-    ## Lower.Transfer.Value Lower.Transfer.Value 25.25402258
-    ## Upper.Transfer.Value Upper.Transfer.Value 15.20755670
-    ## Age                                   Age  1.96902586
-    ## Mins                                 Mins  1.47108402
-    ## Aer.A.90                         Aer.A.90  0.49228855
-    ## Distance                         Distance  0.39853344
-    ## Apps                                 Apps  0.33109299
-    ## Dist.Mins                       Dist.Mins  0.20162203
-    ## Weight                             Weight  0.17844083
-    ## Gls.xG                             Gls.xG  0.13173928
-    ## Ch.C.90                           Ch.C.90  0.09476179
-    ## Height                             Height  0.08438834
-    ## Tck.R                               Tck.R  0.08332827
-    ## Av.Rat                             Av.Rat  0.07740733
-    ## Gls.90                             Gls.90  0.07480012
-    ## Off                                   Off  0.05273676
-    ## Mins.Gm                           Mins.Gm  0.00000000
+    ## Value                               Value 63.05212727
+    ## Lower.Transfer.Value Lower.Transfer.Value 17.45956630
+    ## Upper.Transfer.Value Upper.Transfer.Value 13.53121745
+    ## Age                                   Age  1.92054606
+    ## Mins                                 Mins  1.42306795
+    ## Distance                         Distance  0.76598645
+    ## Apps                                 Apps  0.52415853
+    ## Aer.A.90                         Aer.A.90  0.45115476
+    ## K.Ps.90                           K.Ps.90  0.26002962
+    ## Dist.Mins                       Dist.Mins  0.18457097
+    ## Off                                   Off  0.13935377
+    ## Weight                             Weight  0.07781165
+    ## Mins.Gm                           Mins.Gm  0.07442751
+    ## Pas..                               Pas..  0.07169056
+    ## Gls.90                             Gls.90  0.06429115
+    ## Height                             Height  0.00000000
+    ## Av.Rat                             Av.Rat  0.00000000
     ## Gls                                   Gls  0.00000000
     ## Shot..                             Shot..  0.00000000
     ## xG                                     xG  0.00000000
+    ## Ch.C.90                           Ch.C.90  0.00000000
     ## Asts.90                           Asts.90  0.00000000
-    ## K.Ps.90                           K.Ps.90  0.00000000
-    ## Pas..                               Pas..  0.00000000
     ## Cr.C.A                             Cr.C.A  0.00000000
     ## Drb.90                             Drb.90  0.00000000
     ## Hdr..                               Hdr..  0.00000000
     ## K.Tck                               K.Tck  0.00000000
     ## Fls                                   Fls  0.00000000
     ## PoM                                   PoM  0.00000000
+    ## Tck.R                               Tck.R  0.00000000
+    ## Gls.xG                             Gls.xG  0.00000000
 
 ## Model Validation
 
@@ -98,5 +101,10 @@ result <- predict(gbm.model, test)
 cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
-    ## RMSE:  8.12950741466064 
-    ##  MAE:  6.34950050205738
+    ## RMSE:  8.0799768113754 
+    ##  MAE:  6.31091428393257
+
+``` r
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Gradient Descent Regression")
+```

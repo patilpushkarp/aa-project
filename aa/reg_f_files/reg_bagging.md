@@ -15,6 +15,9 @@ library(caret)
 ``` r
 library(ipred)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -61,41 +64,46 @@ result <- predict(bag.model, test)
 cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
-    ## RMSE:  9.12068202580554 
-    ##  MAE:  7.04255118678443
+    ## RMSE:  9.22106263617327 
+    ##  MAE:  7.18860072900238
 
 ``` r
 varImp(bag.model)
 ```
 
     ##                          Overall
-    ## Aer.A.90             0.107736943
-    ## Age                  0.059023129
-    ## Apps                 0.302153375
-    ## Asts.90              0.000000000
-    ## Av.Rat               0.497320831
-    ## Ch.C.90              0.003620830
+    ## Aer.A.90             0.088468230
+    ## Age                  0.056721189
+    ## Apps                 0.284581590
+    ## Asts.90              0.003167350
+    ## Av.Rat               0.507108418
+    ## Ch.C.90              0.009960341
     ## Cr.C.A               0.000000000
-    ## Dist.Mins            0.054128097
-    ## Distance             0.183935379
+    ## Dist.Mins            0.111920828
+    ## Distance             0.215753224
     ## Drb.90               0.000000000
-    ## Fls                  0.011603811
+    ## Fls                  0.008273462
     ## Gls                  0.000000000
     ## Gls.90               0.000000000
     ## Gls.xG               0.000000000
-    ## Hdr..                0.018199061
-    ## Height               0.000000000
-    ## K.Ps.90              0.016163552
-    ## K.Tck                0.000000000
-    ## Lower.Transfer.Value 2.174799288
-    ## Mins                 0.366249006
-    ## Mins.Gm              0.011585111
-    ## Off                  0.003825671
-    ## Pas..                0.013879425
-    ## PoM                  0.010037013
-    ## Shot..               0.006076557
-    ## Tck.R                0.007617579
-    ## Upper.Transfer.Value 2.264646293
-    ## Value                2.343813165
-    ## Weight               0.022293505
-    ## xG                   0.019860573
+    ## Hdr..                0.014897457
+    ## Height               0.008604565
+    ## K.Ps.90              0.048569780
+    ## K.Tck                0.017051828
+    ## Lower.Transfer.Value 2.258780958
+    ## Mins                 0.395633223
+    ## Mins.Gm              0.005865406
+    ## Off                  0.000000000
+    ## Pas..                0.019970066
+    ## PoM                  0.014902381
+    ## Shot..               0.000000000
+    ## Tck.R                0.031488562
+    ## Upper.Transfer.Value 2.338556295
+    ## Value                2.452467445
+    ## Weight               0.014293134
+    ## xG                   0.028432393
+
+``` r
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Regression with Bagging")
+```

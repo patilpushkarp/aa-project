@@ -14,6 +14,9 @@ Since the data has been cleaned, it can now be used to create the models.
 library(caret)
 library(rpart)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -51,4 +54,9 @@ cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
 
 ```{r}
 varImp(dtree.model)
+```
+
+```{r}
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Decision Tree Regression")
 ```

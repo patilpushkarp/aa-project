@@ -1,0 +1,4 @@
+"Algorithm","Accuracy","PValue","Kappa"
+"Logistic Regression","0.230769230769231","7.077182675513e-33","0.153836607495794"
+"Logistic.Regression","0.230769230769231","7.077182675513e-33","0.153836607495794"
+"Classification.with.Bagging","0.57207498383969","0","0.53566060568689"

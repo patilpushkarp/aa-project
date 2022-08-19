@@ -5,12 +5,15 @@ output:
     variant: gfm
 ---
 
-# Bagging
+# Classification with Bagging
 
 ```{r}
 # Load libraries
 library(ipred)
 library(caret)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import Data
@@ -24,6 +27,7 @@ test <- read.csv("./../data/classification_data/intermediates/test.csv")
 ## Model Training
 
 ```{r}
+# Model training
 bag.model = bagging(as.factor(Rating)~., data=train)
 bag.model
 ```
@@ -31,11 +35,31 @@ bag.model
 ## Model Validation
 
 ```{r}
+# Predict the samples from test data using the model
 result <- predict(bag.model, test, type="class")
 
-confusionMatrix(as.factor(result), as.factor(test$Rating))
+# Print the Confusion matrix
+confusion.matrix <- confusionMatrix(as.factor(result), as.factor(test$Rating))
+plot.custom.confusion.matrix(confusion.matrix$table)
 ```
 
 ```{r}
+# Print the accuracy stats of the model
+data.frame(confusion.matrix$overall)
+```
+
+```{r}
+# Print validation stats of the model
+data.frame(confusion.matrix$byClass)
+```
+
+```{r}
+# Get the feature importance
 varImp(bag.model)
+```
+
+```{r}
+algorithm <- "Classification.with.Bagging"
+save.class.acc.result(confusion.matrix$overall, algorithm)
+save.class.pvv.result(confusion.matrix$byClass, algorithm)
 ```

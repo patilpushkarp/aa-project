@@ -14,6 +14,9 @@ Since the data has been cleaned, it can now be used to create the models.
 library(caret)
 library(nnet)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -46,7 +49,24 @@ summary(multinom.model)
 result <- predict(multinom.model, test)
 
 # Print the Confusion matrix
-confusionMatrix(as.factor(result), as.factor(test$Rating))
+confusion.matrix <- confusionMatrix(as.factor(result), as.factor(test$Rating))
+plot.custom.confusion.matrix(confusion.matrix$table)
 ```
 
-The model has a very low accuracy and is not better than random guesses.
+```{r}
+# Print the accuracy stats of the model
+data.frame(confusion.matrix$overall)
+```
+
+```{r}
+# Print validation stats of the model
+data.frame(confusion.matrix$byClass)
+```
+
+The model has a very low accuracy but is still better than the random guess. For this case Positive Predictive Value is more important, since false positives will be highly detrimental for the company and more correct ratings (positive values) should be identified.
+
+```{r}
+algorithm <- "Logistic.Regression"
+save.class.acc.result(confusion.matrix$overall, algorithm)
+save.class.pvv.result(confusion.matrix$byClass, algorithm)
+```
