@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../class_r_files/class_bagging.html">
-       Bagging
+       Classification with Bagging
       </a>
      </li>
      <li class="toctree-l3">
@@ -515,6 +515,9 @@ models.</p>
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+
+<span class="c1"># Load helpers</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="import-data">
@@ -542,38 +545,38 @@ testing data.</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">gbm.model</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt="" src="../_images/unnamed-chunk-4-1.png" /><!-- --></p>
+<p><img alt="" src="../_images/unnamed-chunk-4-11.png" /><!-- --></p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                                       var     rel.inf
-## Value                               Value 53.89717110
-## Lower.Transfer.Value Lower.Transfer.Value 25.25402258
-## Upper.Transfer.Value Upper.Transfer.Value 15.20755670
-## Age                                   Age  1.96902586
-## Mins                                 Mins  1.47108402
-## Aer.A.90                         Aer.A.90  0.49228855
-## Distance                         Distance  0.39853344
-## Apps                                 Apps  0.33109299
-## Dist.Mins                       Dist.Mins  0.20162203
-## Weight                             Weight  0.17844083
-## Gls.xG                             Gls.xG  0.13173928
-## Ch.C.90                           Ch.C.90  0.09476179
-## Height                             Height  0.08438834
-## Tck.R                               Tck.R  0.08332827
-## Av.Rat                             Av.Rat  0.07740733
-## Gls.90                             Gls.90  0.07480012
-## Off                                   Off  0.05273676
-## Mins.Gm                           Mins.Gm  0.00000000
+## Value                               Value 63.05212727
+## Lower.Transfer.Value Lower.Transfer.Value 17.45956630
+## Upper.Transfer.Value Upper.Transfer.Value 13.53121745
+## Age                                   Age  1.92054606
+## Mins                                 Mins  1.42306795
+## Distance                         Distance  0.76598645
+## Apps                                 Apps  0.52415853
+## Aer.A.90                         Aer.A.90  0.45115476
+## K.Ps.90                           K.Ps.90  0.26002962
+## Dist.Mins                       Dist.Mins  0.18457097
+## Off                                   Off  0.13935377
+## Weight                             Weight  0.07781165
+## Mins.Gm                           Mins.Gm  0.07442751
+## Pas..                               Pas..  0.07169056
+## Gls.90                             Gls.90  0.06429115
+## Height                             Height  0.00000000
+## Av.Rat                             Av.Rat  0.00000000
 ## Gls                                   Gls  0.00000000
 ## Shot..                             Shot..  0.00000000
 ## xG                                     xG  0.00000000
+## Ch.C.90                           Ch.C.90  0.00000000
 ## Asts.90                           Asts.90  0.00000000
-## K.Ps.90                           K.Ps.90  0.00000000
-## Pas..                               Pas..  0.00000000
 ## Cr.C.A                             Cr.C.A  0.00000000
 ## Drb.90                             Drb.90  0.00000000
 ## Hdr..                               Hdr..  0.00000000
 ## K.Tck                               K.Tck  0.00000000
 ## Fls                                   Fls  0.00000000
 ## PoM                                   PoM  0.00000000
+## Tck.R                               Tck.R  0.00000000
+## Gls.xG                             Gls.xG  0.00000000
 </pre></div>
 </div>
 </section>
@@ -590,8 +593,12 @@ testing data.</p>
 <span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.12950741466064 
-##  MAE:  6.34950050205738
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.0799768113754 
+##  MAE:  6.31091428393257
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
+<span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Gradient Descent Regression&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

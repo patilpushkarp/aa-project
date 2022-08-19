@@ -15,6 +15,9 @@ library(caret)
 ``` r
 library(e1071)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -62,3 +65,8 @@ cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
 
     ## RMSE:  9.85169422012323 
     ##  MAE:  7.55440600754502
+
+``` r
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "kNN Regression")
+```

@@ -15,6 +15,9 @@ library(caret)
 ``` r
 library(rpart)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -48,12 +51,12 @@ summary(dtree.model)
     ##   n= 898 
     ## 
     ##           CP nsplit rel error    xerror       xstd
-    ## 1 0.55145604      0 1.0000000 1.0021240 0.04522491
-    ## 2 0.13043591      1 0.4485440 0.4593091 0.02309307
-    ## 3 0.09055841      2 0.3181080 0.3332803 0.01834411
-    ## 4 0.02027054      3 0.2275496 0.2410770 0.01723170
-    ## 5 0.01588124      4 0.2072791 0.2340632 0.01727409
-    ## 6 0.01000000      5 0.1913979 0.2176109 0.01681342
+    ## 1 0.55145604      0 1.0000000 1.0021578 0.04530287
+    ## 2 0.13043591      1 0.4485440 0.4684318 0.02362153
+    ## 3 0.09055841      2 0.3181080 0.3404729 0.01846413
+    ## 4 0.02027054      3 0.2275496 0.2551980 0.01773648
+    ## 5 0.01588124      4 0.2072791 0.2379025 0.01760337
+    ## 6 0.01000000      5 0.1913979 0.2241354 0.01744964
     ## 
     ## Variable importance
     ##                Value Upper.Transfer.Value Lower.Transfer.Value 
@@ -209,3 +212,8 @@ varImp(dtree.model)
     ## Tck.R                0.00000000
     ## Gls.xG               0.00000000
     ## Dist.Mins            0.00000000
+
+``` r
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Decision Tree Regression")
+```

@@ -15,6 +15,9 @@ library(caret)
 ``` r
 library(nnet)
 library(MASS)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import data
@@ -103,3 +106,8 @@ cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
 
     ## RMSE:  12.6975984315159 
     ##  MAE:  10.4290241532838
+
+``` r
+# Save the results
+save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Linear Regression")
+```

@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../class_r_files/class_bagging.html">
-       Bagging
+       Classification with Bagging
       </a>
      </li>
      <li class="toctree-l3">
@@ -524,6 +524,9 @@ models.</p>
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+
+<span class="c1"># Load helpers</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="import-data">
@@ -579,44 +582,48 @@ testing data.</p>
 <span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.05180116776778 
-##  MAE:  6.11829372197309
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.06816272785225 
+##  MAE:  6.1587538116592
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">varImp</span><span class="p">(</span><span class="n">rf.model</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                          Overall
-## Apps                   5308.9349
-## Mins                   6674.7274
-## Mins.Gm                1995.7667
-## Height                 1961.3602
-## Weight                 2097.4232
-## Age                    4662.6019
-## Av.Rat                 8049.7986
-## Gls                     337.3487
-## Gls.90                  764.9776
-## Shot..                 1085.8593
-## xG                     1542.2896
-## Ch.C.90                1545.1869
-## Asts.90                 935.1214
-## K.Ps.90                2525.1310
-## Pas..                  3173.3485
-## Cr.C.A                  959.9266
-## Drb.90                 1127.4292
-## Distance               7375.4053
-## Hdr..                  1447.8460
-## K.Tck                   662.7340
-## Fls                    1853.7221
-## PoM                     824.2982
-## Aer.A.90               4868.0758
-## Off                     578.6933
-## Tck.R                  1766.3690
-## Gls.xG                  826.4383
-## Dist.Mins              4444.6905
-## Value                116502.3158
-## Lower.Transfer.Value  82531.6406
-## Upper.Transfer.Value 102640.6963
+## Apps                   5561.0911
+## Mins                   6380.8248
+## Mins.Gm                2017.4140
+## Height                 1992.8612
+## Weight                 2088.4085
+## Age                    4481.3923
+## Av.Rat                 7933.9759
+## Gls                     376.1644
+## Gls.90                  662.7810
+## Shot..                 1073.9416
+## xG                     1536.6192
+## Ch.C.90                1385.5363
+## Asts.90                 942.0452
+## K.Ps.90                2627.1438
+## Pas..                  3258.7395
+## Cr.C.A                  986.3250
+## Drb.90                 1183.2440
+## Distance               7271.4434
+## Hdr..                  1607.2684
+## K.Tck                   699.6000
+## Fls                    1871.0538
+## PoM                     976.0439
+## Aer.A.90               5132.4956
+## Off                     609.7598
+## Tck.R                  1966.7884
+## Gls.xG                  936.4560
+## Dist.Mins              4839.9684
+## Value                130993.0707
+## Lower.Transfer.Value  80992.8334
+## Upper.Transfer.Value  87949.5836
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
+<span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Random Forest Regression&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

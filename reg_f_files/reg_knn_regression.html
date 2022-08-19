@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../class_r_files/class_bagging.html">
-       Bagging
+       Classification with Bagging
       </a>
      </li>
      <li class="toctree-l3">
@@ -510,6 +510,9 @@ models.</p>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">e1071</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+
+<span class="c1"># Load helpers</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="import-data">
@@ -554,6 +557,10 @@ testing data.</p>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  9.85169422012323 
 ##  MAE:  7.55440600754502
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
+<span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;kNN Regression&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

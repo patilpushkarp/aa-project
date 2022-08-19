@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../class_r_files/class_bagging.html">
-       Bagging
+       Classification with Bagging
       </a>
      </li>
      <li class="toctree-l3">
@@ -510,6 +510,9 @@ models.</p>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">rpart</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+
+<span class="c1"># Load helpers</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="import-data">
@@ -539,12 +542,12 @@ testing data.</p>
 ##   n= 898 
 ## 
 ##           CP nsplit rel error    xerror       xstd
-## 1 0.55145604      0 1.0000000 1.0021240 0.04522491
-## 2 0.13043591      1 0.4485440 0.4593091 0.02309307
-## 3 0.09055841      2 0.3181080 0.3332803 0.01834411
-## 4 0.02027054      3 0.2275496 0.2410770 0.01723170
-## 5 0.01588124      4 0.2072791 0.2340632 0.01727409
-## 6 0.01000000      5 0.1913979 0.2176109 0.01681342
+## 1 0.55145604      0 1.0000000 1.0021578 0.04530287
+## 2 0.13043591      1 0.4485440 0.4684318 0.02362153
+## 3 0.09055841      2 0.3181080 0.3404729 0.01846413
+## 4 0.02027054      3 0.2275496 0.2551980 0.01773648
+## 5 0.01588124      4 0.2072791 0.2379025 0.01760337
+## 6 0.01000000      5 0.1913979 0.2241354 0.01744964
 ## 
 ## Variable importance
 ##                Value Upper.Transfer.Value Lower.Transfer.Value 
@@ -701,6 +704,10 @@ testing data.</p>
 ## Tck.R                0.00000000
 ## Gls.xG               0.00000000
 ## Dist.Mins            0.00000000
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
+<span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Decision Tree Regression&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>

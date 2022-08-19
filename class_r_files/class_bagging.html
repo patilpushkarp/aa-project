@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Bagging &#8212; Project - Advanced Analytics 1</title>
+    <title>Classification with Bagging &#8212; Project - Advanced Analytics 1</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -166,7 +166,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Bagging
+       Classification with Bagging
       </a>
      </li>
      <li class="toctree-l3">
@@ -460,7 +460,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Bagging</h1>
+                <h1>Classification with Bagging</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -495,8 +495,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="bagging">
-<h1>Bagging<a class="headerlink" href="#bagging" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="classification-with-bagging">
+<h1>Classification with Bagging<a class="headerlink" href="#classification-with-bagging" title="Permalink to this headline">#</a></h1>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load libraries</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">ipred</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
@@ -505,6 +505,10 @@ title="Print to PDF"
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Loading required package: ggplot2
 
 ## Loading required package: lattice
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load helpers</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <section id="import-data">
@@ -517,7 +521,8 @@ title="Print to PDF"
 </section>
 <section id="model-training">
 <h2>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h2>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">bag.model</span> <span class="o">=</span> <span class="nf">bagging</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Rating</span><span class="p">)</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model training</span>
+<span class="n">bag.model</span> <span class="o">=</span> <span class="nf">bagging</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Rating</span><span class="p">)</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
 <span class="n">bag.model</span>
 </pre></div>
 </div>
@@ -530,146 +535,142 @@ title="Print to PDF"
 </section>
 <section id="model-validation">
 <h2>Model Validation<a class="headerlink" href="#model-validation" title="Permalink to this headline">#</a></h2>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">bag.model</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">type</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict the samples from test data using the model</span>
+<span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">bag.model</span><span class="p">,</span> <span class="n">test</span><span class="p">,</span> <span class="n">type</span><span class="o">=</span><span class="s">&quot;class&quot;</span><span class="p">)</span>
 
-<span class="nf">confusionMatrix</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">Rating</span><span class="p">))</span>
+<span class="c1"># Print the Confusion matrix</span>
+<span class="n">confusion.matrix</span> <span class="o">&lt;-</span> <span class="nf">confusionMatrix</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">result</span><span class="p">),</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">Rating</span><span class="p">))</span>
+<span class="nf">plot.custom.confusion.matrix</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">table</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Confusion Matrix and Statistics
-## 
-##           Reference
-## Prediction   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15  16  17
-##         1    8   0   0   1   1   0   0   0   0   0   0   0   0   0   0   0   0
-##         2    3  16   1   1   1   1   0   1   0   0   0   0   0   0   0   0   0
-##         3    1   0  20   3   4   5   2   0   0   1   0   0   0   0   0   0   0
-##         4    1   0   1  36  10   2   1   0   0   0   0   0   0   0   0   0   0
-##         5    1   1   1   4  66  12   3   1   1   1   0   0   0   0   0   0   0
-##         6    1   0   6   1   3 113  13  13  10   5   0   0   0   0   0   0   0
-##         7    0   0   1   2   3  14  90  22   8   3   0   0   0   0   0   0   0
-##         8    0   0   0   0   3  15  17 110  33  10   0   0   0   0   0   0   0
-##         9    1   0   1   0   3  10   4  29  96  34   0   0   0   0   0   0   0
-##         10   0   0   0   0   5   3   3   3  22  89   0   0   0   0   0   0   0
-##         11   0   0   0   0   0   0   0   0   0   0  71  20   7   5   2   2   0
-##         12   0   0   0   0   0   0   0   0   0   0  26  46  14  12   3   4   1
-##         13   0   0   0   0   0   0   0   0   0   0   6  11  33  10   9   2   3
-##         14   0   0   0   0   0   0   0   0   0   0   1   5  16  48  16   9   5
-##         15   0   0   0   0   0   0   0   0   0   0   3   0   0  10  25   5   3
-##         16   0   0   0   0   0   0   0   0   0   0   3   2   7   6   6  28   2
-##         17   0   0   0   0   0   0   0   0   0   0   0   1   2   1   3   6  14
-##         18   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   2   1
-##         19   0   0   0   0   0   0   0   0   0   0   0   0   0   0   1   0   0
-##         20   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0   0
-##         21   0   0   0   0   0   0   0   0   0   0   1   0   0   0   0   0   0
-##           Reference
-## Prediction  18  19  20  21
-##         1    0   0   0   0
-##         2    0   0   0   0
-##         3    0   0   0   0
-##         4    0   0   0   0
-##         5    0   0   0   0
-##         6    0   0   0   0
-##         7    0   0   0   0
-##         8    0   0   0   0
-##         9    0   0   0   0
-##         10   0   0   0   0
-##         11   1   0   0   0
-##         12   0   0   0   0
-##         13   2   0   0   0
-##         14   1   0   1   0
-##         15   2   0   0   0
-##         16   1   0   1   0
-##         17   0   1   1   0
-##         18   3   0   0   1
-##         19   0   0   0   0
-##         20   1   0   0   0
-##         21   0   0   0   1
-## 
-## Overall Statistics
-##                                           
-##                Accuracy : 0.5902          
-##                  95% CI : (0.5652, 0.6148)
-##     No Information Rate : 0.1157          
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
-##                                           
-##                   Kappa : 0.5555          
-##                                           
-##  Mcnemar&#39;s Test P-Value : NA              
-## 
-## Statistics by Class:
-## 
-##                      Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6
-## Sensitivity          0.500000  0.94118  0.64516  0.75000  0.66667  0.64571
-## Specificity          0.998694  0.99477  0.98945  0.98999  0.98273  0.96210
-## Pos Pred Value       0.800000  0.66667  0.55556  0.70588  0.72527  0.68485
-## Neg Pred Value       0.994795  0.99934  0.99272  0.99198  0.97734  0.95514
-## Prevalence           0.010343  0.01099  0.02004  0.03103  0.06399  0.11312
-## Detection Rate       0.005171  0.01034  0.01293  0.02327  0.04266  0.07304
-## Detection Prevalence 0.006464  0.01551  0.02327  0.03297  0.05882  0.10666
-## Balanced Accuracy    0.749347  0.96797  0.81730  0.87000  0.82470  0.80391
-##                      Class: 7 Class: 8 Class: 9 Class: 10 Class: 11 Class: 12
-## Sensitivity           0.67669  0.61453  0.56471   0.62238   0.63964   0.54118
-## Specificity           0.96252  0.94298  0.94045   0.97436   0.97423   0.95896
-## Pos Pred Value        0.62937  0.58511  0.53933   0.71200   0.65741   0.43396
-## Neg Pred Value        0.96937  0.94923  0.94595   0.96203   0.97220   0.97294
-## Prevalence            0.08597  0.11571  0.10989   0.09244   0.07175   0.05495
-## Detection Rate        0.05818  0.07111  0.06206   0.05753   0.04590   0.02973
-## Detection Prevalence  0.09244  0.12153  0.11506   0.08080   0.06981   0.06852
-## Balanced Accuracy     0.81960  0.77875  0.75258   0.79837   0.80694   0.75007
-##                      Class: 13 Class: 14 Class: 15 Class: 16 Class: 17
-## Sensitivity            0.41772   0.52174   0.38462   0.48276   0.48276
-## Specificity            0.97071   0.96289   0.98448   0.98120   0.99012
-## Pos Pred Value         0.43421   0.47059   0.52083   0.50000   0.48276
-## Neg Pred Value         0.96873   0.96955   0.97332   0.97988   0.99012
-## Prevalence             0.05107   0.05947   0.04202   0.03749   0.01875
-## Detection Rate         0.02133   0.03103   0.01616   0.01810   0.00905
-## Detection Prevalence   0.04913   0.06593   0.03103   0.03620   0.01875
-## Balanced Accuracy      0.69421   0.74231   0.68455   0.73198   0.73644
-##                      Class: 18 Class: 19 Class: 20 Class: 21
-## Sensitivity           0.272727 0.0000000 0.0000000 0.5000000
-## Specificity           0.997396 0.9993532 0.9993523 0.9993528
-## Pos Pred Value        0.428571 0.0000000 0.0000000 0.5000000
-## Neg Pred Value        0.994805 0.9993532 0.9980595 0.9993528
-## Prevalence            0.007111 0.0006464 0.0019392 0.0012928
-## Detection Rate        0.001939 0.0000000 0.0000000 0.0006464
-## Detection Prevalence  0.004525 0.0006464 0.0006464 0.0012928
-## Balanced Accuracy     0.635062 0.4996766 0.4996762 0.7496764
+<p><img alt="" src="../_images/unnamed-chunk-4-1.png" /><!-- --></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the accuracy stats of the model</span>
+<span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">varImp</span><span class="p">(</span><span class="n">bag.model</span><span class="p">)</span>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                confusion.matrix.overall
+## Accuracy                      0.5811248
+## Kappa                         0.5455917
+## AccuracyLower                 0.5560813
+## AccuracyUpper                 0.6058597
+## AccuracyNull                  0.1215255
+## AccuracyPValue                0.0000000
+## McnemarPValue                       NaN
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print validation stats of the model</span>
+<span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##           Sensitivity Specificity Pos.Pred.Value Neg.Pred.Value Precision
+## Class: 1    0.5555556   0.9960759      0.6250000      0.9947747 0.6250000
+## Class: 2    0.7333333   0.9993473      0.9166667      0.9973941 0.9166667
+## Class: 3    0.5952381   0.9920266      0.6756757      0.9887417 0.6756757
+## Class: 4    0.6346154   0.9946488      0.8048780      0.9873838 0.8048780
+## Class: 5    0.7051282   0.9734513      0.5851064      0.9841707 0.5851064
+## Class: 6    0.6272189   0.9499274      0.6057143      0.9540816 0.6057143
+## Class: 7    0.6344828   0.9686163      0.6764706      0.9624380 0.6764706
+## Class: 8    0.6024845   0.9458874      0.5639535      0.9534545 0.5639535
+## Class: 9    0.5797872   0.9381898      0.5647668      0.9416544 0.5647668
+## Class: 10   0.6319444   0.9679259      0.6691176      0.9624380 0.6691176
+## Class: 11   0.6545455   0.9749478      0.6666667      0.9735928 0.6666667
+## Class: 12   0.5529412   0.9582763      0.4351852      0.9735928 0.4351852
+## Class: 13   0.4395604   0.9677198      0.4597701      0.9650685 0.4597701
+## Class: 14   0.5000000   0.9691570      0.4943820      0.9698217 0.4943820
+## Class: 15   0.4705882   0.9826203      0.4800000      0.9819639 0.4800000
+## Class: 16   0.3260870   0.9806795      0.3409091      0.9793746 0.3409091
+## Class: 17   0.4250000   0.9913736      0.5666667      0.9848385 0.5666667
+## Class: 18   0.6000000   0.9973890      0.6923077      0.9960887 0.6923077
+## Class: 19   0.0000000   0.9993532      0.0000000      0.9993532 0.0000000
+## Class: 20   0.0000000   0.9980557      0.0000000      0.9974093 0.0000000
+## Class: 21   0.5000000   1.0000000      1.0000000      0.9987055 1.0000000
+##              Recall        F1   Prevalence Detection.Rate Detection.Prevalence
+## Class: 1  0.5555556 0.5882353 0.0116354234    0.006464124         0.0103425986
+## Class: 2  0.7333333 0.8148148 0.0096961862    0.007110537         0.0077569489
+## Class: 3  0.5952381 0.6329114 0.0271493213    0.016160310         0.0239172592
+## Class: 4  0.6346154 0.7096774 0.0336134454    0.021331610         0.0265029089
+## Class: 5  0.7051282 0.6395349 0.0504201681    0.035552683         0.0607627666
+## Class: 6  0.6272189 0.6162791 0.1092436975    0.068519716         0.1131221719
+## Class: 7  0.6344828 0.6548043 0.0937297996    0.059469942         0.0879120879
+## Class: 8  0.6024845 0.5825826 0.1040723982    0.062702004         0.1111829347
+## Class: 9  0.5797872 0.5721785 0.1215255333    0.070458953         0.1247575953
+## Class: 10 0.6319444 0.6500000 0.0930833872    0.058823529         0.0879120879
+## Class: 11 0.6545455 0.6605505 0.0711053652    0.046541694         0.0698125404
+## Class: 12 0.5529412 0.4870466 0.0549450549    0.030381383         0.0698125404
+## Class: 13 0.4395604 0.4494382 0.0588235294    0.025856496         0.0562378798
+## Class: 14 0.5000000 0.4971751 0.0568842922    0.028442146         0.0575307046
+## Class: 15 0.4705882 0.4752475 0.0329670330    0.015513898         0.0323206206
+## Class: 16 0.3260870 0.3333333 0.0297349709    0.009696186         0.0284421461
+## Class: 17 0.4250000 0.4857143 0.0258564964    0.010989011         0.0193923723
+## Class: 18 0.6000000 0.6428571 0.0096961862    0.005817712         0.0084033613
+## Class: 19 0.0000000       NaN 0.0006464124    0.000000000         0.0006464124
+## Class: 20 0.0000000       NaN 0.0025856496    0.000000000         0.0019392372
+## Class: 21 0.5000000 0.6666667 0.0025856496    0.001292825         0.0012928248
+##           Balanced.Accuracy
+## Class: 1          0.7758157
+## Class: 2          0.8663403
+## Class: 3          0.7936323
+## Class: 4          0.8146321
+## Class: 5          0.8392898
+## Class: 6          0.7885732
+## Class: 7          0.8015495
+## Class: 8          0.7741860
+## Class: 9          0.7589885
+## Class: 10         0.7999352
+## Class: 11         0.8147466
+## Class: 12         0.7556088
+## Class: 13         0.7036401
+## Class: 14         0.7345785
+## Class: 15         0.7266043
+## Class: 16         0.6533833
+## Class: 17         0.7081868
+## Class: 18         0.7986945
+## Class: 19         0.4996766
+## Class: 20         0.4990279
+## Class: 21         0.7500000
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Get the feature importance</span>
+<span class="nf">varImp</span><span class="p">(</span><span class="n">bag.model</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                                                     Overall
-## Asset.Turnover                                   1311.88586
-## Binary.Rating                                     403.94236
-## Current.Ratio                                    1669.41440
-## Debt.Equity.Ratio                                1444.78361
-## Free.Cash.Flow.Per.Share                          919.13640
-## Gross.Margin                                     1458.33980
-## Long.term.Debt...Capital                         1590.15072
-## Net.Profit.Margin                                1394.85674
-## Operating.Cash.Flow.Per.Share                     940.95661
-## Rating.Agency_Egan.Jones.Ratings.Company          164.75492
-## Rating.Agency_Fitch.Ratings                       151.19488
-## Rating.Agency_Moody.s.Investors.Service           304.28225
-## Rating.Agency_Standard...Poor.s.Ratings.Services  326.69173
-## Return.On.Tangible.Equity                        1147.87283
-## ROA...Return.On.Assets                           1211.18170
-## ROE...Return.On.Equity                           1225.49649
-## ROI...Return.On.Investment                       1098.04759
-## Sector_BusEq                                      199.60001
-## Sector_Chems                                      108.44646
-## Sector_Durbl                                       82.44091
-## Sector_Enrgy                                      168.67990
-## Sector_Hlth                                       187.86587
-## Sector_Manuf                                      203.32567
-## Sector_Money                                       64.59691
-## Sector_NoDur                                      121.17749
-## Sector_Other                                      231.00154
-## Sector_Shops                                      167.03081
-## Sector_Telcm                                       94.15670
-## Sector_Utils                                      108.93167
-## X                                                2010.87979
-## X.1                                              2190.19838
+## Asset.Turnover                                   1275.13364
+## Binary.Rating                                     403.09330
+## Current.Ratio                                    1593.55799
+## Debt.Equity.Ratio                                1397.40005
+## Free.Cash.Flow.Per.Share                          921.54840
+## Gross.Margin                                     1471.33770
+## Long.term.Debt...Capital                         1576.21702
+## Net.Profit.Margin                                1380.38981
+## Operating.Cash.Flow.Per.Share                     953.76499
+## Rating.Agency_Egan.Jones.Ratings.Company          228.50127
+## Rating.Agency_Fitch.Ratings                       170.44046
+## Rating.Agency_Moody.s.Investors.Service           322.90441
+## Rating.Agency_Standard...Poor.s.Ratings.Services  383.66563
+## Return.On.Tangible.Equity                        1121.36180
+## ROA...Return.On.Assets                           1174.86250
+## ROE...Return.On.Equity                           1230.79814
+## ROI...Return.On.Investment                       1102.24665
+## Sector_BusEq                                      211.14443
+## Sector_Chems                                      100.97599
+## Sector_Durbl                                       79.85327
+## Sector_Enrgy                                      160.43665
+## Sector_Hlth                                       196.03774
+## Sector_Manuf                                      175.57747
+## Sector_Money                                       68.57102
+## Sector_NoDur                                      124.83328
+## Sector_Other                                      228.25131
+## Sector_Shops                                      161.27477
+## Sector_Telcm                                       90.16378
+## Sector_Utils                                      106.88460
+## X                                                2062.06873
+## X.1                                              2244.22889
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">algorithm</span> <span class="o">&lt;-</span> <span class="s">&quot;Classification.with.Bagging&quot;</span>
+<span class="nf">save.class.acc.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
+<span class="nf">save.class.pvv.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
