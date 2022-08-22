@@ -11,6 +11,7 @@ output:
 # Load libraries
 library(ipred)
 library(caret)
+library(knitr)
 
 # Load helpers
 source("./../helpers/helper.R")
@@ -45,20 +46,21 @@ plot.custom.confusion.matrix(confusion.matrix$table)
 
 ```{r}
 # Print the accuracy stats of the model
-data.frame(confusion.matrix$overall)
+kable(data.frame(confusion.matrix$overall))
 ```
 
 ```{r}
 # Print validation stats of the model
-data.frame(confusion.matrix$byClass)
+kable(data.frame(confusion.matrix$byClass))
 ```
 
 ```{r}
 # Get the feature importance
-varImp(bag.model)
+kable(varImp(bag.model))
 ```
 
 ```{r}
+# Save the results
 algorithm <- "Classification.with.Bagging"
 save.class.acc.result(confusion.matrix$overall, algorithm)
 save.class.pvv.result(confusion.matrix$byClass, algorithm)

@@ -15,6 +15,7 @@ library(knitr)
 Every algorithm has its own pros and cons depending upon the underlying assumptions and statistical methods used. Thus, to summarize
 
 ```{r}
+# Read the results
 df <- read.csv("./../data/regression_data/output/result.csv")
 kable(df)
 ```

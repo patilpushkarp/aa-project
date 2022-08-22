@@ -11,6 +11,10 @@ output:
 # Load libraries
 library(randomForest)
 library(caret)
+library(knitr)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import Data
@@ -24,6 +28,7 @@ test <- read.csv("./../data/classification_data/intermediates/test.csv")
 ## Model Training
 
 ```{r}
+# Model Training
 rf.model <- randomForest(as.factor(Rating)~., data=train)
 rf.model
 ```
@@ -31,11 +36,32 @@ rf.model
 ## Model Validation
 
 ```{r}
+# Predict the samples from test data using the model
 result <- predict(rf.model, test, type="class")
 
-confusionMatrix(as.factor(result), as.factor(test$Rating))
+# Print the Confusion matrix
+confusion.matrix <- confusionMatrix(as.factor(result), as.factor(test$Rating))
+plot.custom.confusion.matrix(confusion.matrix$table)
 ```
 
 ```{r}
-varImp(rf.model)
+# Print the accuracy stats of the model
+kable(data.frame(confusion.matrix$overall))
+```
+
+```{r}
+# Print validation stats of the model
+kable(data.frame(confusion.matrix$byClass))
+```
+
+```{r}
+# Get the feature importances for each feature
+kable(varImp(rf.model))
+```
+
+```{r}
+# Save the results
+algorithm <- "Random.Forest"
+save.class.acc.result(confusion.matrix$overall, algorithm)
+save.class.pvv.result(confusion.matrix$byClass, algorithm)
 ```

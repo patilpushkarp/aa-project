@@ -11,6 +11,10 @@ output:
 # Load libraries
 library(e1071)
 library(caret)
+library(knitr)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import Data
@@ -24,6 +28,7 @@ test <- read.csv("./../data/classification_data/intermediates/test.csv")
 ## Model Training
 
 ```{r}
+# Train the model
 svm.model <- svm(as.factor(Rating)~., data=train, type='C-classification')
 summary(svm.model)
 ```
@@ -31,7 +36,27 @@ summary(svm.model)
 ## Model Validation
 
 ```{r}
+# Predict the samples from test data using the model
 result = predict(svm.model, test, type="raw")
 
-confusionMatrix(as.factor(result), as.factor(test$Rating))
+# Print the Confusion matrix
+confusion.matrix <- confusionMatrix(as.factor(result), as.factor(test$Rating))
+plot.custom.confusion.matrix(confusion.matrix$table)
+```
+
+```{r}
+# Print the accuracy stats of the model
+kable(data.frame(confusion.matrix$overall))
+```
+
+```{r}
+# Print validation stats of the model
+kable(data.frame(confusion.matrix$byClass))
+```
+
+```{r}
+# Save the results
+algorithm <- "Support.Vector.Machine"
+save.class.acc.result(confusion.matrix$overall, algorithm)
+save.class.pvv.result(confusion.matrix$byClass, algorithm)
 ```

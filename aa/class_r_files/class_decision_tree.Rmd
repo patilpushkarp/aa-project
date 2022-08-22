@@ -11,6 +11,10 @@ output:
 # Load libraries
 library(rpart)
 library(caret)
+library(knitr)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import Data
@@ -25,17 +29,37 @@ test <- read.csv("./../data/classification_data/intermediates/test.csv")
 
 ```{r}
 dtree.model <- rpart(Rating~., data=train, method = 'class')
-summary(dtree.model)
 ```
 
 ## Model Validation
 
 ```{r}
+# Predict the output for samples in test data using the model
 result <- predict(dtree.model, test, type="class")
 
-confusionMatrix(as.factor(result), as.factor(test$Rating))
+# Print the Confusion matrix
+confusion.matrix <- confusionMatrix(as.factor(result), as.factor(test$Rating))
+plot.custom.confusion.matrix(confusion.matrix$table)
 ```
 
 ```{r}
-varImp(dtree.model)
+# Print the accuracy stats of the model
+kable(data.frame(confusion.matrix$overall))
+```
+
+```{r}
+# Print validation stats of the model
+kable(data.frame(confusion.matrix$byClass))
+```
+
+```{r}
+# Get the feature importance
+kable(varImp(dtree.model))
+```
+
+```{r}
+# Save the results
+algorithm <- "Decision.Tree"
+save.class.acc.result(confusion.matrix$overall, algorithm)
+save.class.pvv.result(confusion.matrix$byClass, algorithm)
 ```

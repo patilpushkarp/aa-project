@@ -11,6 +11,10 @@ output:
 # Load libraries
 library(e1071)
 library(caret)
+library(knitr)
+
+# Load helpers
+source("./../helpers/helper.R")
 ```
 
 ## Import Data
@@ -55,6 +59,24 @@ knn.model
 # Use the new model for prediction
 result <- predict(knn.model, test, type="class")
 
-# Get the confusion matrix with the predicted results
-confusionMatrix(as.factor(result), as.factor(test$Rating))
+# Print the Confusion matrix
+confusion.matrix <- confusionMatrix(as.factor(result), as.factor(test$Rating))
+plot.custom.confusion.matrix(confusion.matrix$table)
+```
+
+```{r}
+# Print the accuracy stats of the model
+kable(data.frame(confusion.matrix$overall))
+```
+
+```{r}
+# Print validation stats of the model
+kable(data.frame(confusion.matrix$byClass))
+```
+
+```{r}
+# Save the results
+algorithm <- "kNN"
+save.class.acc.result(confusion.matrix$overall, algorithm)
+save.class.pvv.result(confusion.matrix$byClass, algorithm)
 ```
