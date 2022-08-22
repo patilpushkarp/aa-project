@@ -515,6 +515,7 @@ models.</p>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">nnet</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">MASS</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
 
 <span class="c1"># Load helpers</span>
 <span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
@@ -1000,93 +1001,337 @@ testing data.</p>
 <span class="nf">plot.custom.confusion.matrix</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">table</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt="" src="../_images/unnamed-chunk-5-1.png" /><!-- --></p>
+<p><img alt="" src="../_images/unnamed-chunk-5-11.png" /><!-- --></p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the accuracy stats of the model</span>
-<span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                confusion.matrix.overall
-## Accuracy                   2.307692e-01
-## Kappa                      1.538366e-01
-## AccuracyLower              2.099777e-01
-## AccuracyUpper              2.525876e-01
-## AccuracyNull               1.215255e-01
-## AccuracyPValue             7.077183e-33
-## McnemarPValue                       NaN
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:right head"><p>confusion.matrix.overall</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Accuracy</p></td>
+<td class="text-align:right"><p>0.2307692</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Kappa</p></td>
+<td class="text-align:right"><p>0.1538366</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>AccuracyLower</p></td>
+<td class="text-align:right"><p>0.2099777</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>AccuracyUpper</p></td>
+<td class="text-align:right"><p>0.2525876</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>AccuracyNull</p></td>
+<td class="text-align:right"><p>0.1215255</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>AccuracyPValue</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>McnemarPValue</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+</tr>
+</tbody>
+</table>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print validation stats of the model</span>
-<span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">)</span>
+<span class="nf">kable</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##           Sensitivity Specificity Pos.Pred.Value Neg.Pred.Value Precision
-## Class: 1   0.00000000   0.9960759      0.0000000      0.9883193 0.0000000
-## Class: 2   0.00000000   0.9986945      0.0000000      0.9902913 0.0000000
-## Class: 3   0.04761905   0.9940199      0.1818182      0.9739583 0.1818182
-## Class: 4   0.00000000   0.9953177      0.0000000      0.9662338 0.0000000
-## Class: 5   0.14102564   0.9680054      0.1896552      0.9550034 0.1896552
-## Class: 6   0.31360947   0.8664731      0.2236287      0.9114504 0.2236287
-## Class: 7   0.19310345   0.9486448      0.2800000      0.9191431 0.2800000
-## Class: 8   0.15527950   0.9689755      0.3676471      0.9080460 0.3676471
-## Class: 9   0.64893617   0.7034584      0.2323810      0.9354207 0.2323810
-## Class: 10  0.06250000   0.9914469      0.4285714      0.9115334 0.4285714
-## Class: 11  0.41818182   0.9102296      0.2628571      0.9533528 0.2628571
-## Class: 12  0.04705882   0.9774282      0.1081081      0.9463576 0.1081081
-## Class: 13  0.19780220   0.9546703      0.2142857      0.9501025 0.2142857
-## Class: 14  0.29545455   0.9307745      0.2047244      0.9563380 0.2047244
-## Class: 15  0.17647059   0.9652406      0.1475410      0.9717362 0.1475410
-## Class: 16  0.00000000   0.9966689      0.0000000      0.9701686 0.0000000
-## Class: 17  0.00000000   0.9993364      0.0000000      0.9741268 0.0000000
-## Class: 18  0.26666667   0.9908616      0.2222222      0.9928058 0.2222222
-## Class: 19  0.00000000   0.9987063      0.0000000      0.9993528 0.0000000
-## Class: 20  0.00000000   0.9987038      0.0000000      0.9974110 0.0000000
-## Class: 21  0.00000000   1.0000000            NaN      0.9974144        NA
-##               Recall         F1   Prevalence Detection.Rate
-## Class: 1  0.00000000        NaN 0.0116354234    0.000000000
-## Class: 2  0.00000000        NaN 0.0096961862    0.000000000
-## Class: 3  0.04761905 0.07547170 0.0271493213    0.001292825
-## Class: 4  0.00000000        NaN 0.0336134454    0.000000000
-## Class: 5  0.14102564 0.16176471 0.0504201681    0.007110537
-## Class: 6  0.31360947 0.26108374 0.1092436975    0.034259858
-## Class: 7  0.19310345 0.22857143 0.0937297996    0.018099548
-## Class: 8  0.15527950 0.21834061 0.1040723982    0.016160310
-## Class: 9  0.64893617 0.34221599 0.1215255333    0.078862314
-## Class: 10 0.06250000 0.10909091 0.0930833872    0.005817712
-## Class: 11 0.41818182 0.32280702 0.0711053652    0.029734971
-## Class: 12 0.04705882 0.06557377 0.0549450549    0.002585650
-## Class: 13 0.19780220 0.20571429 0.0588235294    0.011635423
-## Class: 14 0.29545455 0.24186047 0.0568842922    0.016806723
-## Class: 15 0.17647059 0.16071429 0.0329670330    0.005817712
-## Class: 16 0.00000000        NaN 0.0297349709    0.000000000
-## Class: 17 0.00000000        NaN 0.0258564964    0.000000000
-## Class: 18 0.26666667 0.24242424 0.0096961862    0.002585650
-## Class: 19 0.00000000        NaN 0.0006464124    0.000000000
-## Class: 20 0.00000000        NaN 0.0025856496    0.000000000
-## Class: 21 0.00000000         NA 0.0025856496    0.000000000
-##           Detection.Prevalence Balanced.Accuracy
-## Class: 1          0.0038784745         0.4980379
-## Class: 2          0.0012928248         0.4993473
-## Class: 3          0.0071105365         0.5208195
-## Class: 4          0.0045248869         0.4976589
-## Class: 5          0.0374919198         0.5545155
-## Class: 6          0.1531997414         0.5900413
-## Class: 7          0.0646412411         0.5708741
-## Class: 8          0.0439560440         0.5621275
-## Class: 9          0.3393665158         0.6761973
-## Class: 10         0.0135746606         0.5269734
-## Class: 11         0.1131221719         0.6642057
-## Class: 12         0.0239172592         0.5122435
-## Class: 13         0.0542986425         0.5762363
-## Class: 14         0.0820943762         0.6131145
-## Class: 15         0.0394311571         0.5708556
-## Class: 16         0.0032320621         0.4983344
-## Class: 17         0.0006464124         0.4996682
-## Class: 18         0.0116354234         0.6287641
-## Class: 19         0.0012928248         0.4993532
-## Class: 20         0.0012928248         0.4993519
-## Class: 21         0.0000000000         0.5000000
-</pre></div>
-</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:right head"><p>Sensitivity</p></th>
+<th class="text-align:right head"><p>Specificity</p></th>
+<th class="text-align:right head"><p>Pos.Pred.Value</p></th>
+<th class="text-align:right head"><p>Neg.Pred.Value</p></th>
+<th class="text-align:right head"><p>Precision</p></th>
+<th class="text-align:right head"><p>Recall</p></th>
+<th class="text-align:right head"><p>F1</p></th>
+<th class="text-align:right head"><p>Prevalence</p></th>
+<th class="text-align:right head"><p>Detection.Rate</p></th>
+<th class="text-align:right head"><p>Detection.Prevalence</p></th>
+<th class="text-align:right head"><p>Balanced.Accuracy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Class: 1</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9960759</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9883193</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0116354</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0038785</p></td>
+<td class="text-align:right"><p>0.4980379</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 2</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9986945</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9902913</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0096962</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.4993473</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 3</p></td>
+<td class="text-align:right"><p>0.0476190</p></td>
+<td class="text-align:right"><p>0.9940199</p></td>
+<td class="text-align:right"><p>0.1818182</p></td>
+<td class="text-align:right"><p>0.9739583</p></td>
+<td class="text-align:right"><p>0.1818182</p></td>
+<td class="text-align:right"><p>0.0476190</p></td>
+<td class="text-align:right"><p>0.0754717</p></td>
+<td class="text-align:right"><p>0.0271493</p></td>
+<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.0071105</p></td>
+<td class="text-align:right"><p>0.5208195</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 4</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9953177</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9662338</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0336134</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0045249</p></td>
+<td class="text-align:right"><p>0.4976589</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 5</p></td>
+<td class="text-align:right"><p>0.1410256</p></td>
+<td class="text-align:right"><p>0.9680054</p></td>
+<td class="text-align:right"><p>0.1896552</p></td>
+<td class="text-align:right"><p>0.9550034</p></td>
+<td class="text-align:right"><p>0.1896552</p></td>
+<td class="text-align:right"><p>0.1410256</p></td>
+<td class="text-align:right"><p>0.1617647</p></td>
+<td class="text-align:right"><p>0.0504202</p></td>
+<td class="text-align:right"><p>0.0071105</p></td>
+<td class="text-align:right"><p>0.0374919</p></td>
+<td class="text-align:right"><p>0.5545155</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 6</p></td>
+<td class="text-align:right"><p>0.3136095</p></td>
+<td class="text-align:right"><p>0.8664731</p></td>
+<td class="text-align:right"><p>0.2236287</p></td>
+<td class="text-align:right"><p>0.9114504</p></td>
+<td class="text-align:right"><p>0.2236287</p></td>
+<td class="text-align:right"><p>0.3136095</p></td>
+<td class="text-align:right"><p>0.2610837</p></td>
+<td class="text-align:right"><p>0.1092437</p></td>
+<td class="text-align:right"><p>0.0342599</p></td>
+<td class="text-align:right"><p>0.1531997</p></td>
+<td class="text-align:right"><p>0.5900413</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 7</p></td>
+<td class="text-align:right"><p>0.1931034</p></td>
+<td class="text-align:right"><p>0.9486448</p></td>
+<td class="text-align:right"><p>0.2800000</p></td>
+<td class="text-align:right"><p>0.9191431</p></td>
+<td class="text-align:right"><p>0.2800000</p></td>
+<td class="text-align:right"><p>0.1931034</p></td>
+<td class="text-align:right"><p>0.2285714</p></td>
+<td class="text-align:right"><p>0.0937298</p></td>
+<td class="text-align:right"><p>0.0180995</p></td>
+<td class="text-align:right"><p>0.0646412</p></td>
+<td class="text-align:right"><p>0.5708741</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 8</p></td>
+<td class="text-align:right"><p>0.1552795</p></td>
+<td class="text-align:right"><p>0.9689755</p></td>
+<td class="text-align:right"><p>0.3676471</p></td>
+<td class="text-align:right"><p>0.9080460</p></td>
+<td class="text-align:right"><p>0.3676471</p></td>
+<td class="text-align:right"><p>0.1552795</p></td>
+<td class="text-align:right"><p>0.2183406</p></td>
+<td class="text-align:right"><p>0.1040724</p></td>
+<td class="text-align:right"><p>0.0161603</p></td>
+<td class="text-align:right"><p>0.0439560</p></td>
+<td class="text-align:right"><p>0.5621275</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 9</p></td>
+<td class="text-align:right"><p>0.6489362</p></td>
+<td class="text-align:right"><p>0.7034584</p></td>
+<td class="text-align:right"><p>0.2323810</p></td>
+<td class="text-align:right"><p>0.9354207</p></td>
+<td class="text-align:right"><p>0.2323810</p></td>
+<td class="text-align:right"><p>0.6489362</p></td>
+<td class="text-align:right"><p>0.3422160</p></td>
+<td class="text-align:right"><p>0.1215255</p></td>
+<td class="text-align:right"><p>0.0788623</p></td>
+<td class="text-align:right"><p>0.3393665</p></td>
+<td class="text-align:right"><p>0.6761973</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 10</p></td>
+<td class="text-align:right"><p>0.0625000</p></td>
+<td class="text-align:right"><p>0.9914469</p></td>
+<td class="text-align:right"><p>0.4285714</p></td>
+<td class="text-align:right"><p>0.9115334</p></td>
+<td class="text-align:right"><p>0.4285714</p></td>
+<td class="text-align:right"><p>0.0625000</p></td>
+<td class="text-align:right"><p>0.1090909</p></td>
+<td class="text-align:right"><p>0.0930834</p></td>
+<td class="text-align:right"><p>0.0058177</p></td>
+<td class="text-align:right"><p>0.0135747</p></td>
+<td class="text-align:right"><p>0.5269734</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 11</p></td>
+<td class="text-align:right"><p>0.4181818</p></td>
+<td class="text-align:right"><p>0.9102296</p></td>
+<td class="text-align:right"><p>0.2628571</p></td>
+<td class="text-align:right"><p>0.9533528</p></td>
+<td class="text-align:right"><p>0.2628571</p></td>
+<td class="text-align:right"><p>0.4181818</p></td>
+<td class="text-align:right"><p>0.3228070</p></td>
+<td class="text-align:right"><p>0.0711054</p></td>
+<td class="text-align:right"><p>0.0297350</p></td>
+<td class="text-align:right"><p>0.1131222</p></td>
+<td class="text-align:right"><p>0.6642057</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 12</p></td>
+<td class="text-align:right"><p>0.0470588</p></td>
+<td class="text-align:right"><p>0.9774282</p></td>
+<td class="text-align:right"><p>0.1081081</p></td>
+<td class="text-align:right"><p>0.9463576</p></td>
+<td class="text-align:right"><p>0.1081081</p></td>
+<td class="text-align:right"><p>0.0470588</p></td>
+<td class="text-align:right"><p>0.0655738</p></td>
+<td class="text-align:right"><p>0.0549451</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0239173</p></td>
+<td class="text-align:right"><p>0.5122435</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 13</p></td>
+<td class="text-align:right"><p>0.1978022</p></td>
+<td class="text-align:right"><p>0.9546703</p></td>
+<td class="text-align:right"><p>0.2142857</p></td>
+<td class="text-align:right"><p>0.9501025</p></td>
+<td class="text-align:right"><p>0.2142857</p></td>
+<td class="text-align:right"><p>0.1978022</p></td>
+<td class="text-align:right"><p>0.2057143</p></td>
+<td class="text-align:right"><p>0.0588235</p></td>
+<td class="text-align:right"><p>0.0116354</p></td>
+<td class="text-align:right"><p>0.0542986</p></td>
+<td class="text-align:right"><p>0.5762363</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 14</p></td>
+<td class="text-align:right"><p>0.2954545</p></td>
+<td class="text-align:right"><p>0.9307745</p></td>
+<td class="text-align:right"><p>0.2047244</p></td>
+<td class="text-align:right"><p>0.9563380</p></td>
+<td class="text-align:right"><p>0.2047244</p></td>
+<td class="text-align:right"><p>0.2954545</p></td>
+<td class="text-align:right"><p>0.2418605</p></td>
+<td class="text-align:right"><p>0.0568843</p></td>
+<td class="text-align:right"><p>0.0168067</p></td>
+<td class="text-align:right"><p>0.0820944</p></td>
+<td class="text-align:right"><p>0.6131145</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 15</p></td>
+<td class="text-align:right"><p>0.1764706</p></td>
+<td class="text-align:right"><p>0.9652406</p></td>
+<td class="text-align:right"><p>0.1475410</p></td>
+<td class="text-align:right"><p>0.9717362</p></td>
+<td class="text-align:right"><p>0.1475410</p></td>
+<td class="text-align:right"><p>0.1764706</p></td>
+<td class="text-align:right"><p>0.1607143</p></td>
+<td class="text-align:right"><p>0.0329670</p></td>
+<td class="text-align:right"><p>0.0058177</p></td>
+<td class="text-align:right"><p>0.0394312</p></td>
+<td class="text-align:right"><p>0.5708556</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 16</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9966689</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9701686</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0297350</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0032321</p></td>
+<td class="text-align:right"><p>0.4983344</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 17</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9993364</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9741268</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0258565</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
+<td class="text-align:right"><p>0.4996682</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 18</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.9908616</p></td>
+<td class="text-align:right"><p>0.2222222</p></td>
+<td class="text-align:right"><p>0.9928058</p></td>
+<td class="text-align:right"><p>0.2222222</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.2424242</p></td>
+<td class="text-align:right"><p>0.0096962</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0116354</p></td>
+<td class="text-align:right"><p>0.6287641</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 19</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9987063</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9993528</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.4993532</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 20</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9987038</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9974110</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.4993519</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 21</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>1.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.9974144</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
+</tr>
+</tbody>
+</table>
 <p>The model has a very low accuracy but is still better than the random
 guess. For this case Positive Predictive Value is more important, since
 false positives will be highly detrimental for the company and more

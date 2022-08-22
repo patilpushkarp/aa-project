@@ -507,6 +507,12 @@ title="Print to PDF"
 ## Loading required package: lattice
 </pre></div>
 </div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">knitr</span><span class="p">)</span>
+
+<span class="c1"># Load helpers</span>
+<span class="nf">source</span><span class="p">(</span><span class="s">&quot;./../helpers/helper.R&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
 <section id="import-data">
 <h2>Import Data<a class="headerlink" href="#import-data" title="Permalink to this headline">#</a></h2>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read training and testing data</span>
@@ -517,7 +523,8 @@ title="Print to PDF"
 </section>
 <section id="model-training">
 <h2>Model Training<a class="headerlink" href="#model-training" title="Permalink to this headline">#</a></h2>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">gbm.model</span> <span class="o">=</span> <span class="nf">gbm</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Rating</span><span class="p">)</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">,</span> <span class="n">distribution</span> <span class="o">=</span> <span class="s">&quot;multinomial&quot;</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Train the model</span>
+<span class="n">gbm.model</span> <span class="o">=</span> <span class="nf">gbm</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">Rating</span><span class="p">)</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">,</span> <span class="n">distribution</span> <span class="o">=</span> <span class="s">&quot;multinomial&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning: Setting `distribution = &quot;multinomial&quot;` is ill-advised as it is
@@ -535,15 +542,18 @@ title="Print to PDF"
 ## There were 31 predictors of which 30 had non-zero influence.
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">gbm.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict the samples from test data using the model</span>
+<span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">gbm.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Using 100 trees...
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">final.result</span> <span class="o">=</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">result</span><span class="p">)[</span><span class="nf">apply</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">which.max</span><span class="p">)]</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Find the classes from the prediction probabilities</span>
+<span class="n">final.result</span> <span class="o">=</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">result</span><span class="p">)[</span><span class="nf">apply</span><span class="p">(</span><span class="n">result</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">which.max</span><span class="p">)]</span>
 
-<span class="nf">confusionMatrix</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">final.result</span><span class="p">),</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">Rating</span><span class="p">))</span>
+<span class="c1"># Print the Confusion matrix</span>
+<span class="n">confusion.matrix</span> <span class="o">&lt;-</span> <span class="nf">confusionMatrix</span><span class="p">(</span><span class="nf">as.factor</span><span class="p">(</span><span class="n">final.result</span><span class="p">),</span> <span class="nf">as.factor</span><span class="p">(</span><span class="n">test</span><span class="o">$</span><span class="n">Rating</span><span class="p">))</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in levels(reference) != levels(data): longer object length is not a
@@ -552,82 +562,346 @@ title="Print to PDF"
 ## Warning in confusionMatrix.default(as.factor(final.result),
 ## as.factor(test$Rating)): Levels are not in the same order for reference and
 ## data. Refactoring data to match.
-
-## Confusion Matrix and Statistics
-## 
-##           Reference
-## Prediction  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21
-##         1   8  0  0  0  0  3  3  0  0  2  0  0  0  0  0  0  0  0  0  0  0
-##         2   1  7  0  0  0  1  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-##         3   0  0  5  1  6  1  0  1  0  1  0  0  0  0  0  0  0  0  0  0  0
-##         4   0  4  1 14  7  0  3  2  1  0  0  0  0  0  0  1  0  0  0  0  0
-##         5   0  1 11 15 32  9 18 10  4  2  0  0  0  0  0  0  0  0  0  0  0
-##         6   2  0  7  6 16 53 21 30 17 19  0  0  0  0  0  0  0  0  0  0  0
-##         7   1  0  1  9 22 30 32 28  7 10  0  0  0  0  0  0  0  0  0  0  0
-##         8   2  3  2  0  3 22 27 46 27 14  0  0  0  0  0  0  0  0  0  0  0
-##         9   2  2  4  2 12 44 24 50 91 52  0  0  0  0  0  0  0  0  0  0  0
-##         10  0  0  0  1  1 12  5 12 23 43  0  0  0  0  0  0  0  0  0  0  0
-##         11  0  0  0  0  0  0  0  0  0  0 62 36 18 25 11  7  3  6  0  0  1
-##         12  0  0  0  0  0  0  0  0  0  0 20 27 20 13  7 10  5  1  0  2  0
-##         13  0  0  0  0  0  0  0  0  0  0 14 15 19 14 11 10  3  0  0  0  0
-##         14  0  0  0  0  0  0  0  0  0  0 11  2 12 26 11  7  2  0  0  0  0
-##         15  0  0  0  0  0  0  0  0  0  0  2  2  2  4 13  4  6  1  1  0  0
-##         16  0  0  0  0  0  0  0  0  0  0  2  3  8  9 10 17  4  2  0  0  1
-##         17  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  1  2  0  0  1  0
-##         18  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  1  4  1  0  0  0
-##         19  0  0  0  0  0  0  0  0  0  0  0  0  0  0  1  0  0  0  0  0  0
-##         20  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-##         21  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
-## 
-## Overall Statistics
-##                                           
-##                Accuracy : 0.3219          
-##                  95% CI : (0.2987, 0.3458)
-##     No Information Rate : 0.1157          
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
-##                                           
-##                   Kappa : 0.2614          
-##                                           
-##  Mcnemar&#39;s Test P-Value : NA              
-## 
-## Statistics by Class:
-## 
-##                      Class: 1 Class: 2 Class: 3 Class: 4 Class: 5 Class: 6
-## Sensitivity          0.500000 0.411765 0.161290  0.29167  0.32323  0.30286
-## Specificity          0.994775 0.998693 0.993404  0.98732  0.95166  0.91399
-## Pos Pred Value       0.500000 0.777778 0.333333  0.42424  0.31373  0.30994
-## Neg Pred Value       0.994775 0.993498 0.983029  0.97754  0.95363  0.91134
-## Prevalence           0.010343 0.010989 0.020039  0.03103  0.06399  0.11312
-## Detection Rate       0.005171 0.004525 0.003232  0.00905  0.02069  0.03426
-## Detection Prevalence 0.010343 0.005818 0.009696  0.02133  0.06593  0.11054
-## Balanced Accuracy    0.747387 0.705229 0.577347  0.63950  0.63744  0.60843
-##                      Class: 7 Class: 8 Class: 9 Class: 10 Class: 11 Class: 12
-## Sensitivity           0.24060  0.25698  0.53529   0.30070   0.55856   0.31765
-## Specificity           0.92362  0.92690  0.86057   0.96154   0.92549   0.94665
-## Pos Pred Value        0.22857  0.31507  0.32155   0.44330   0.36686   0.25714
-## Neg Pred Value        0.92822  0.90507  0.93750   0.93103   0.96444   0.95978
-## Prevalence            0.08597  0.11571  0.10989   0.09244   0.07175   0.05495
-## Detection Rate        0.02069  0.02973  0.05882   0.02780   0.04008   0.01745
-## Detection Prevalence  0.09050  0.09438  0.18293   0.06270   0.10924   0.06787
-## Balanced Accuracy     0.58211  0.59194  0.69793   0.63112   0.74202   0.63215
-##                      Class: 13 Class: 14 Class: 15 Class: 16 Class: 17
-## Sensitivity            0.24051   0.28261  0.200000   0.29310  0.068966
-## Specificity            0.95436   0.96907  0.985155   0.97381  0.998024
-## Pos Pred Value         0.22093   0.36620  0.371429   0.30357  0.400000
-## Neg Pred Value         0.95893   0.95528  0.965608   0.97250  0.982490
-## Prevalence             0.05107   0.05947  0.042017   0.03749  0.018746
-## Detection Rate         0.01228   0.01681  0.008403   0.01099  0.001293
-## Detection Prevalence   0.05559   0.04590  0.022624   0.03620  0.003232
-## Balanced Accuracy      0.59743   0.62584  0.592578   0.63346  0.533495
-##                      Class: 18 Class: 19 Class: 20 Class: 21
-## Sensitivity          0.0909091 0.0000000  0.000000  0.000000
-## Specificity          0.9960938 0.9993532  1.000000  1.000000
-## Pos Pred Value       0.1428571 0.0000000       NaN       NaN
-## Neg Pred Value       0.9935065 0.9993532  0.998061  0.998707
-## Prevalence           0.0071105 0.0006464  0.001939  0.001293
-## Detection Rate       0.0006464 0.0000000  0.000000  0.000000
-## Detection Prevalence 0.0045249 0.0006464  0.000000  0.000000
-## Balanced Accuracy    0.5435014 0.4996766  0.500000  0.500000
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot.custom.confusion.matrix</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">table</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-4-12.png" /><!-- --></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the accuracy stats of the model</span>
+<span class="nf">kable</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:right head"><p>confusion.matrix.overall</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Accuracy</p></td>
+<td class="text-align:right"><p>0.3089851</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Kappa</p></td>
+<td class="text-align:right"><p>0.2462804</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>AccuracyLower</p></td>
+<td class="text-align:right"><p>0.2860167</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>AccuracyUpper</p></td>
+<td class="text-align:right"><p>0.3326809</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>AccuracyNull</p></td>
+<td class="text-align:right"><p>0.1215255</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>AccuracyPValue</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>McnemarPValue</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print validation stats of the model</span>
+<span class="nf">kable</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">))</span>
+</pre></div>
+</div>
+<table class="colwidths-auto table">
+<thead>
+<tr class="row-odd"><th class="text-align:left head"><p></p></th>
+<th class="text-align:right head"><p>Sensitivity</p></th>
+<th class="text-align:right head"><p>Specificity</p></th>
+<th class="text-align:right head"><p>Pos.Pred.Value</p></th>
+<th class="text-align:right head"><p>Neg.Pred.Value</p></th>
+<th class="text-align:right head"><p>Precision</p></th>
+<th class="text-align:right head"><p>Recall</p></th>
+<th class="text-align:right head"><p>F1</p></th>
+<th class="text-align:right head"><p>Prevalence</p></th>
+<th class="text-align:right head"><p>Detection.Rate</p></th>
+<th class="text-align:right head"><p>Detection.Prevalence</p></th>
+<th class="text-align:right head"><p>Balanced.Accuracy</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-align:left"><p>Class: 1</p></td>
+<td class="text-align:right"><p>0.2222222</p></td>
+<td class="text-align:right"><p>0.9947678</p></td>
+<td class="text-align:right"><p>0.3333333</p></td>
+<td class="text-align:right"><p>0.9908795</p></td>
+<td class="text-align:right"><p>0.3333333</p></td>
+<td class="text-align:right"><p>0.2222222</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.0116354</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0077569</p></td>
+<td class="text-align:right"><p>0.6084950</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 2</p></td>
+<td class="text-align:right"><p>0.6000000</p></td>
+<td class="text-align:right"><p>0.9980418</p></td>
+<td class="text-align:right"><p>0.7500000</p></td>
+<td class="text-align:right"><p>0.9960912</p></td>
+<td class="text-align:right"><p>0.7500000</p></td>
+<td class="text-align:right"><p>0.6000000</p></td>
+<td class="text-align:right"><p>0.6666667</p></td>
+<td class="text-align:right"><p>0.0096962</p></td>
+<td class="text-align:right"><p>0.0058177</p></td>
+<td class="text-align:right"><p>0.0077569</p></td>
+<td class="text-align:right"><p>0.7990209</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 3</p></td>
+<td class="text-align:right"><p>0.0238095</p></td>
+<td class="text-align:right"><p>0.9933555</p></td>
+<td class="text-align:right"><p>0.0909091</p></td>
+<td class="text-align:right"><p>0.9733073</p></td>
+<td class="text-align:right"><p>0.0909091</p></td>
+<td class="text-align:right"><p>0.0238095</p></td>
+<td class="text-align:right"><p>0.0377358</p></td>
+<td class="text-align:right"><p>0.0271493</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
+<td class="text-align:right"><p>0.0071105</p></td>
+<td class="text-align:right"><p>0.5085825</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 4</p></td>
+<td class="text-align:right"><p>0.0769231</p></td>
+<td class="text-align:right"><p>0.9926421</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.9686684</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.0769231</p></td>
+<td class="text-align:right"><p>0.1194030</p></td>
+<td class="text-align:right"><p>0.0336134</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0096962</p></td>
+<td class="text-align:right"><p>0.5347826</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 5</p></td>
+<td class="text-align:right"><p>0.4230769</p></td>
+<td class="text-align:right"><p>0.9503063</p></td>
+<td class="text-align:right"><p>0.3113208</p></td>
+<td class="text-align:right"><p>0.9687717</p></td>
+<td class="text-align:right"><p>0.3113208</p></td>
+<td class="text-align:right"><p>0.4230769</p></td>
+<td class="text-align:right"><p>0.3586957</p></td>
+<td class="text-align:right"><p>0.0504202</p></td>
+<td class="text-align:right"><p>0.0213316</p></td>
+<td class="text-align:right"><p>0.0685197</p></td>
+<td class="text-align:right"><p>0.6866916</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 6</p></td>
+<td class="text-align:right"><p>0.3372781</p></td>
+<td class="text-align:right"><p>0.9005806</p></td>
+<td class="text-align:right"><p>0.2938144</p></td>
+<td class="text-align:right"><p>0.9172210</p></td>
+<td class="text-align:right"><p>0.2938144</p></td>
+<td class="text-align:right"><p>0.3372781</p></td>
+<td class="text-align:right"><p>0.3140496</p></td>
+<td class="text-align:right"><p>0.1092437</p></td>
+<td class="text-align:right"><p>0.0368455</p></td>
+<td class="text-align:right"><p>0.1254040</p></td>
+<td class="text-align:right"><p>0.6189293</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 7</p></td>
+<td class="text-align:right"><p>0.2413793</p></td>
+<td class="text-align:right"><p>0.9493581</p></td>
+<td class="text-align:right"><p>0.3301887</p></td>
+<td class="text-align:right"><p>0.9236641</p></td>
+<td class="text-align:right"><p>0.3301887</p></td>
+<td class="text-align:right"><p>0.2413793</p></td>
+<td class="text-align:right"><p>0.2788845</p></td>
+<td class="text-align:right"><p>0.0937298</p></td>
+<td class="text-align:right"><p>0.0226244</p></td>
+<td class="text-align:right"><p>0.0685197</p></td>
+<td class="text-align:right"><p>0.5953687</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 8</p></td>
+<td class="text-align:right"><p>0.3043478</p></td>
+<td class="text-align:right"><p>0.9033189</p></td>
+<td class="text-align:right"><p>0.2677596</p></td>
+<td class="text-align:right"><p>0.9178886</p></td>
+<td class="text-align:right"><p>0.2677596</p></td>
+<td class="text-align:right"><p>0.3043478</p></td>
+<td class="text-align:right"><p>0.2848837</p></td>
+<td class="text-align:right"><p>0.1040724</p></td>
+<td class="text-align:right"><p>0.0316742</p></td>
+<td class="text-align:right"><p>0.1182935</p></td>
+<td class="text-align:right"><p>0.6038334</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 9</p></td>
+<td class="text-align:right"><p>0.4095745</p></td>
+<td class="text-align:right"><p>0.8668138</p></td>
+<td class="text-align:right"><p>0.2984496</p></td>
+<td class="text-align:right"><p>0.9138867</p></td>
+<td class="text-align:right"><p>0.2984496</p></td>
+<td class="text-align:right"><p>0.4095745</p></td>
+<td class="text-align:right"><p>0.3452915</p></td>
+<td class="text-align:right"><p>0.1215255</p></td>
+<td class="text-align:right"><p>0.0497738</p></td>
+<td class="text-align:right"><p>0.1667744</p></td>
+<td class="text-align:right"><p>0.6381942</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 10</p></td>
+<td class="text-align:right"><p>0.2847222</p></td>
+<td class="text-align:right"><p>0.9465431</p></td>
+<td class="text-align:right"><p>0.3534483</p></td>
+<td class="text-align:right"><p>0.9280224</p></td>
+<td class="text-align:right"><p>0.3534483</p></td>
+<td class="text-align:right"><p>0.2847222</p></td>
+<td class="text-align:right"><p>0.3153846</p></td>
+<td class="text-align:right"><p>0.0930834</p></td>
+<td class="text-align:right"><p>0.0265029</p></td>
+<td class="text-align:right"><p>0.0749838</p></td>
+<td class="text-align:right"><p>0.6156327</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 11</p></td>
+<td class="text-align:right"><p>0.7090909</p></td>
+<td class="text-align:right"><p>0.9227557</p></td>
+<td class="text-align:right"><p>0.4126984</p></td>
+<td class="text-align:right"><p>0.9764359</p></td>
+<td class="text-align:right"><p>0.4126984</p></td>
+<td class="text-align:right"><p>0.7090909</p></td>
+<td class="text-align:right"><p>0.5217391</p></td>
+<td class="text-align:right"><p>0.0711054</p></td>
+<td class="text-align:right"><p>0.0504202</p></td>
+<td class="text-align:right"><p>0.1221719</p></td>
+<td class="text-align:right"><p>0.8159233</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 12</p></td>
+<td class="text-align:right"><p>0.3058824</p></td>
+<td class="text-align:right"><p>0.9377565</p></td>
+<td class="text-align:right"><p>0.2222222</p></td>
+<td class="text-align:right"><p>0.9587413</p></td>
+<td class="text-align:right"><p>0.2222222</p></td>
+<td class="text-align:right"><p>0.3058824</p></td>
+<td class="text-align:right"><p>0.2574257</p></td>
+<td class="text-align:right"><p>0.0549451</p></td>
+<td class="text-align:right"><p>0.0168067</p></td>
+<td class="text-align:right"><p>0.0756303</p></td>
+<td class="text-align:right"><p>0.6218194</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 13</p></td>
+<td class="text-align:right"><p>0.2417582</p></td>
+<td class="text-align:right"><p>0.9759615</p></td>
+<td class="text-align:right"><p>0.3859649</p></td>
+<td class="text-align:right"><p>0.9536913</p></td>
+<td class="text-align:right"><p>0.3859649</p></td>
+<td class="text-align:right"><p>0.2417582</p></td>
+<td class="text-align:right"><p>0.2972973</p></td>
+<td class="text-align:right"><p>0.0588235</p></td>
+<td class="text-align:right"><p>0.0142211</p></td>
+<td class="text-align:right"><p>0.0368455</p></td>
+<td class="text-align:right"><p>0.6088599</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 14</p></td>
+<td class="text-align:right"><p>0.2613636</p></td>
+<td class="text-align:right"><p>0.9705278</p></td>
+<td class="text-align:right"><p>0.3484848</p></td>
+<td class="text-align:right"><p>0.9561107</p></td>
+<td class="text-align:right"><p>0.3484848</p></td>
+<td class="text-align:right"><p>0.2613636</p></td>
+<td class="text-align:right"><p>0.2987013</p></td>
+<td class="text-align:right"><p>0.0568843</p></td>
+<td class="text-align:right"><p>0.0148675</p></td>
+<td class="text-align:right"><p>0.0426632</p></td>
+<td class="text-align:right"><p>0.6159457</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 15</p></td>
+<td class="text-align:right"><p>0.1568627</p></td>
+<td class="text-align:right"><p>0.9779412</p></td>
+<td class="text-align:right"><p>0.1951220</p></td>
+<td class="text-align:right"><p>0.9714475</p></td>
+<td class="text-align:right"><p>0.1951220</p></td>
+<td class="text-align:right"><p>0.1568627</p></td>
+<td class="text-align:right"><p>0.1739130</p></td>
+<td class="text-align:right"><p>0.0329670</p></td>
+<td class="text-align:right"><p>0.0051713</p></td>
+<td class="text-align:right"><p>0.0265029</p></td>
+<td class="text-align:right"><p>0.5674020</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 16</p></td>
+<td class="text-align:right"><p>0.1521739</p></td>
+<td class="text-align:right"><p>0.9713524</p></td>
+<td class="text-align:right"><p>0.1400000</p></td>
+<td class="text-align:right"><p>0.9739479</p></td>
+<td class="text-align:right"><p>0.1400000</p></td>
+<td class="text-align:right"><p>0.1521739</p></td>
+<td class="text-align:right"><p>0.1458333</p></td>
+<td class="text-align:right"><p>0.0297350</p></td>
+<td class="text-align:right"><p>0.0045249</p></td>
+<td class="text-align:right"><p>0.0323206</p></td>
+<td class="text-align:right"><p>0.5617632</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 17</p></td>
+<td class="text-align:right"><p>0.0250000</p></td>
+<td class="text-align:right"><p>0.9993364</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
+<td class="text-align:right"><p>0.9747573</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
+<td class="text-align:right"><p>0.0250000</p></td>
+<td class="text-align:right"><p>0.0476190</p></td>
+<td class="text-align:right"><p>0.0258565</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
+<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.5121682</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 18</p></td>
+<td class="text-align:right"><p>0.2000000</p></td>
+<td class="text-align:right"><p>0.9947781</p></td>
+<td class="text-align:right"><p>0.2727273</p></td>
+<td class="text-align:right"><p>0.9921875</p></td>
+<td class="text-align:right"><p>0.2727273</p></td>
+<td class="text-align:right"><p>0.2000000</p></td>
+<td class="text-align:right"><p>0.2307692</p></td>
+<td class="text-align:right"><p>0.0096962</p></td>
+<td class="text-align:right"><p>0.0019392</p></td>
+<td class="text-align:right"><p>0.0071105</p></td>
+<td class="text-align:right"><p>0.5973890</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 19</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9993532</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.9993532</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
+<td class="text-align:right"><p>0.4996766</p></td>
+</tr>
+<tr class="row-odd"><td class="text-align:left"><p>Class: 20</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>1.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.9974144</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
+</tr>
+<tr class="row-even"><td class="text-align:left"><p>Class: 21</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>1.0000000</p></td>
+<td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.9974144</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
+<span class="n">algorithm</span> <span class="o">&lt;-</span> <span class="s">&quot;Gradient.Boosting&quot;</span>
+<span class="nf">save.class.acc.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
+<span class="nf">save.class.pvv.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
