@@ -115,6 +115,11 @@ exclusion <- as.numeric(unlist(exclusion))
 new.df[exclusion,]
 ```
 
+```{r}
+# Number of outliers found in the dataset
+length(exclusion)
+```
+
 The outlier detection algorithm has detected 1 outlier which can be removed from the dataset.
 
 ```{r}

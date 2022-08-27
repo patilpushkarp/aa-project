@@ -17,7 +17,28 @@ Every algorithm has its own pros and cons depending upon the underlying assumpti
 ```{r}
 # Read the results
 df <- read.csv("./../data/regression_data/output/result.csv")
+
+df$MSE <- (df$RMSE)^2
+
 kable(df)
+```
+
+```{r}
+rmse.df<- df[order(df$RMSE, decreasing = TRUE),]
+par(mar=c(3,12,3,0))
+acc.barplot <- barplot(rmse.df$RMSE, names.arg = rmse.df$Algorithm, las=2, col="darkgreen", horiz = TRUE, main="RMSE Values by Algorithms")
+```
+
+```{r}
+mae.df<- df[order(df$MAE, decreasing = TRUE),]
+par(mar=c(3,12,3,0))
+mae.barplot <- barplot(mae.df$MAE, names.arg = mae.df$Algorithm, las=2, col="darkblue", horiz = TRUE, main="MAE Values by Algorithms")
+```
+
+```{r}
+mse.df<- df[order(df$MSE, decreasing = TRUE),]
+par(mar=c(3,12,3,0))
+mse.barplot <- barplot(mse.df$MSE, names.arg = mse.df$Algorithm, las=2, col="orange", horiz = TRUE, main="MSE Values by Algorithms")
 ```
 
 For this case, Random Forest algorithm has given the best performance.

@@ -76,10 +76,16 @@ head(df)
     ## 5  0.000000 0.01604046   €14K - €150K  82000
     ## 6 25.000000 0.01362319   €35K - €350K 192500
 
+``` r
+dim(df)
+```
+
+    ## [1] 1122   45
+
 ## Features Analysis
 
 ``` r
-colnames(df)
+names(df)
 ```
 
     ##  [1] "X"                "Name"             "Apps"             "Mins"            
@@ -107,11 +113,13 @@ column_types
     ## 2 character     3  6.67 <chr [3]>   
     ## 3 integer       3  6.67 <chr [3]>
 
+11, 15, 16, 17, 20, 25, 27, 35
+
 ``` r
 column_types %>% show_plot()
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 The column *X* is just an index number and hence it can be removed since
 it will provide to information to the models. Moreover, the column
@@ -138,7 +146,7 @@ introduce(df)
 plot_intro(df)
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 There are no missing values in the dataset. The dataset is mostly
 composed of numbers rather than categories and hence the amount of
@@ -163,11 +171,23 @@ inspect_imb(df) %>% show_plot()
     ## Warning: `guides(<scale> = FALSE)` is deprecated. Please use `guides(<scale> =
     ## "none")` instead.
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 The percentage of dominant class is low in all the 3 categorical columns
 and hence no preprocessing related to sampling will be required for
 modelling the data.
+
+``` r
+length(unique(df$Name))
+```
+
+    ## [1] 1103
+
+``` r
+length(unique(df$Based))
+```
+
+    ## [1] 82
 
 ## Univariate Analysis
 
@@ -302,7 +322,36 @@ There are 17 locations which are represented by 1 player only.
 plot_histogram(df)
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-14-2.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-14-3.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->
+
+``` r
+plot_histogram(df[,c(3, 4, 10, 21, 23, 24, 26, 36)])
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+perf.cols <- c(3, 4, 10, 21, 23, 24, 26, 36)
+for (i in perf.cols){
+  print(paste(names(df)[i], "->", mean(df[,i])))
+}
+```
+
+    ## [1] "Apps -> 15.1417112299465"
+    ## [1] "Mins -> 1316.80659536542"
+    ## [1] "Gls -> 0.735294117647059"
+    ## [1] "Distance -> 133.691176470588"
+    ## [1] "K.Tck -> 1.15418894830659"
+    ## [1] "Fls -> 14.3484848484848"
+    ## [1] "Clear -> 58.9162210338681"
+    ## [1] "Off -> 1.00445632798574"
+
+``` r
+?boxplot
+boxplot(df[,c(11, 15, 16, 17,  20,  25,  27)], horizontal = TRUE)
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
 
 There are few variables which have outliers in them but more clear
 picture will be given in multivariate by comparing with the target
@@ -328,7 +377,7 @@ will be better to remove such columns.
 plot_boxplot(df, by='CA')
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-16-4.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-22-2.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-22-3.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-22-4.png)<!-- -->
 
 Some prominent outliers are present in the following columns:
 
@@ -345,6 +394,36 @@ true outliers and there is a possibility of information loss by removing
 them. To mitigate this issue, it will be more appropriate to consider an
 observation as a whole to find the true outliers.
 
+``` r
+pairs(df[,c(18, 25, 26, 27, 30, 31, 32, 39)])
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+
+``` r
+hist(df$CA, main="Target Variable Distribution", col="darkgreen", xlab="Current Ability Score")
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+
+``` r
+print(max(df$Age))
+```
+
+    ## [1] 39
+
+``` r
+print(min(df$Age))
+```
+
+    ## [1] 18
+
+``` r
+hist(df$Age, main="Age distribution", col="darkblue", xlab="Age of Players")
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
+
 ## Correlation Analysis
 
 Correlation analysis can only be perform on numerical columns and hence
@@ -359,7 +438,7 @@ num.data <- df %>% dplyr::select(where(is.numeric))
 plot_correlation(num.data)
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-28-1.png)<!-- -->
 
 For the above heatmap, it can be observed that there exist some highly
 correlated features which are:

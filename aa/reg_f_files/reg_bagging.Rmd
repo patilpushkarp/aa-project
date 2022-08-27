@@ -39,6 +39,7 @@ bag.model <- bagging(CA~., data=train)
 ```
 
 ```{r}
+bag.model
 summary(bag.model)
 ```
 
@@ -49,14 +50,30 @@ summary(bag.model)
 result <- predict(bag.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
 ```{r}
-varImp(bag.model)
+# Plot feature importance
+varImp.df <- data.frame(varImp(bag.model))
+varImp.df$Overall <- varImp.df[order(varImp.df$Overall, decreasing = FALSE),]
+par(mar=c(15,3,3,0))
+barplot(varImp.df$Overall, names.arg=rownames(varImp.df), las=2, col="blue", main="Bagging: Feature Importances")
 ```
 
 ```{r}
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Regression with Bagging")
+```
+
+## Prediction with Unknown Data
+
+```{r}
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+dim(unk)
+
+# Predict using the built model
+prediction <- predict(bag.model, unk)
+prediction
 ```

@@ -10,6 +10,7 @@ output:
 Exploratory Data Analysis enables us to understand the dataset clearly. It also helps in cleaning the data which will further help us to maximize the output from the machine learning models.
 
 ```{r}
+library(caret)
 library(DataExplorer)
 library(dplyr)
 library(inspectdf)
@@ -96,7 +97,13 @@ plot_bar(df)
 ```
 
 ```{r}
-data.frame(table(df$Rating.Agency))
+ra.count <- data.frame(table(df$Rating.Agency))
+names(ra.count) <- c("Rating Agency", "Number of Companies")
+ra.count
+```
+
+```{r fig.height=4, fig.width=7}
+barplot(table(df$Rating.Agency), main="Distribution of observations for Rating Agency", col="darkred", ylab="Companies Covered", las=2)
 ```
 
 The number of companies rated by last three credit rating agencies are too few to be useful for analysis. It will be beneficial to remove them from the dataset. Thus, data for following credit rating agencies will be removed:
@@ -117,15 +124,37 @@ Data associated with these ratings will also be removed since, they are insuffic
 There are no categorical columns which have low variance and hence no data treatment is required for that consideration.
 
 ```{r}
+rating.table = table(df$Rating)
+rating.table <- rating.table[order(rating.table)]
+rating.barplot <- barplot(rating.table, main="Rating Distribution", ylab="Number of Companies", col="darkgreen", las=2)
+text(x=rating.barplot, y= rating.table+30, labels=as.character(rating.table))
+```
+
+```{r}
+sector.table = table(df$Sector)
+sector.table <- sector.table[order(sector.table)]
+barplot(sector.table, main="Sector Distribution", xlab="Number of Companies", col="darkblue", las=2, horiz = TRUE)
+```
+
+```{r}
 plot_histogram(df)
 ```
 
 Almost every numerical columns seems to have data points which can be considered as outliers. But it is not appropriate to alter those data points as they are crucial for modelling the data. More appropriate plot to identify the columns with extreme values is box plot (to be analyzed in the next section).
 
+```{r}
+colnames(df[,nearZeroVar(df)])
+```
+
 ## Multivariate Analysis
 
 ```{r fig.height=5, fig.width=7}
 plot_boxplot(df, by='Rating')
+```
+
+```{r}
+?boxplot
+boxplot(df[,c(10:25)], las=2)
 ```
 
 Some prominent outliers are present in the following columns:
@@ -151,6 +180,10 @@ num.data <- df %>% dplyr::select(where(is.numeric))
 
 ```{r fig.height=5, fig.width=7}
 plot_correlation(num.data)
+```
+
+```{r}
+pairs(df[,c(14, 15, 16, 17, 18, 20, 22)])
 ```
 
 It can be observed that *Operating Margin*, *EBIT Margin*, *EBITDA Margin*, *Pre Tax Profit Margin*, *Return on Assets* and *Net Profit Margin* are highly correlated with each other. Hence it will be better to remove correlated columns. Consider the threshold to be 0.7.

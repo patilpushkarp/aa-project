@@ -51,12 +51,12 @@ summary(dtree.model)
     ##   n= 898 
     ## 
     ##           CP nsplit rel error    xerror       xstd
-    ## 1 0.55145604      0 1.0000000 1.0021578 0.04530287
-    ## 2 0.13043591      1 0.4485440 0.4684318 0.02362153
-    ## 3 0.09055841      2 0.3181080 0.3404729 0.01846413
-    ## 4 0.02027054      3 0.2275496 0.2551980 0.01773648
-    ## 5 0.01588124      4 0.2072791 0.2379025 0.01760337
-    ## 6 0.01000000      5 0.1913979 0.2241354 0.01744964
+    ## 1 0.55145604      0 1.0000000 1.0019434 0.04521323
+    ## 2 0.13043591      1 0.4485440 0.4664212 0.02320373
+    ## 3 0.09055841      2 0.3181080 0.3346267 0.01820894
+    ## 4 0.02027054      3 0.2275496 0.2469729 0.01718494
+    ## 5 0.01588124      4 0.2072791 0.2305449 0.01704413
+    ## 6 0.01000000      5 0.1913979 0.2161809 0.01672047
     ## 
     ## Variable importance
     ##                Value Upper.Transfer.Value Lower.Transfer.Value 
@@ -171,49 +171,50 @@ summary(dtree.model)
 result <- predict(dtree.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
     ## RMSE:  10.0944462277776 
+    ##  MSE:  101.897844645493 
     ##  MAE:  7.98545835211613
 
 ``` r
-varImp(dtree.model)
+# Plot feature importance
+varImp.df <- data.frame(varImp(dtree.model))
+varImp.df$Overall <- varImp.df[order(varImp.df$Overall, decreasing = FALSE),]
+par(mar=c(15,3,3,0))
+barplot(varImp.df$Overall, names.arg=rownames(varImp.df), las=2, col="blue", main="Decision Tree: Feature Importances")
 ```
 
-    ##                         Overall
-    ## Aer.A.90             0.09036118
-    ## Apps                 0.29301855
-    ## Av.Rat               0.36237009
-    ## Distance             0.14978220
-    ## Lower.Transfer.Value 1.98849254
-    ## Mins                 0.21738264
-    ## Upper.Transfer.Value 2.07860813
-    ## Value                2.14356033
-    ## Mins.Gm              0.00000000
-    ## Height               0.00000000
-    ## Weight               0.00000000
-    ## Age                  0.00000000
-    ## Gls                  0.00000000
-    ## Gls.90               0.00000000
-    ## Shot..               0.00000000
-    ## xG                   0.00000000
-    ## Ch.C.90              0.00000000
-    ## Asts.90              0.00000000
-    ## K.Ps.90              0.00000000
-    ## Pas..                0.00000000
-    ## Cr.C.A               0.00000000
-    ## Drb.90               0.00000000
-    ## Hdr..                0.00000000
-    ## K.Tck                0.00000000
-    ## Fls                  0.00000000
-    ## PoM                  0.00000000
-    ## Off                  0.00000000
-    ## Tck.R                0.00000000
-    ## Gls.xG               0.00000000
-    ## Dist.Mins            0.00000000
+![](reg_decision_tree_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Decision Tree Regression")
 ```
+
+## Prediction with Unknown Data
+
+``` r
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+```
+
+    ## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+    ## incomplete final line found by readTableHeader on './../data/regression_data/
+    ## intermediates/unknown_data.csv'
+
+``` r
+dim(unk)
+```
+
+    ## [1]  1 30
+
+``` r
+# Predict using the built model
+prediction <- predict(dtree.model, unk)
+prediction
+```
+
+    ##        1 
+    ## 101.5414

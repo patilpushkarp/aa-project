@@ -28,6 +28,7 @@ test <- read.csv("./../data/classification_data/intermediates/test.csv")
 ## Model Training
 
 ```{r}
+k.acc <- list()
 ks <- c(3, 5, 9, 15, 23)
 initial_accuracy <- 0
 for (k in ks){
@@ -37,6 +38,7 @@ for (k in ks){
   sum(is.na(result))
   sum(is.na(test$Rating))
   accuracy <- mean(as.factor(result)==as.factor(test$Rating))
+  k.acc <- append(k.acc, accuracy)
   print(accuracy)
   if (initial_accuracy < accuracy){
     initial_accuracy <- accuracy
@@ -45,6 +47,11 @@ for (k in ks){
   print("\n")
 }
 print(chosen_k)
+```
+
+```{r}
+k.acc <- unlist(k.acc)
+plot(ks, k.acc, type="o", col="red", main="Accuracy for different values of K", xlab="Value of k", ylab="Accuracy of kNN model")
 ```
 
 ```{r}

@@ -35,6 +35,7 @@ The model is first trained on the training data and then evaluated on testing da
 
 ```{r}
 # Model training
+?knnreg
 knn.model <- knnreg(CA~., data=train)
 ```
 
@@ -49,10 +50,22 @@ summary(knn.model)
 result <- predict(knn.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
 ```{r}
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "kNN Regression")
+```
+
+## Prediction with Unknown Data
+
+```{r}
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+dim(unk)
+
+# Predict using the built model
+prediction <- predict(knn.model, unk)
+prediction
 ```

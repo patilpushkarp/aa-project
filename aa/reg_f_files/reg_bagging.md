@@ -43,6 +43,15 @@ bag.model <- bagging(CA~., data=train)
 ```
 
 ``` r
+bag.model
+```
+
+    ## 
+    ## Bagging regression trees with 25 bootstrap replications 
+    ## 
+    ## Call: bagging.data.frame(formula = CA ~ ., data = train)
+
+``` r
 summary(bag.model)
 ```
 
@@ -61,49 +70,49 @@ summary(bag.model)
 result <- predict(bag.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
-    ## RMSE:  9.22106263617327 
-    ##  MAE:  7.18860072900238
+    ## RMSE:  9.18473342013166 
+    ##  MSE:  84.3593279988834 
+    ##  MAE:  7.18753041501592
 
 ``` r
-varImp(bag.model)
+# Plot feature importance
+varImp.df <- data.frame(varImp(bag.model))
+varImp.df$Overall <- varImp.df[order(varImp.df$Overall, decreasing = FALSE),]
+par(mar=c(15,3,3,0))
+barplot(varImp.df$Overall, names.arg=rownames(varImp.df), las=2, col="blue", main="Bagging: Feature Importances")
 ```
 
-    ##                          Overall
-    ## Aer.A.90             0.088468230
-    ## Age                  0.056721189
-    ## Apps                 0.284581590
-    ## Asts.90              0.003167350
-    ## Av.Rat               0.507108418
-    ## Ch.C.90              0.009960341
-    ## Cr.C.A               0.000000000
-    ## Dist.Mins            0.111920828
-    ## Distance             0.215753224
-    ## Drb.90               0.000000000
-    ## Fls                  0.008273462
-    ## Gls                  0.000000000
-    ## Gls.90               0.000000000
-    ## Gls.xG               0.000000000
-    ## Hdr..                0.014897457
-    ## Height               0.008604565
-    ## K.Ps.90              0.048569780
-    ## K.Tck                0.017051828
-    ## Lower.Transfer.Value 2.258780958
-    ## Mins                 0.395633223
-    ## Mins.Gm              0.005865406
-    ## Off                  0.000000000
-    ## Pas..                0.019970066
-    ## PoM                  0.014902381
-    ## Shot..               0.000000000
-    ## Tck.R                0.031488562
-    ## Upper.Transfer.Value 2.338556295
-    ## Value                2.452467445
-    ## Weight               0.014293134
-    ## xG                   0.028432393
+![](reg_bagging_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Regression with Bagging")
 ```
+
+## Prediction with Unknown Data
+
+``` r
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+```
+
+    ## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+    ## incomplete final line found by readTableHeader on './../data/regression_data/
+    ## intermediates/unknown_data.csv'
+
+``` r
+dim(unk)
+```
+
+    ## [1]  1 30
+
+``` r
+# Predict using the built model
+prediction <- predict(bag.model, unk)
+prediction
+```
+
+    ## [1] 100.1481

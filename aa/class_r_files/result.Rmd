@@ -1,0 +1,57 @@
+---
+title: "Claasification Result"
+output:
+  md_document:
+    variant: gfm
+---
+
+# Classification Result
+
+```{r}
+# Load libraries
+library(knitr)
+```
+
+```{r}
+# Load the result data
+acc.df <- read.csv("./../data/classification_data/output/result_acc.csv")
+pvv.df <- read.csv("./../data/classification_data/output/result_pvv.csv")
+```
+
+```{r}
+# Print the accuracies
+kable(acc.df)
+```
+
+```{r}
+acc.df<- acc.df[order(acc.df$Accuracy, decreasing = TRUE),]
+par(mar=c(3,12,3,0))
+acc.barplot <- barplot(acc.df$Accuracy, names.arg = acc.df$Algorithm, las=2, col="red", horiz = TRUE, main="Accuracy Values by Algorithms")
+```
+
+```{r}
+kappa.df<- acc.df[order(acc.df$Kappa, decreasing = TRUE),]
+par(mar=c(3,12,3,0))
+acc.barplot <- barplot(kappa.df$Kappa, names.arg = kappa.df$Algorithm, las=2, col="darkgreen", horiz = TRUE, main="Kappa Values by Algorithms")
+```
+
+```{r}
+# Print the Positive Predicted Value
+kable(pvv.df)
+```
+
+```{r}
+# Macro average of Positive Predicted Value for various algorithms
+macro.avg.ppv <- data.frame(colMeans(pvv.df[sapply(pvv.df, is.numeric)]))
+names(macro.avg.ppv) <- c("Positive.Predicted.Value")
+macro.avg.ppv
+```
+
+```{r}
+macro.avg.ppv$Positive.Predicted.Value <- macro.avg.ppv[order(macro.avg.ppv$Positive.Predicted.Value, decreasing=TRUE),]
+par(mar=c(3,12,3,0))
+map.barplot <- barplot(macro.avg.ppv$Positive.Predicted.Value, names.arg = row.names(macro.avg.ppv), las=2, col="orange", horiz = TRUE, main="Postive Predicted Value by Algorithms")
+text(y = map.barplot, x = macro.avg.ppv$Positive.Predicted.Value, label = macro.avg.ppv$Positive.Predicted.Value, pos=2, cex=0.8)
+```
+
+Overall, bagging and random forest performed better than other algorithms to predict the credit ratings of the companies.

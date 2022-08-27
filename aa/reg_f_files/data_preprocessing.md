@@ -76,6 +76,11 @@ names(df)
 Following data preprocessing operations needs to be performed on the
 data:
 
+1.  Non-relevant columns will be removed which include *Based*, *Name*.
+2.  Highly Correlated features will be removed.
+3.  Some columns such as *transfer.value* needs special treatment.
+4.  Remove columns with near zero variance.
+
 ``` r
 ## Remove unnecessary columns
 remove.columns <- c("X", "Based", "Name")
@@ -173,6 +178,13 @@ for(i in 1: length(exclusion))
 ```
 
 ``` r
+# Get the number of outliers
+length(exclusion)
+```
+
+    ## [1] 1
+
+``` r
 # Save this new data to a file
-write.csv(df, "./../data/regression_data/intermediates/preprocessed_data_without_outliers.csv", row.names = FALSE)
+# write.csv(df, "./../data/regression_data/intermediates/preprocessed_data_without_outliers.csv", row.names = FALSE)
 ```

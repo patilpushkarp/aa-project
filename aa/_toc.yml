@@ -20,6 +20,7 @@ parts:
       - file: class_r_files/class_bagging.md
       - file: class_r_files/class_random_forest.md
       - file: class_r_files/class_gradient_boosting.md
+      - file: class_r_files/result.md
   - file: notebooks/Football Player Data Regression.ipynb
     sections:
     - file: reg_f_files/exploratory_data_analysis.md

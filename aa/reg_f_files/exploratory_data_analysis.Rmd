@@ -24,16 +24,22 @@ df <- read.csv("./../data/regression_data/input/player_data.csv")
 head(df)
 ```
 
+```{r}
+dim(df)
+```
+
 ## Features Analysis
 
 ```{r}
-colnames(df)
+names(df)
 ```
 
 ```{r}
 column_types <- inspect_types(df)
 column_types
 ```
+
+11, 15, 16, 17, 20, 25, 27, 35
 
 ```{r}
 column_types %>% show_plot()
@@ -67,6 +73,14 @@ inspect_imb(df) %>% show_plot()
 
 The percentage of dominant class is low in all the 3 categorical columns and hence no preprocessing related to sampling will be required for modelling the data.
 
+```{r}
+length(unique(df$Name))
+```
+
+```{r}
+length(unique(df$Based))
+```
+
 ## Univariate Analysis
 
 ### Categorical Variables
@@ -88,6 +102,22 @@ There are 17 locations which are represented by 1 player only.
 
 ```{r}
 plot_histogram(df)
+```
+
+```{r}
+plot_histogram(df[,c(3, 4, 10, 21, 23, 24, 26, 36)])
+```
+
+```{r}
+perf.cols <- c(3, 4, 10, 21, 23, 24, 26, 36)
+for (i in perf.cols){
+  print(paste(names(df)[i], "->", mean(df[,i])))
+}
+```
+
+```{r}
+?boxplot
+boxplot(df[,c(11, 15, 16, 17,  20,  25,  27)], horizontal = TRUE)
 ```
 
 There are few variables which have outliers in them but more clear picture will be given in multivariate by comparing with the target variable. Also some variables have 1 value as most dominant and hence columns with low or near zero variance needs to be identified and acted upon.
@@ -115,6 +145,23 @@ Some prominent outliers are present in the following columns:
 7.  Average transfer value
 
 Though outliers are present in individual features but they may not be true outliers and there is a possibility of information loss by removing them. To mitigate this issue, it will be more appropriate to consider an observation as a whole to find the true outliers.
+
+```{r}
+pairs(df[,c(18, 25, 26, 27, 30, 31, 32, 39)])
+```
+
+```{r}
+hist(df$CA, main="Target Variable Distribution", col="darkgreen", xlab="Current Ability Score")
+```
+
+```{r}
+print(max(df$Age))
+print(min(df$Age))
+```
+
+```{r}
+hist(df$Age, main="Age distribution", col="darkblue", xlab="Age of Players")
+```
 
 ## Correlation Analysis
 

@@ -32,6 +32,22 @@ train <- read.csv("./../data/regression_data/intermediates/train.csv")
 test <- read.csv("./../data/regression_data/intermediates/test.csv")
 ```
 
+``` r
+names(train)
+```
+
+    ##  [1] "Apps"                 "Mins"                 "Mins.Gm"             
+    ##  [4] "Height"               "Weight"               "Age"                 
+    ##  [7] "Av.Rat"               "Gls"                  "Gls.90"              
+    ## [10] "Shot.."               "xG"                   "Ch.C.90"             
+    ## [13] "Asts.90"              "K.Ps.90"              "Pas.."               
+    ## [16] "Cr.C.A"               "Drb.90"               "Distance"            
+    ## [19] "Hdr.."                "K.Tck"                "Fls"                 
+    ## [22] "PoM"                  "Aer.A.90"             "Off"                 
+    ## [25] "Tck.R"                "CA"                   "Gls.xG"              
+    ## [28] "Dist.Mins"            "Value"                "Lower.Transfer.Value"
+    ## [31] "Upper.Transfer.Value"
+
 ## Model Training
 
 The model is first trained on the training data and then evaluated on
@@ -94,6 +110,38 @@ summary(linear.model)
     ## Multiple R-squared:  0.589,  Adjusted R-squared:  0.5748 
     ## F-statistic: 41.41 on 30 and 867 DF,  p-value: < 2.2e-16
 
+``` r
+# Model training with new significant variable
+new.train <- train[, c(6, 7, 14, 15, 23, 26, 28, 30)]
+new.linear.model <- lm(CA~., data=new.train)
+summary(new.linear.model)
+```
+
+    ## 
+    ## Call:
+    ## lm(formula = CA ~ ., data = new.train)
+    ## 
+    ## Residuals:
+    ##      Min       1Q   Median       3Q      Max 
+    ## -102.019  -11.207    1.741   11.058   49.145 
+    ## 
+    ## Coefficients:
+    ##                        Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)          -1.373e+01  1.904e+01  -0.721    0.471    
+    ## Age                   1.649e-01  1.601e-01   1.030    0.303    
+    ## Av.Rat                1.368e+01  2.640e+00   5.182 2.71e-07 ***
+    ## K.Ps.90              -1.318e+01  1.596e+00  -8.255 5.45e-16 ***
+    ## Pas..                 2.485e+01  5.730e+00   4.336 1.61e-05 ***
+    ## Aer.A.90             -1.365e+00  1.667e-01  -8.185 9.39e-16 ***
+    ## Dist.Mins             2.298e+02  2.817e+01   8.155 1.18e-15 ***
+    ## Lower.Transfer.Value  3.845e-07  2.033e-08  18.916  < 2e-16 ***
+    ## ---
+    ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    ## 
+    ## Residual standard error: 15.28 on 890 degrees of freedom
+    ## Multiple R-squared:  0.4442, Adjusted R-squared:  0.4398 
+    ## F-statistic: 101.6 on 7 and 890 DF,  p-value: < 2.2e-16
+
 ## Model Validation
 
 ``` r
@@ -101,13 +149,40 @@ summary(linear.model)
 result <- predict(linear.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
     ## RMSE:  12.6975984315159 
+    ##  MSE:  161.229005928036 
     ##  MAE:  10.4290241532838
 
 ``` r
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Linear Regression")
 ```
+
+## Prediction with Unknown Data
+
+``` r
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+```
+
+    ## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+    ## incomplete final line found by readTableHeader on './../data/regression_data/
+    ## intermediates/unknown_data.csv'
+
+``` r
+dim(unk)
+```
+
+    ## [1]  1 30
+
+``` r
+# Predict using the built model
+prediction <- predict(linear.model, unk)
+prediction
+```
+
+    ##        1 
+    ## 100.8627

@@ -29,6 +29,10 @@ train <- read.csv("./../data/regression_data/intermediates/train.csv")
 test <- read.csv("./../data/regression_data/intermediates/test.csv")
 ```
 
+```{r}
+names(train)
+```
+
 ## Model Training
 
 The model is first trained on the training data and then evaluated on testing data.
@@ -42,6 +46,13 @@ linear.model <- lm(CA~., data=train)
 summary(linear.model)
 ```
 
+```{r}
+# Model training with new significant variable
+new.train <- train[, c(6, 7, 14, 15, 23, 26, 28, 30)]
+new.linear.model <- lm(CA~., data=new.train)
+summary(new.linear.model)
+```
+
 ## Model Validation
 
 ```{r}
@@ -49,10 +60,22 @@ summary(linear.model)
 result <- predict(linear.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
 ```{r}
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Linear Regression")
+```
+
+## Prediction with Unknown Data
+
+```{r}
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+dim(unk)
+
+# Predict using the built model
+prediction <- predict(linear.model, unk)
+prediction
 ```

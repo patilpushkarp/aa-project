@@ -74,3 +74,4 @@ plot.custom.confusion.matrix <- function(conf.mat.table){
                         class_order = class.order
                         )
 }
+

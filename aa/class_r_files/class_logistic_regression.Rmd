@@ -28,6 +28,11 @@ To evaluate the model, there should be a set of which the model has not seen and
 # Read training and testing data
 train <- read.csv("./../data/classification_data/intermediates/train.csv")
 test <- read.csv("./../data/classification_data/intermediates/test.csv")
+
+# Drop index columns
+drops <- c("X.1", "X")
+train <- train[, !(names(train) %in% drops)]
+test <- test[, !(names(test) %in% drops)]
 ```
 
 ## Model Training
@@ -40,7 +45,7 @@ multinom.model <- multinom(Rating~., data=train, )
 ```
 
 ```{r}
-summary(multinom.model)
+# summary(multinom.model)
 ```
 
 ## Model Validation
@@ -70,4 +75,16 @@ The model has a very low accuracy but is still better than the random guess. For
 algorithm <- "Logistic.Regression"
 save.class.acc.result(confusion.matrix$overall, algorithm)
 save.class.pvv.result(confusion.matrix$byClass, algorithm)
+```
+
+## Prediction with Unknown Data
+
+```{r}
+# Load the data
+unk <- read.csv("./../data/classification_data/intermediates/unknown_data.csv")
+dim(unk)
+
+# Predict using the built model
+prediction <- predict(multinom.model, unk)
+prediction
 ```

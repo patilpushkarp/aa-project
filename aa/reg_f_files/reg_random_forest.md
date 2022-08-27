@@ -57,6 +57,20 @@ rf.model <- randomForest(CA~., data=train)
 ```
 
 ``` r
+rf.model
+```
+
+    ## 
+    ## Call:
+    ##  randomForest(formula = CA ~ ., data = train) 
+    ##                Type of random forest: regression
+    ##                      Number of trees: 500
+    ## No. of variables tried at each split: 10
+    ## 
+    ##           Mean of squared residuals: 63.04205
+    ##                     % Var explained: 84.86
+
+``` r
 summary(rf.model)
 ```
 
@@ -87,49 +101,50 @@ summary(rf.model)
 result <- predict(rf.model, test)
 
 # Print the RMSE and MAE
-cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MAE: ", MAE(result, test$CA)))
+cat(paste("RMSE: ", RMSE(result, test$CA), "\n", "MSE: ", RMSE(result, test$CA)^2, "\n", "MAE: ", MAE(result, test$CA)))
 ```
 
-    ## RMSE:  8.06816272785225 
-    ##  MAE:  6.1587538116592
+    ## RMSE:  8.05210073976681 
+    ##  MSE:  64.8363263233532 
+    ##  MAE:  6.144944245142
 
 ``` r
-varImp(rf.model)
+# Plot feature importance
+varImp.df <- data.frame(varImp(rf.model))
+varImp.df$Overall <- varImp.df[order(varImp.df$Overall, decreasing = FALSE),]
+par(mar=c(15,3,3,0))
+barplot(varImp.df$Overall, names.arg=rownames(varImp.df), las=2, col="blue", main="Random Forest: Feature Importances")
 ```
 
-    ##                          Overall
-    ## Apps                   5561.0911
-    ## Mins                   6380.8248
-    ## Mins.Gm                2017.4140
-    ## Height                 1992.8612
-    ## Weight                 2088.4085
-    ## Age                    4481.3923
-    ## Av.Rat                 7933.9759
-    ## Gls                     376.1644
-    ## Gls.90                  662.7810
-    ## Shot..                 1073.9416
-    ## xG                     1536.6192
-    ## Ch.C.90                1385.5363
-    ## Asts.90                 942.0452
-    ## K.Ps.90                2627.1438
-    ## Pas..                  3258.7395
-    ## Cr.C.A                  986.3250
-    ## Drb.90                 1183.2440
-    ## Distance               7271.4434
-    ## Hdr..                  1607.2684
-    ## K.Tck                   699.6000
-    ## Fls                    1871.0538
-    ## PoM                     976.0439
-    ## Aer.A.90               5132.4956
-    ## Off                     609.7598
-    ## Tck.R                  1966.7884
-    ## Gls.xG                  936.4560
-    ## Dist.Mins              4839.9684
-    ## Value                130993.0707
-    ## Lower.Transfer.Value  80992.8334
-    ## Upper.Transfer.Value  87949.5836
+![](reg_random_forest_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
 # Save the results
 save.reg.result(RMSE(result, test$CA), MAE(result, test$CA), "Random Forest Regression")
 ```
+
+## Prediction with Unknown Data
+
+``` r
+# Load the data
+unk <- read.csv("./../data/regression_data/intermediates/unknown_data.csv")
+```
+
+    ## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+    ## incomplete final line found by readTableHeader on './../data/regression_data/
+    ## intermediates/unknown_data.csv'
+
+``` r
+dim(unk)
+```
+
+    ## [1]  1 30
+
+``` r
+# Predict using the built model
+prediction <- predict(rf.model, unk)
+prediction
+```
+
+    ##        1 
+    ## 99.02373

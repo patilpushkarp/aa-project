@@ -23,6 +23,11 @@ source("./../helpers/helper.R")
 # Read training and testing data
 train <- read.csv("./../data/classification_data/intermediates/train.csv")
 test <- read.csv("./../data/classification_data/intermediates/test.csv")
+
+# Drop index columns
+drops <- c("X.1", "X")
+train <- train[, !(names(train) %in% drops)]
+test <- test[, !(names(test) %in% drops)]
 ```
 
 ## Model Training
@@ -64,4 +69,16 @@ kable(varImp(bag.model))
 algorithm <- "Classification.with.Bagging"
 save.class.acc.result(confusion.matrix$overall, algorithm)
 save.class.pvv.result(confusion.matrix$byClass, algorithm)
+```
+
+## Prediction with Unknown Data
+
+```{r}
+# Load the data
+unk <- read.csv("./../data/classification_data/intermediates/unknown_data.csv")
+dim(unk)
+
+# Predict using the built model
+prediction <- predict(bag.model, unk)
+prediction
 ```
