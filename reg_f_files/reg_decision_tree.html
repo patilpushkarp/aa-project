@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../class_r_files/result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -456,6 +461,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -488,6 +498,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-validation">
    Model Validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
   </a>
  </li>
 </ul>
@@ -547,12 +562,12 @@ testing data.</p>
 ##   n= 898 
 ## 
 ##           CP nsplit rel error    xerror       xstd
-## 1 0.55145604      0 1.0000000 1.0021578 0.04530287
-## 2 0.13043591      1 0.4485440 0.4684318 0.02362153
-## 3 0.09055841      2 0.3181080 0.3404729 0.01846413
-## 4 0.02027054      3 0.2275496 0.2551980 0.01773648
-## 5 0.01588124      4 0.2072791 0.2379025 0.01760337
-## 6 0.01000000      5 0.1913979 0.2241354 0.01744964
+## 1 0.55145604      0 1.0000000 1.0019434 0.04521323
+## 2 0.13043591      1 0.4485440 0.4664212 0.02320373
+## 3 0.09055841      2 0.3181080 0.3346267 0.01820894
+## 4 0.02027054      3 0.2275496 0.2469729 0.01718494
+## 5 0.01588124      4 0.2072791 0.2305449 0.01704413
+## 6 0.01000000      5 0.1913979 0.2161809 0.01672047
 ## 
 ## Variable importance
 ##                Value Upper.Transfer.Value Lower.Transfer.Value 
@@ -668,51 +683,51 @@ testing data.</p>
 <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">dtree.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 
 <span class="c1"># Print the RMSE and MAE</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  10.0944462277776 
+##  MSE:  101.897844645493 
 ##  MAE:  7.98545835211613
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">varImp</span><span class="p">(</span><span class="n">dtree.model</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot feature importance</span>
+<span class="n">varImp.df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">varImp</span><span class="p">(</span><span class="n">dtree.model</span><span class="p">))</span>
+<span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span> <span class="o">&lt;-</span> <span class="n">varImp.df</span><span class="p">[</span><span class="nf">order</span><span class="p">(</span><span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span><span class="p">,</span> <span class="n">decreasing</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),]</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">0</span><span class="p">))</span>
+<span class="nf">barplot</span><span class="p">(</span><span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span><span class="p">,</span> <span class="n">names.arg</span><span class="o">=</span><span class="nf">rownames</span><span class="p">(</span><span class="n">varImp.df</span><span class="p">),</span> <span class="n">las</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Decision Tree: Feature Importances&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                         Overall
-## Aer.A.90             0.09036118
-## Apps                 0.29301855
-## Av.Rat               0.36237009
-## Distance             0.14978220
-## Lower.Transfer.Value 1.98849254
-## Mins                 0.21738264
-## Upper.Transfer.Value 2.07860813
-## Value                2.14356033
-## Mins.Gm              0.00000000
-## Height               0.00000000
-## Weight               0.00000000
-## Age                  0.00000000
-## Gls                  0.00000000
-## Gls.90               0.00000000
-## Shot..               0.00000000
-## xG                   0.00000000
-## Ch.C.90              0.00000000
-## Asts.90              0.00000000
-## K.Ps.90              0.00000000
-## Pas..                0.00000000
-## Cr.C.A               0.00000000
-## Drb.90               0.00000000
-## Hdr..                0.00000000
-## K.Tck                0.00000000
-## Fls                  0.00000000
-## PoM                  0.00000000
-## Off                  0.00000000
-## Tck.R                0.00000000
-## Gls.xG               0.00000000
-## Dist.Mins            0.00000000
-</pre></div>
-</div>
+<p><img alt="" src="../_images/unnamed-chunk-6-12.png" /><!-- --></p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
 <span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Decision Tree Regression&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## incomplete final line found by readTableHeader on &#39;./../data/regression_data/
+## intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 30
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">dtree.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+<span class="n">prediction</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##        1 
+## 101.5414
 </pre></div>
 </div>
 </section>

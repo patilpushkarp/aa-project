@@ -225,17 +225,25 @@ plot_bar(df)
 ![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 ``` r
-data.frame(table(df$Rating.Agency))
+ra.count <- data.frame(table(df$Rating.Agency))
+names(ra.count) <- c("Rating Agency", "Number of Companies")
+ra.count
 ```
 
-    ##                                 Var1 Freq
-    ## 1                               DBRS   26
-    ## 2         Egan-Jones Ratings Company 2826
-    ## 3                      Fitch Ratings  477
-    ## 4  HR Ratings de Mexico S.A. de C.V.    5
-    ## 5    Japan Credit Rating Agency,Ltd.   22
-    ## 6          Moody's Investors Service 1636
-    ## 7 Standard & Poor's Ratings Services 2813
+    ##                        Rating Agency Number of Companies
+    ## 1                               DBRS                  26
+    ## 2         Egan-Jones Ratings Company                2826
+    ## 3                      Fitch Ratings                 477
+    ## 4  HR Ratings de Mexico S.A. de C.V.                   5
+    ## 5    Japan Credit Rating Agency,Ltd.                  22
+    ## 6          Moody's Investors Service                1636
+    ## 7 Standard & Poor's Ratings Services                2813
+
+``` r
+barplot(table(df$Rating.Agency), main="Distribution of observations for Rating Agency", col="darkred", ylab="Companies Covered", las=2)
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
 The number of companies rated by last three credit rating agencies are
 too few to be useful for analysis. It will be beneficial to remove them
@@ -264,10 +272,27 @@ There are no categorical columns which have low variance and hence no
 data treatment is required for that consideration.
 
 ``` r
+rating.table = table(df$Rating)
+rating.table <- rating.table[order(rating.table)]
+rating.barplot <- barplot(rating.table, main="Rating Distribution", ylab="Number of Companies", col="darkgreen", las=2)
+text(x=rating.barplot, y= rating.table+30, labels=as.character(rating.table))
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+``` r
+sector.table = table(df$Sector)
+sector.table <- sector.table[order(sector.table)]
+barplot(sector.table, main="Sector Distribution", xlab="Number of Companies", col="darkblue", las=2, horiz = TRUE)
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
 plot_histogram(df)
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 Almost every numerical columns seems to have data points which can be
 considered as outliers. But it is not appropriate to alter those data
@@ -281,7 +306,7 @@ in the next section).
 plot_boxplot(df, by='Rating')
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-20-2.png)<!-- -->
 
 Some prominent outliers are present in the following columns:
 
@@ -312,7 +337,13 @@ num.data <- df %>% dplyr::select(where(is.numeric))
 plot_correlation(num.data)
 ```
 
-![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+
+``` r
+pairs(df[,c(14, 15, 16, 17, 18, 20, 22)])
+```
+
+![](exploratory_data_analysis_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
 
 It can be observed that *Operating Margin*, *EBIT Margin*, *EBITDA
 Margin*, *Pre Tax Profit Margin*, *Return on Assets* and *Net Profit

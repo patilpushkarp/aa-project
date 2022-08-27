@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Gradient Descent &#8212; Project - Advanced Analytics 1</title>
+    <title>Gradient Boosting &#8212; Project - Advanced Analytics 1</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="../_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../class_r_files/result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3 current active">
       <a class="current reference internal" href="#">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -456,6 +461,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -465,7 +475,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Gradient Descent</h1>
+                <h1>Gradient Boosting</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -490,6 +500,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
                         </nav>
@@ -500,8 +515,8 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="gradient-descent">
-<h1>Gradient Descent<a class="headerlink" href="#gradient-descent" title="Permalink to this headline">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="gradient-boosting">
+<h1>Gradient Boosting<a class="headerlink" href="#gradient-boosting" title="Permalink to this headline">#</a></h1>
 <p>Since the data has been cleaned, it can now be used to create the
 models.</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load libraries</span>
@@ -547,41 +562,50 @@ testing data.</p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Distribution not specified, assuming gaussian ...
 </pre></div>
 </div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">gbm.model</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## gbm(formula = CA ~ ., data = train)
+## A gradient boosted model with gaussian loss function.
+## 100 iterations were performed.
+## There were 30 predictors of which 18 had non-zero influence.
+</pre></div>
+</div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">gbm.model</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><img alt="" src="../_images/unnamed-chunk-4-16.png" /><!-- --></p>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                                       var     rel.inf
-## Value                               Value 63.05212727
-## Lower.Transfer.Value Lower.Transfer.Value 17.45956630
-## Upper.Transfer.Value Upper.Transfer.Value 13.53121745
-## Age                                   Age  1.92054606
-## Mins                                 Mins  1.42306795
-## Distance                         Distance  0.76598645
-## Apps                                 Apps  0.52415853
-## Aer.A.90                         Aer.A.90  0.45115476
-## K.Ps.90                           K.Ps.90  0.26002962
-## Dist.Mins                       Dist.Mins  0.18457097
-## Off                                   Off  0.13935377
-## Weight                             Weight  0.07781165
-## Mins.Gm                           Mins.Gm  0.07442751
-## Pas..                               Pas..  0.07169056
-## Gls.90                             Gls.90  0.06429115
-## Height                             Height  0.00000000
-## Av.Rat                             Av.Rat  0.00000000
+## Value                               Value 65.54059290
+## Lower.Transfer.Value Lower.Transfer.Value 18.66319064
+## Upper.Transfer.Value Upper.Transfer.Value  9.89414279
+## Age                                   Age  2.03751841
+## Mins                                 Mins  1.36118540
+## Distance                         Distance  0.53257436
+## Aer.A.90                         Aer.A.90  0.47911331
+## Apps                                 Apps  0.45873175
+## Off                                   Off  0.17072448
+## Gls.xG                             Gls.xG  0.14412651
+## Height                             Height  0.14092344
+## Av.Rat                             Av.Rat  0.10941144
+## Weight                             Weight  0.10911263
+## Tck.R                               Tck.R  0.08159985
+## Gls.90                             Gls.90  0.07722888
+## Shot..                             Shot..  0.07268679
+## Ch.C.90                           Ch.C.90  0.06977550
+## K.Ps.90                           K.Ps.90  0.05736093
+## Mins.Gm                           Mins.Gm  0.00000000
 ## Gls                                   Gls  0.00000000
-## Shot..                             Shot..  0.00000000
 ## xG                                     xG  0.00000000
-## Ch.C.90                           Ch.C.90  0.00000000
 ## Asts.90                           Asts.90  0.00000000
+## Pas..                               Pas..  0.00000000
 ## Cr.C.A                             Cr.C.A  0.00000000
 ## Drb.90                             Drb.90  0.00000000
 ## Hdr..                               Hdr..  0.00000000
 ## K.Tck                               K.Tck  0.00000000
 ## Fls                                   Fls  0.00000000
 ## PoM                                   PoM  0.00000000
-## Tck.R                               Tck.R  0.00000000
-## Gls.xG                             Gls.xG  0.00000000
+## Dist.Mins                       Dist.Mins  0.00000000
 </pre></div>
 </div>
 </section>
@@ -595,15 +619,47 @@ testing data.</p>
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Print the RMSE and MAE</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.0799768113754 
-##  MAE:  6.31091428393257
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.01241834544305 
+##  MSE:  64.1988477423924 
+##  MAE:  6.26234884249979
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
 <span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Gradient Descent Regression&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## incomplete final line found by readTableHeader on &#39;./../data/regression_data/
+## intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 30
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">gbm.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Using 100 trees...
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">prediction</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1] 99.08949
 </pre></div>
 </div>
 </section>

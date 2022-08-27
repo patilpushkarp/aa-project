@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../class_r_files/result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -456,6 +461,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -488,6 +498,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-validation">
    Model Validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
   </a>
  </li>
 </ul>
@@ -539,6 +554,15 @@ testing data.</p>
 <span class="n">bag.model</span> <span class="o">&lt;-</span> <span class="nf">bagging</span><span class="p">(</span><span class="n">CA</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">bag.model</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 
+## Bagging regression trees with 25 bootstrap replications 
+## 
+## Call: bagging.data.frame(formula = CA ~ ., data = train)
+</pre></div>
+</div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">bag.model</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -558,51 +582,50 @@ testing data.</p>
 <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">bag.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 
 <span class="c1"># Print the RMSE and MAE</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  9.22106263617327 
-##  MAE:  7.18860072900238
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  9.18473342013166 
+##  MSE:  84.3593279988834 
+##  MAE:  7.18753041501592
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">varImp</span><span class="p">(</span><span class="n">bag.model</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot feature importance</span>
+<span class="n">varImp.df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">varImp</span><span class="p">(</span><span class="n">bag.model</span><span class="p">))</span>
+<span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span> <span class="o">&lt;-</span> <span class="n">varImp.df</span><span class="p">[</span><span class="nf">order</span><span class="p">(</span><span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span><span class="p">,</span> <span class="n">decreasing</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),]</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">0</span><span class="p">))</span>
+<span class="nf">barplot</span><span class="p">(</span><span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span><span class="p">,</span> <span class="n">names.arg</span><span class="o">=</span><span class="nf">rownames</span><span class="p">(</span><span class="n">varImp.df</span><span class="p">),</span> <span class="n">las</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Bagging: Feature Importances&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                          Overall
-## Aer.A.90             0.088468230
-## Age                  0.056721189
-## Apps                 0.284581590
-## Asts.90              0.003167350
-## Av.Rat               0.507108418
-## Ch.C.90              0.009960341
-## Cr.C.A               0.000000000
-## Dist.Mins            0.111920828
-## Distance             0.215753224
-## Drb.90               0.000000000
-## Fls                  0.008273462
-## Gls                  0.000000000
-## Gls.90               0.000000000
-## Gls.xG               0.000000000
-## Hdr..                0.014897457
-## Height               0.008604565
-## K.Ps.90              0.048569780
-## K.Tck                0.017051828
-## Lower.Transfer.Value 2.258780958
-## Mins                 0.395633223
-## Mins.Gm              0.005865406
-## Off                  0.000000000
-## Pas..                0.019970066
-## PoM                  0.014902381
-## Shot..               0.000000000
-## Tck.R                0.031488562
-## Upper.Transfer.Value 2.338556295
-## Value                2.452467445
-## Weight               0.014293134
-## xG                   0.028432393
-</pre></div>
-</div>
+<p><img alt="" src="../_images/unnamed-chunk-6-11.png" /><!-- --></p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
 <span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Regression with Bagging&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## incomplete final line found by readTableHeader on &#39;./../data/regression_data/
+## intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 30
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">bag.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+<span class="n">prediction</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1] 100.1481
 </pre></div>
 </div>
 </section>

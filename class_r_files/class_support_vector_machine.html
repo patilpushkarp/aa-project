@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../reg_f_files/reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -456,6 +461,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -488,6 +498,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-validation">
    Model Validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
   </a>
  </li>
 </ul>
@@ -523,6 +538,11 @@ title="Print to PDF"
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read training and testing data</span>
 <span class="n">train</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/train.csv&quot;</span><span class="p">)</span>
 <span class="n">test</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/test.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Drop index columns</span>
+<span class="n">drops</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;X.1&quot;</span><span class="p">,</span> <span class="s">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">train</span> <span class="o">&lt;-</span> <span class="n">train</span><span class="p">[,</span> <span class="o">!</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">%in%</span> <span class="n">drops</span><span class="p">)]</span>
+<span class="n">test</span> <span class="o">&lt;-</span> <span class="n">test</span><span class="p">[,</span> <span class="o">!</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">test</span><span class="p">)</span> <span class="o">%in%</span> <span class="n">drops</span><span class="p">)]</span>
 </pre></div>
 </div>
 </section>
@@ -543,9 +563,9 @@ title="Print to PDF"
 ##  SVM-Kernel:  radial 
 ##        cost:  1 
 ## 
-## Number of Support Vectors:  6106
+## Number of Support Vectors:  6098
 ## 
-##  ( 560 70 546 193 632 670 711 366 258 412 330 332 239 399 143 110 50 7 9 14 55 )
+##  ( 560 70 551 193 637 666 712 367 254 410 329 330 238 394 143 109 50 7 9 14 55 )
 ## 
 ## 
 ## Number of Classes:  21 
@@ -578,16 +598,16 @@ title="Print to PDF"
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>Accuracy</p></td>
-<td class="text-align:right"><p>0.3173885</p></td>
+<td class="text-align:right"><p>0.3109244</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Kappa</p></td>
-<td class="text-align:right"><p>0.2532992</p></td>
+<td class="text-align:right"><p>0.2463804</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>AccuracyLower</p></td>
-<td class="text-align:right"><p>0.2942356</p></td>
+<td class="text-align:right"><p>0.2879126</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>AccuracyUpper</p></td>
-<td class="text-align:right"><p>0.3412366</p></td>
+<td class="text-align:right"><p>0.3346560</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>AccuracyNull</p></td>
 <td class="text-align:right"><p>0.1215255</p></td>
@@ -622,30 +642,30 @@ title="Print to PDF"
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>Class: 1</p></td>
-<td class="text-align:right"><p>0.1111111</p></td>
-<td class="text-align:right"><p>0.9986920</p></td>
-<td class="text-align:right"><p>0.5000000</p></td>
-<td class="text-align:right"><p>0.9896306</p></td>
-<td class="text-align:right"><p>0.5000000</p></td>
-<td class="text-align:right"><p>0.1111111</p></td>
-<td class="text-align:right"><p>0.1818182</p></td>
+<td class="text-align:right"><p>0.0555556</p></td>
+<td class="text-align:right"><p>0.9980379</p></td>
+<td class="text-align:right"><p>0.2500000</p></td>
+<td class="text-align:right"><p>0.9889825</p></td>
+<td class="text-align:right"><p>0.2500000</p></td>
+<td class="text-align:right"><p>0.0555556</p></td>
+<td class="text-align:right"><p>0.0909091</p></td>
 <td class="text-align:right"><p>0.0116354</p></td>
-<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.0006464</p></td>
 <td class="text-align:right"><p>0.0025856</p></td>
-<td class="text-align:right"><p>0.5549015</p></td>
+<td class="text-align:right"><p>0.5267967</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 2</p></td>
 <td class="text-align:right"><p>0.4000000</p></td>
-<td class="text-align:right"><p>0.9986945</p></td>
-<td class="text-align:right"><p>0.7500000</p></td>
-<td class="text-align:right"><p>0.9941520</p></td>
-<td class="text-align:right"><p>0.7500000</p></td>
+<td class="text-align:right"><p>0.9980418</p></td>
+<td class="text-align:right"><p>0.6666667</p></td>
+<td class="text-align:right"><p>0.9941482</p></td>
+<td class="text-align:right"><p>0.6666667</p></td>
 <td class="text-align:right"><p>0.4000000</p></td>
-<td class="text-align:right"><p>0.5217391</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
 <td class="text-align:right"><p>0.0096962</p></td>
 <td class="text-align:right"><p>0.0038785</p></td>
-<td class="text-align:right"><p>0.0051713</p></td>
-<td class="text-align:right"><p>0.6993473</p></td>
+<td class="text-align:right"><p>0.0058177</p></td>
+<td class="text-align:right"><p>0.6990209</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 3</p></td>
 <td class="text-align:right"><p>0.0000000</p></td>
@@ -661,173 +681,173 @@ title="Print to PDF"
 <td class="text-align:right"><p>0.5000000</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 4</p></td>
-<td class="text-align:right"><p>0.0384615</p></td>
+<td class="text-align:right"><p>0.0576923</p></td>
 <td class="text-align:right"><p>0.9993311</p></td>
-<td class="text-align:right"><p>0.6666667</p></td>
-<td class="text-align:right"><p>0.9676166</p></td>
-<td class="text-align:right"><p>0.6666667</p></td>
-<td class="text-align:right"><p>0.0384615</p></td>
-<td class="text-align:right"><p>0.0727273</p></td>
+<td class="text-align:right"><p>0.7500000</p></td>
+<td class="text-align:right"><p>0.9682437</p></td>
+<td class="text-align:right"><p>0.7500000</p></td>
+<td class="text-align:right"><p>0.0576923</p></td>
+<td class="text-align:right"><p>0.1071429</p></td>
 <td class="text-align:right"><p>0.0336134</p></td>
-<td class="text-align:right"><p>0.0012928</p></td>
 <td class="text-align:right"><p>0.0019392</p></td>
-<td class="text-align:right"><p>0.5188963</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.5285117</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 5</p></td>
-<td class="text-align:right"><p>0.3717949</p></td>
-<td class="text-align:right"><p>0.9557522</p></td>
-<td class="text-align:right"><p>0.3085106</p></td>
-<td class="text-align:right"><p>0.9662767</p></td>
-<td class="text-align:right"><p>0.3085106</p></td>
-<td class="text-align:right"><p>0.3717949</p></td>
-<td class="text-align:right"><p>0.3372093</p></td>
+<td class="text-align:right"><p>0.3076923</p></td>
+<td class="text-align:right"><p>0.9516678</p></td>
+<td class="text-align:right"><p>0.2526316</p></td>
+<td class="text-align:right"><p>0.9628099</p></td>
+<td class="text-align:right"><p>0.2526316</p></td>
+<td class="text-align:right"><p>0.3076923</p></td>
+<td class="text-align:right"><p>0.2774566</p></td>
 <td class="text-align:right"><p>0.0504202</p></td>
-<td class="text-align:right"><p>0.0187460</p></td>
-<td class="text-align:right"><p>0.0607628</p></td>
-<td class="text-align:right"><p>0.6637735</p></td>
+<td class="text-align:right"><p>0.0155139</p></td>
+<td class="text-align:right"><p>0.0614092</p></td>
+<td class="text-align:right"><p>0.6296801</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 6</p></td>
-<td class="text-align:right"><p>0.3786982</p></td>
-<td class="text-align:right"><p>0.8795356</p></td>
-<td class="text-align:right"><p>0.2782609</p></td>
-<td class="text-align:right"><p>0.9202733</p></td>
-<td class="text-align:right"><p>0.2782609</p></td>
-<td class="text-align:right"><p>0.3786982</p></td>
-<td class="text-align:right"><p>0.3208020</p></td>
+<td class="text-align:right"><p>0.3668639</p></td>
+<td class="text-align:right"><p>0.8838897</p></td>
+<td class="text-align:right"><p>0.2792793</p></td>
+<td class="text-align:right"><p>0.9192453</p></td>
+<td class="text-align:right"><p>0.2792793</p></td>
+<td class="text-align:right"><p>0.3668639</p></td>
+<td class="text-align:right"><p>0.3171355</p></td>
 <td class="text-align:right"><p>0.1092437</p></td>
-<td class="text-align:right"><p>0.0413704</p></td>
-<td class="text-align:right"><p>0.1486749</p></td>
-<td class="text-align:right"><p>0.6291169</p></td>
+<td class="text-align:right"><p>0.0400776</p></td>
+<td class="text-align:right"><p>0.1435036</p></td>
+<td class="text-align:right"><p>0.6253768</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 7</p></td>
-<td class="text-align:right"><p>0.2413793</p></td>
-<td class="text-align:right"><p>0.9179743</p></td>
-<td class="text-align:right"><p>0.2333333</p></td>
-<td class="text-align:right"><p>0.9212598</p></td>
-<td class="text-align:right"><p>0.2333333</p></td>
-<td class="text-align:right"><p>0.2413793</p></td>
-<td class="text-align:right"><p>0.2372881</p></td>
+<td class="text-align:right"><p>0.2551724</p></td>
+<td class="text-align:right"><p>0.9194009</p></td>
+<td class="text-align:right"><p>0.2466667</p></td>
+<td class="text-align:right"><p>0.9226915</p></td>
+<td class="text-align:right"><p>0.2466667</p></td>
+<td class="text-align:right"><p>0.2551724</p></td>
+<td class="text-align:right"><p>0.2508475</p></td>
 <td class="text-align:right"><p>0.0937298</p></td>
-<td class="text-align:right"><p>0.0226244</p></td>
+<td class="text-align:right"><p>0.0239173</p></td>
 <td class="text-align:right"><p>0.0969619</p></td>
-<td class="text-align:right"><p>0.5796768</p></td>
+<td class="text-align:right"><p>0.5872866</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 8</p></td>
-<td class="text-align:right"><p>0.3105590</p></td>
-<td class="text-align:right"><p>0.9307359</p></td>
-<td class="text-align:right"><p>0.3424658</p></td>
-<td class="text-align:right"><p>0.9207709</p></td>
-<td class="text-align:right"><p>0.3424658</p></td>
-<td class="text-align:right"><p>0.3105590</p></td>
-<td class="text-align:right"><p>0.3257329</p></td>
+<td class="text-align:right"><p>0.3354037</p></td>
+<td class="text-align:right"><p>0.9249639</p></td>
+<td class="text-align:right"><p>0.3417722</p></td>
+<td class="text-align:right"><p>0.9229662</p></td>
+<td class="text-align:right"><p>0.3417722</p></td>
+<td class="text-align:right"><p>0.3354037</p></td>
+<td class="text-align:right"><p>0.3385580</p></td>
 <td class="text-align:right"><p>0.1040724</p></td>
-<td class="text-align:right"><p>0.0323206</p></td>
-<td class="text-align:right"><p>0.0943762</p></td>
-<td class="text-align:right"><p>0.6206475</p></td>
+<td class="text-align:right"><p>0.0349063</p></td>
+<td class="text-align:right"><p>0.1021332</p></td>
+<td class="text-align:right"><p>0.6301838</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 9</p></td>
-<td class="text-align:right"><p>0.5000000</p></td>
+<td class="text-align:right"><p>0.4574468</p></td>
 <td class="text-align:right"><p>0.8646063</p></td>
-<td class="text-align:right"><p>0.3381295</p></td>
-<td class="text-align:right"><p>0.9259259</p></td>
-<td class="text-align:right"><p>0.3381295</p></td>
-<td class="text-align:right"><p>0.5000000</p></td>
-<td class="text-align:right"><p>0.4034335</p></td>
+<td class="text-align:right"><p>0.3185185</p></td>
+<td class="text-align:right"><p>0.9201253</p></td>
+<td class="text-align:right"><p>0.3185185</p></td>
+<td class="text-align:right"><p>0.4574468</p></td>
+<td class="text-align:right"><p>0.3755459</p></td>
 <td class="text-align:right"><p>0.1215255</p></td>
-<td class="text-align:right"><p>0.0607628</p></td>
-<td class="text-align:right"><p>0.1797027</p></td>
-<td class="text-align:right"><p>0.6823032</p></td>
+<td class="text-align:right"><p>0.0555915</p></td>
+<td class="text-align:right"><p>0.1745314</p></td>
+<td class="text-align:right"><p>0.6610266</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 10</p></td>
-<td class="text-align:right"><p>0.2708333</p></td>
-<td class="text-align:right"><p>0.9572345</p></td>
-<td class="text-align:right"><p>0.3939394</p></td>
-<td class="text-align:right"><p>0.9274862</p></td>
-<td class="text-align:right"><p>0.3939394</p></td>
-<td class="text-align:right"><p>0.2708333</p></td>
-<td class="text-align:right"><p>0.3209877</p></td>
+<td class="text-align:right"><p>0.2847222</p></td>
+<td class="text-align:right"><p>0.9586600</p></td>
+<td class="text-align:right"><p>0.4141414</p></td>
+<td class="text-align:right"><p>0.9288674</p></td>
+<td class="text-align:right"><p>0.4141414</p></td>
+<td class="text-align:right"><p>0.2847222</p></td>
+<td class="text-align:right"><p>0.3374486</p></td>
 <td class="text-align:right"><p>0.0930834</p></td>
-<td class="text-align:right"><p>0.0252101</p></td>
+<td class="text-align:right"><p>0.0265029</p></td>
 <td class="text-align:right"><p>0.0639948</p></td>
-<td class="text-align:right"><p>0.6140339</p></td>
+<td class="text-align:right"><p>0.6216911</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 11</p></td>
-<td class="text-align:right"><p>0.5909091</p></td>
-<td class="text-align:right"><p>0.9318024</p></td>
-<td class="text-align:right"><p>0.3987730</p></td>
-<td class="text-align:right"><p>0.9674855</p></td>
-<td class="text-align:right"><p>0.3987730</p></td>
-<td class="text-align:right"><p>0.5909091</p></td>
-<td class="text-align:right"><p>0.4761905</p></td>
+<td class="text-align:right"><p>0.6000000</p></td>
+<td class="text-align:right"><p>0.9269311</p></td>
+<td class="text-align:right"><p>0.3859649</p></td>
+<td class="text-align:right"><p>0.9680233</p></td>
+<td class="text-align:right"><p>0.3859649</p></td>
+<td class="text-align:right"><p>0.6000000</p></td>
+<td class="text-align:right"><p>0.4697509</p></td>
 <td class="text-align:right"><p>0.0711054</p></td>
-<td class="text-align:right"><p>0.0420168</p></td>
-<td class="text-align:right"><p>0.1053652</p></td>
-<td class="text-align:right"><p>0.7613557</p></td>
+<td class="text-align:right"><p>0.0426632</p></td>
+<td class="text-align:right"><p>0.1105365</p></td>
+<td class="text-align:right"><p>0.7634656</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 12</p></td>
-<td class="text-align:right"><p>0.1764706</p></td>
-<td class="text-align:right"><p>0.9459644</p></td>
-<td class="text-align:right"><p>0.1595745</p></td>
-<td class="text-align:right"><p>0.9518238</p></td>
-<td class="text-align:right"><p>0.1595745</p></td>
-<td class="text-align:right"><p>0.1764706</p></td>
-<td class="text-align:right"><p>0.1675978</p></td>
+<td class="text-align:right"><p>0.1176471</p></td>
+<td class="text-align:right"><p>0.9500684</p></td>
+<td class="text-align:right"><p>0.1204819</p></td>
+<td class="text-align:right"><p>0.9487705</p></td>
+<td class="text-align:right"><p>0.1204819</p></td>
+<td class="text-align:right"><p>0.1176471</p></td>
+<td class="text-align:right"><p>0.1190476</p></td>
 <td class="text-align:right"><p>0.0549451</p></td>
-<td class="text-align:right"><p>0.0096962</p></td>
-<td class="text-align:right"><p>0.0607628</p></td>
-<td class="text-align:right"><p>0.5612175</p></td>
+<td class="text-align:right"><p>0.0064641</p></td>
+<td class="text-align:right"><p>0.0536522</p></td>
+<td class="text-align:right"><p>0.5338577</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 13</p></td>
-<td class="text-align:right"><p>0.2967033</p></td>
-<td class="text-align:right"><p>0.9471154</p></td>
-<td class="text-align:right"><p>0.2596154</p></td>
-<td class="text-align:right"><p>0.9556480</p></td>
-<td class="text-align:right"><p>0.2596154</p></td>
-<td class="text-align:right"><p>0.2967033</p></td>
-<td class="text-align:right"><p>0.2769231</p></td>
+<td class="text-align:right"><p>0.2417582</p></td>
+<td class="text-align:right"><p>0.9429945</p></td>
+<td class="text-align:right"><p>0.2095238</p></td>
+<td class="text-align:right"><p>0.9521498</p></td>
+<td class="text-align:right"><p>0.2095238</p></td>
+<td class="text-align:right"><p>0.2417582</p></td>
+<td class="text-align:right"><p>0.2244898</p></td>
 <td class="text-align:right"><p>0.0588235</p></td>
-<td class="text-align:right"><p>0.0174531</p></td>
-<td class="text-align:right"><p>0.0672269</p></td>
-<td class="text-align:right"><p>0.6219093</p></td>
+<td class="text-align:right"><p>0.0142211</p></td>
+<td class="text-align:right"><p>0.0678733</p></td>
+<td class="text-align:right"><p>0.5923764</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 14</p></td>
-<td class="text-align:right"><p>0.3409091</p></td>
+<td class="text-align:right"><p>0.3863636</p></td>
 <td class="text-align:right"><p>0.9609321</p></td>
-<td class="text-align:right"><p>0.3448276</p></td>
-<td class="text-align:right"><p>0.9602740</p></td>
-<td class="text-align:right"><p>0.3448276</p></td>
-<td class="text-align:right"><p>0.3409091</p></td>
-<td class="text-align:right"><p>0.3428571</p></td>
+<td class="text-align:right"><p>0.3736264</p></td>
+<td class="text-align:right"><p>0.9629121</p></td>
+<td class="text-align:right"><p>0.3736264</p></td>
+<td class="text-align:right"><p>0.3863636</p></td>
+<td class="text-align:right"><p>0.3798883</p></td>
 <td class="text-align:right"><p>0.0568843</p></td>
-<td class="text-align:right"><p>0.0193924</p></td>
-<td class="text-align:right"><p>0.0562379</p></td>
-<td class="text-align:right"><p>0.6509206</p></td>
+<td class="text-align:right"><p>0.0219780</p></td>
+<td class="text-align:right"><p>0.0588235</p></td>
+<td class="text-align:right"><p>0.6736479</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 15</p></td>
-<td class="text-align:right"><p>0.2941176</p></td>
-<td class="text-align:right"><p>0.9772727</p></td>
-<td class="text-align:right"><p>0.3061224</p></td>
-<td class="text-align:right"><p>0.9759680</p></td>
-<td class="text-align:right"><p>0.3061224</p></td>
-<td class="text-align:right"><p>0.2941176</p></td>
-<td class="text-align:right"><p>0.3000000</p></td>
+<td class="text-align:right"><p>0.3137255</p></td>
+<td class="text-align:right"><p>0.9786096</p></td>
+<td class="text-align:right"><p>0.3333333</p></td>
+<td class="text-align:right"><p>0.9766511</p></td>
+<td class="text-align:right"><p>0.3333333</p></td>
+<td class="text-align:right"><p>0.3137255</p></td>
+<td class="text-align:right"><p>0.3232323</p></td>
 <td class="text-align:right"><p>0.0329670</p></td>
-<td class="text-align:right"><p>0.0096962</p></td>
-<td class="text-align:right"><p>0.0316742</p></td>
-<td class="text-align:right"><p>0.6356952</p></td>
+<td class="text-align:right"><p>0.0103426</p></td>
+<td class="text-align:right"><p>0.0310278</p></td>
+<td class="text-align:right"><p>0.6461676</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 16</p></td>
-<td class="text-align:right"><p>0.2391304</p></td>
-<td class="text-align:right"><p>0.9880080</p></td>
-<td class="text-align:right"><p>0.3793103</p></td>
-<td class="text-align:right"><p>0.9769433</p></td>
-<td class="text-align:right"><p>0.3793103</p></td>
-<td class="text-align:right"><p>0.2391304</p></td>
-<td class="text-align:right"><p>0.2933333</p></td>
+<td class="text-align:right"><p>0.2608696</p></td>
+<td class="text-align:right"><p>0.9886742</p></td>
+<td class="text-align:right"><p>0.4137931</p></td>
+<td class="text-align:right"><p>0.9776021</p></td>
+<td class="text-align:right"><p>0.4137931</p></td>
+<td class="text-align:right"><p>0.2608696</p></td>
+<td class="text-align:right"><p>0.3200000</p></td>
 <td class="text-align:right"><p>0.0297350</p></td>
-<td class="text-align:right"><p>0.0071105</p></td>
+<td class="text-align:right"><p>0.0077569</p></td>
 <td class="text-align:right"><p>0.0187460</p></td>
-<td class="text-align:right"><p>0.6135692</p></td>
+<td class="text-align:right"><p>0.6247719</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 17</p></td>
 <td class="text-align:right"><p>0.0500000</p></td>
@@ -900,6 +920,34 @@ title="Print to PDF"
 <span class="n">algorithm</span> <span class="o">&lt;-</span> <span class="s">&quot;Support.Vector.Machine&quot;</span>
 <span class="nf">save.class.acc.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
 <span class="nf">save.class.pvv.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote =
+## quote, : incomplete final line found by readTableHeader on &#39;./../data/
+## classification_data/intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 29
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">svm.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+<span class="n">prediction</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 1 
+## 8 
+## Levels: 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21
 </pre></div>
 </div>
 </section>

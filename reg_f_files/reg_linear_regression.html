@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../class_r_files/result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -456,6 +461,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -488,6 +498,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-validation">
    Model Validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
   </a>
  </li>
 </ul>
@@ -528,6 +543,22 @@ the data into training and testing set.</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read training and testing data</span>
 <span class="n">train</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/train.csv&quot;</span><span class="p">)</span>
 <span class="n">test</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/test.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">names</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##  [1] &quot;Apps&quot;                 &quot;Mins&quot;                 &quot;Mins.Gm&quot;             
+##  [4] &quot;Height&quot;               &quot;Weight&quot;               &quot;Age&quot;                 
+##  [7] &quot;Av.Rat&quot;               &quot;Gls&quot;                  &quot;Gls.90&quot;              
+## [10] &quot;Shot..&quot;               &quot;xG&quot;                   &quot;Ch.C.90&quot;             
+## [13] &quot;Asts.90&quot;              &quot;K.Ps.90&quot;              &quot;Pas..&quot;               
+## [16] &quot;Cr.C.A&quot;               &quot;Drb.90&quot;               &quot;Distance&quot;            
+## [19] &quot;Hdr..&quot;                &quot;K.Tck&quot;                &quot;Fls&quot;                 
+## [22] &quot;PoM&quot;                  &quot;Aer.A.90&quot;             &quot;Off&quot;                 
+## [25] &quot;Tck.R&quot;                &quot;CA&quot;                   &quot;Gls.xG&quot;              
+## [28] &quot;Dist.Mins&quot;            &quot;Value&quot;                &quot;Lower.Transfer.Value&quot;
+## [31] &quot;Upper.Transfer.Value&quot;
 </pre></div>
 </div>
 </section>
@@ -591,6 +622,38 @@ testing data.</p>
 ## F-statistic: 41.41 on 30 and 867 DF,  p-value: &lt; 2.2e-16
 </pre></div>
 </div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Model training with new significant variable</span>
+<span class="n">new.train</span> <span class="o">&lt;-</span> <span class="n">train</span><span class="p">[,</span> <span class="nf">c</span><span class="p">(</span><span class="m">6</span><span class="p">,</span> <span class="m">7</span><span class="p">,</span> <span class="m">14</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="m">23</span><span class="p">,</span> <span class="m">26</span><span class="p">,</span> <span class="m">28</span><span class="p">,</span> <span class="m">30</span><span class="p">)]</span>
+<span class="n">new.linear.model</span> <span class="o">&lt;-</span> <span class="nf">lm</span><span class="p">(</span><span class="n">CA</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">new.train</span><span class="p">)</span>
+<span class="nf">summary</span><span class="p">(</span><span class="n">new.linear.model</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 
+## Call:
+## lm(formula = CA ~ ., data = new.train)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -102.019  -11.207    1.741   11.058   49.145 
+## 
+## Coefficients:
+##                        Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)          -1.373e+01  1.904e+01  -0.721    0.471    
+## Age                   1.649e-01  1.601e-01   1.030    0.303    
+## Av.Rat                1.368e+01  2.640e+00   5.182 2.71e-07 ***
+## K.Ps.90              -1.318e+01  1.596e+00  -8.255 5.45e-16 ***
+## Pas..                 2.485e+01  5.730e+00   4.336 1.61e-05 ***
+## Aer.A.90             -1.365e+00  1.667e-01  -8.185 9.39e-16 ***
+## Dist.Mins             2.298e+02  2.817e+01   8.155 1.18e-15 ***
+## Lower.Transfer.Value  3.845e-07  2.033e-08  18.916  &lt; 2e-16 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 15.28 on 890 degrees of freedom
+## Multiple R-squared:  0.4442, Adjusted R-squared:  0.4398 
+## F-statistic: 101.6 on 7 and 890 DF,  p-value: &lt; 2.2e-16
+</pre></div>
+</div>
 </section>
 <section id="model-validation">
 <h2>Model Validation<a class="headerlink" href="#model-validation" title="Permalink to this headline">#</a></h2>
@@ -598,15 +661,43 @@ testing data.</p>
 <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">linear.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 
 <span class="c1"># Print the RMSE and MAE</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
 <div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  12.6975984315159 
+##  MSE:  161.229005928036 
 ##  MAE:  10.4290241532838
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
 <span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Linear Regression&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## incomplete final line found by readTableHeader on &#39;./../data/regression_data/
+## intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 30
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">linear.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+<span class="n">prediction</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##        1 
+## 100.8627
 </pre></div>
 </div>
 </section>

@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../reg_f_files/reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -746,19 +751,25 @@ section.</p>
 </pre></div>
 </div>
 <p><img alt="" src="../_images/unnamed-chunk-13-1.png" /><!-- --></p>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">data.frame</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Rating.Agency</span><span class="p">))</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">ra.count</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Rating.Agency</span><span class="p">))</span>
+<span class="nf">names</span><span class="p">(</span><span class="n">ra.count</span><span class="p">)</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;Rating Agency&quot;</span><span class="p">,</span> <span class="s">&quot;Number of Companies&quot;</span><span class="p">)</span>
+<span class="n">ra.count</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                                 Var1 Freq
-## 1                               DBRS   26
-## 2         Egan-Jones Ratings Company 2826
-## 3                      Fitch Ratings  477
-## 4  HR Ratings de Mexico S.A. de C.V.    5
-## 5    Japan Credit Rating Agency,Ltd.   22
-## 6          Moody&#39;s Investors Service 1636
-## 7 Standard &amp; Poor&#39;s Ratings Services 2813
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                        Rating Agency Number of Companies
+## 1                               DBRS                  26
+## 2         Egan-Jones Ratings Company                2826
+## 3                      Fitch Ratings                 477
+## 4  HR Ratings de Mexico S.A. de C.V.                   5
+## 5    Japan Credit Rating Agency,Ltd.                  22
+## 6          Moody&#39;s Investors Service                1636
+## 7 Standard &amp; Poor&#39;s Ratings Services                2813
 </pre></div>
 </div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">barplot</span><span class="p">(</span><span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Rating.Agency</span><span class="p">),</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Distribution of observations for Rating Agency&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;darkred&quot;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Companies Covered&quot;</span><span class="p">,</span> <span class="n">las</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-15-1.png" /><!-- --></p>
 <p>The number of companies rated by last three credit rating agencies are
 too few to be useful for analysis. It will be beneficial to remove them
 from the dataset. Thus, data for following credit rating agencies will
@@ -783,10 +794,23 @@ be removed:</p>
 insufficient for model to generate any insight.</p>
 <p>There are no categorical columns which have low variance and hence no
 data treatment is required for that consideration.</p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">rating.table</span> <span class="o">=</span> <span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Rating</span><span class="p">)</span>
+<span class="n">rating.table</span> <span class="o">&lt;-</span> <span class="n">rating.table</span><span class="p">[</span><span class="nf">order</span><span class="p">(</span><span class="n">rating.table</span><span class="p">)]</span>
+<span class="n">rating.barplot</span> <span class="o">&lt;-</span> <span class="nf">barplot</span><span class="p">(</span><span class="n">rating.table</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Rating Distribution&quot;</span><span class="p">,</span> <span class="n">ylab</span><span class="o">=</span><span class="s">&quot;Number of Companies&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;darkgreen&quot;</span><span class="p">,</span> <span class="n">las</span><span class="o">=</span><span class="m">2</span><span class="p">)</span>
+<span class="nf">text</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">rating.barplot</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span> <span class="n">rating.table</span><span class="m">+30</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="nf">as.character</span><span class="p">(</span><span class="n">rating.table</span><span class="p">))</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-17-1.png" /><!-- --></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">sector.table</span> <span class="o">=</span> <span class="nf">table</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">Sector</span><span class="p">)</span>
+<span class="n">sector.table</span> <span class="o">&lt;-</span> <span class="n">sector.table</span><span class="p">[</span><span class="nf">order</span><span class="p">(</span><span class="n">sector.table</span><span class="p">)]</span>
+<span class="nf">barplot</span><span class="p">(</span><span class="n">sector.table</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Sector Distribution&quot;</span><span class="p">,</span> <span class="n">xlab</span><span class="o">=</span><span class="s">&quot;Number of Companies&quot;</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;darkblue&quot;</span><span class="p">,</span> <span class="n">las</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">horiz</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-18-1.png" /><!-- --></p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_histogram</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt="" src="../_images/unnamed-chunk-16-1.png" /><!-- --></p>
+<p><img alt="" src="../_images/unnamed-chunk-19-1.png" /><!-- --></p>
 <p>Almost every numerical columns seems to have data points which can be
 considered as outliers. But it is not appropriate to alter those data
 points as they are crucial for modelling the data. More appropriate plot
@@ -799,7 +823,7 @@ in the next section).</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_boxplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s">&#39;Rating&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt="" src="../_images/unnamed-chunk-17-1.png" /><!-- --><img alt="" src="../_images/unnamed-chunk-17-2.png" /><!-- --></p>
+<p><img alt="" src="../_images/unnamed-chunk-20-1.png" /><!-- --><img alt="" src="../_images/unnamed-chunk-20-2.png" /><!-- --></p>
 <p>Some prominent outliers are present in the following columns:</p>
 <ol class="simple">
 <li><p>Asset Turnover Ratio</p></li>
@@ -826,7 +850,11 @@ appropriate data needs to be subset.</p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">plot_correlation</span><span class="p">(</span><span class="n">num.data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p><img alt="" src="../_images/unnamed-chunk-19-1.png" /><!-- --></p>
+<p><img alt="" src="../_images/unnamed-chunk-22-1.png" /><!-- --></p>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">pairs</span><span class="p">(</span><span class="n">df</span><span class="p">[,</span><span class="nf">c</span><span class="p">(</span><span class="m">14</span><span class="p">,</span> <span class="m">15</span><span class="p">,</span> <span class="m">16</span><span class="p">,</span> <span class="m">17</span><span class="p">,</span> <span class="m">18</span><span class="p">,</span> <span class="m">20</span><span class="p">,</span> <span class="m">22</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p><img alt="" src="../_images/unnamed-chunk-23-1.png" /><!-- --></p>
 <p>It can be observed that <em>Operating Margin</em>, <em>EBIT Margin</em>, <em>EBITDA
 Margin</em>, <em>Pre Tax Profit Margin</em>, <em>Return on Assets</em> and <em>Net Profit
 Margin</em> are highly correlated with each other. Hence it will be better

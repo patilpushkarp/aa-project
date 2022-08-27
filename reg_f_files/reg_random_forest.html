@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Gradient Descent" href="reg_gradient_descent.html" />
+    <link rel="next" title="Gradient Boosting" href="reg_gradient_descent.html" />
     <link rel="prev" title="Bagging" href="reg_bagging.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="../class_r_files/result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -456,6 +461,11 @@ title="Print to PDF"
    Model Validation
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -488,6 +498,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-validation">
    Model Validation
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
   </a>
  </li>
 </ul>
@@ -553,6 +568,20 @@ testing data.</p>
 <span class="n">rf.model</span> <span class="o">&lt;-</span> <span class="nf">randomForest</span><span class="p">(</span><span class="n">CA</span><span class="o">~</span><span class="n">.</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">)</span>
 </pre></div>
 </div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">rf.model</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## 
+## Call:
+##  randomForest(formula = CA ~ ., data = train) 
+##                Type of random forest: regression
+##                      Number of trees: 500
+## No. of variables tried at each split: 10
+## 
+##           Mean of squared residuals: 63.04205
+##                     % Var explained: 84.86
+</pre></div>
+</div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">summary</span><span class="p">(</span><span class="n">rf.model</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -584,51 +613,51 @@ testing data.</p>
 <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">rf.model</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
 
 <span class="c1"># Print the RMSE and MAE</span>
-<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
+<span class="nf">cat</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="s">&quot;RMSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MSE: &quot;</span><span class="p">,</span> <span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)</span><span class="o">^</span><span class="m">2</span><span class="p">,</span> <span class="s">&quot;\n&quot;</span><span class="p">,</span> <span class="s">&quot;MAE: &quot;</span><span class="p">,</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">)))</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.06816272785225 
-##  MAE:  6.1587538116592
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## RMSE:  8.05210073976681 
+##  MSE:  64.8363263233532 
+##  MAE:  6.144944245142
 </pre></div>
 </div>
-<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">varImp</span><span class="p">(</span><span class="n">rf.model</span><span class="p">)</span>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot feature importance</span>
+<span class="n">varImp.df</span> <span class="o">&lt;-</span> <span class="nf">data.frame</span><span class="p">(</span><span class="nf">varImp</span><span class="p">(</span><span class="n">rf.model</span><span class="p">))</span>
+<span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span> <span class="o">&lt;-</span> <span class="n">varImp.df</span><span class="p">[</span><span class="nf">order</span><span class="p">(</span><span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span><span class="p">,</span> <span class="n">decreasing</span> <span class="o">=</span> <span class="kc">FALSE</span><span class="p">),]</span>
+<span class="nf">par</span><span class="p">(</span><span class="n">mar</span><span class="o">=</span><span class="nf">c</span><span class="p">(</span><span class="m">15</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">3</span><span class="p">,</span><span class="m">0</span><span class="p">))</span>
+<span class="nf">barplot</span><span class="p">(</span><span class="n">varImp.df</span><span class="o">$</span><span class="n">Overall</span><span class="p">,</span> <span class="n">names.arg</span><span class="o">=</span><span class="nf">rownames</span><span class="p">(</span><span class="n">varImp.df</span><span class="p">),</span> <span class="n">las</span><span class="o">=</span><span class="m">2</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="n">main</span><span class="o">=</span><span class="s">&quot;Random Forest: Feature Importances&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##                          Overall
-## Apps                   5561.0911
-## Mins                   6380.8248
-## Mins.Gm                2017.4140
-## Height                 1992.8612
-## Weight                 2088.4085
-## Age                    4481.3923
-## Av.Rat                 7933.9759
-## Gls                     376.1644
-## Gls.90                  662.7810
-## Shot..                 1073.9416
-## xG                     1536.6192
-## Ch.C.90                1385.5363
-## Asts.90                 942.0452
-## K.Ps.90                2627.1438
-## Pas..                  3258.7395
-## Cr.C.A                  986.3250
-## Drb.90                 1183.2440
-## Distance               7271.4434
-## Hdr..                  1607.2684
-## K.Tck                   699.6000
-## Fls                    1871.0538
-## PoM                     976.0439
-## Aer.A.90               5132.4956
-## Off                     609.7598
-## Tck.R                  1966.7884
-## Gls.xG                  936.4560
-## Dist.Mins              4839.9684
-## Value                130993.0707
-## Lower.Transfer.Value  80992.8334
-## Upper.Transfer.Value  87949.5836
-</pre></div>
-</div>
+<p><img alt="" src="../_images/unnamed-chunk-6-13.png" /><!-- --></p>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Save the results</span>
 <span class="nf">save.reg.result</span><span class="p">(</span><span class="nf">RMSE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="nf">MAE</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">test</span><span class="o">$</span><span class="n">CA</span><span class="p">),</span> <span class="s">&quot;Random Forest Regression&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/regression_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote = quote, :
+## incomplete final line found by readTableHeader on &#39;./../data/regression_data/
+## intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 30
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">rf.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+<span class="n">prediction</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>##        1 
+## 99.02373
 </pre></div>
 </div>
 </section>
@@ -671,7 +700,7 @@ testing data.</p>
     <a class='right-next' id="next-link" href="reg_gradient_descent.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Gradient Descent</p>
+        <p class="prev-next-title">Gradient Boosting</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

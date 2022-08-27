@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Regression: Football Manager 2022 Player Data" href="../notebooks/Football%20Player%20Data%20Regression.html" />
+    <link rel="next" title="Classification Result" href="result.html" />
     <link rel="prev" title="Random Forest" href="class_random_forest.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -179,6 +179,11 @@ const thebe_selector_output = ".output, .cell_output"
        Gradient Boosting
       </a>
      </li>
+     <li class="toctree-l3">
+      <a class="reference internal" href="result.html">
+       Classification Result
+      </a>
+     </li>
     </ul>
    </li>
   </ul>
@@ -240,7 +245,7 @@ const thebe_selector_output = ".output, .cell_output"
      </li>
      <li class="toctree-l3">
       <a class="reference internal" href="../reg_f_files/reg_gradient_descent.html">
-       Gradient Descent
+       Gradient Boosting
       </a>
      </li>
     </ul>
@@ -451,6 +456,11 @@ title="Print to PDF"
    Model Training
   </a>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
+  </a>
+ </li>
 </ul>
 
     </nav>
@@ -478,6 +488,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#model-training">
    Model Training
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#prediction-with-unknown-data">
+   Prediction with Unknown Data
   </a>
  </li>
 </ul>
@@ -518,6 +533,11 @@ title="Print to PDF"
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Read training and testing data</span>
 <span class="n">train</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/train.csv&quot;</span><span class="p">)</span>
 <span class="n">test</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/test.csv&quot;</span><span class="p">)</span>
+
+<span class="c1"># Drop index columns</span>
+<span class="n">drops</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="s">&quot;X.1&quot;</span><span class="p">,</span> <span class="s">&quot;X&quot;</span><span class="p">)</span>
+<span class="n">train</span> <span class="o">&lt;-</span> <span class="n">train</span><span class="p">[,</span> <span class="o">!</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">train</span><span class="p">)</span> <span class="o">%in%</span> <span class="n">drops</span><span class="p">)]</span>
+<span class="n">test</span> <span class="o">&lt;-</span> <span class="n">test</span><span class="p">[,</span> <span class="o">!</span><span class="p">(</span><span class="nf">names</span><span class="p">(</span><span class="n">test</span><span class="p">)</span> <span class="o">%in%</span> <span class="n">drops</span><span class="p">)]</span>
 </pre></div>
 </div>
 </section>
@@ -539,7 +559,7 @@ title="Print to PDF"
 ##     data = train)
 ## A gradient boosted model with multinomial loss function.
 ## 100 iterations were performed.
-## There were 31 predictors of which 30 had non-zero influence.
+## There were 29 predictors of which 29 had non-zero influence.
 </pre></div>
 </div>
 <div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict the samples from test data using the model</span>
@@ -580,16 +600,16 @@ title="Print to PDF"
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>Accuracy</p></td>
-<td class="text-align:right"><p>0.3089851</p></td>
+<td class="text-align:right"><p>0.3160957</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Kappa</p></td>
-<td class="text-align:right"><p>0.2462804</p></td>
+<td class="text-align:right"><p>0.2539352</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>AccuracyLower</p></td>
-<td class="text-align:right"><p>0.2860167</p></td>
+<td class="text-align:right"><p>0.2929706</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>AccuracyUpper</p></td>
-<td class="text-align:right"><p>0.3326809</p></td>
+<td class="text-align:right"><p>0.3399209</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>AccuracyNull</p></td>
 <td class="text-align:right"><p>0.1215255</p></td>
@@ -624,17 +644,17 @@ title="Print to PDF"
 </thead>
 <tbody>
 <tr class="row-even"><td class="text-align:left"><p>Class: 1</p></td>
-<td class="text-align:right"><p>0.2222222</p></td>
-<td class="text-align:right"><p>0.9947678</p></td>
-<td class="text-align:right"><p>0.3333333</p></td>
-<td class="text-align:right"><p>0.9908795</p></td>
-<td class="text-align:right"><p>0.3333333</p></td>
-<td class="text-align:right"><p>0.2222222</p></td>
-<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.1666667</p></td>
+<td class="text-align:right"><p>0.9941138</p></td>
+<td class="text-align:right"><p>0.2500000</p></td>
+<td class="text-align:right"><p>0.9902280</p></td>
+<td class="text-align:right"><p>0.2500000</p></td>
+<td class="text-align:right"><p>0.1666667</p></td>
+<td class="text-align:right"><p>0.2000000</p></td>
 <td class="text-align:right"><p>0.0116354</p></td>
-<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0019392</p></td>
 <td class="text-align:right"><p>0.0077569</p></td>
-<td class="text-align:right"><p>0.6084950</p></td>
+<td class="text-align:right"><p>0.5803902</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 2</p></td>
 <td class="text-align:right"><p>0.6000000</p></td>
@@ -650,225 +670,225 @@ title="Print to PDF"
 <td class="text-align:right"><p>0.7990209</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 3</p></td>
-<td class="text-align:right"><p>0.0238095</p></td>
-<td class="text-align:right"><p>0.9933555</p></td>
-<td class="text-align:right"><p>0.0909091</p></td>
-<td class="text-align:right"><p>0.9733073</p></td>
-<td class="text-align:right"><p>0.0909091</p></td>
-<td class="text-align:right"><p>0.0238095</p></td>
-<td class="text-align:right"><p>0.0377358</p></td>
+<td class="text-align:right"><p>0.0476190</p></td>
+<td class="text-align:right"><p>0.9946844</p></td>
+<td class="text-align:right"><p>0.2000000</p></td>
+<td class="text-align:right"><p>0.9739753</p></td>
+<td class="text-align:right"><p>0.2000000</p></td>
+<td class="text-align:right"><p>0.0476190</p></td>
+<td class="text-align:right"><p>0.0769231</p></td>
 <td class="text-align:right"><p>0.0271493</p></td>
-<td class="text-align:right"><p>0.0006464</p></td>
-<td class="text-align:right"><p>0.0071105</p></td>
-<td class="text-align:right"><p>0.5085825</p></td>
+<td class="text-align:right"><p>0.0012928</p></td>
+<td class="text-align:right"><p>0.0064641</p></td>
+<td class="text-align:right"><p>0.5211517</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 4</p></td>
-<td class="text-align:right"><p>0.0769231</p></td>
-<td class="text-align:right"><p>0.9926421</p></td>
-<td class="text-align:right"><p>0.2666667</p></td>
-<td class="text-align:right"><p>0.9686684</p></td>
-<td class="text-align:right"><p>0.2666667</p></td>
-<td class="text-align:right"><p>0.0769231</p></td>
-<td class="text-align:right"><p>0.1194030</p></td>
+<td class="text-align:right"><p>0.1153846</p></td>
+<td class="text-align:right"><p>0.9913043</p></td>
+<td class="text-align:right"><p>0.3157895</p></td>
+<td class="text-align:right"><p>0.9698953</p></td>
+<td class="text-align:right"><p>0.3157895</p></td>
+<td class="text-align:right"><p>0.1153846</p></td>
+<td class="text-align:right"><p>0.1690141</p></td>
 <td class="text-align:right"><p>0.0336134</p></td>
-<td class="text-align:right"><p>0.0025856</p></td>
-<td class="text-align:right"><p>0.0096962</p></td>
-<td class="text-align:right"><p>0.5347826</p></td>
+<td class="text-align:right"><p>0.0038785</p></td>
+<td class="text-align:right"><p>0.0122818</p></td>
+<td class="text-align:right"><p>0.5533445</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 5</p></td>
-<td class="text-align:right"><p>0.4230769</p></td>
-<td class="text-align:right"><p>0.9503063</p></td>
-<td class="text-align:right"><p>0.3113208</p></td>
-<td class="text-align:right"><p>0.9687717</p></td>
-<td class="text-align:right"><p>0.3113208</p></td>
-<td class="text-align:right"><p>0.4230769</p></td>
-<td class="text-align:right"><p>0.3586957</p></td>
+<td class="text-align:right"><p>0.3846154</p></td>
+<td class="text-align:right"><p>0.9516678</p></td>
+<td class="text-align:right"><p>0.2970297</p></td>
+<td class="text-align:right"><p>0.9668050</p></td>
+<td class="text-align:right"><p>0.2970297</p></td>
+<td class="text-align:right"><p>0.3846154</p></td>
+<td class="text-align:right"><p>0.3351955</p></td>
 <td class="text-align:right"><p>0.0504202</p></td>
-<td class="text-align:right"><p>0.0213316</p></td>
-<td class="text-align:right"><p>0.0685197</p></td>
-<td class="text-align:right"><p>0.6866916</p></td>
+<td class="text-align:right"><p>0.0193924</p></td>
+<td class="text-align:right"><p>0.0652877</p></td>
+<td class="text-align:right"><p>0.6681416</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 6</p></td>
-<td class="text-align:right"><p>0.3372781</p></td>
-<td class="text-align:right"><p>0.9005806</p></td>
-<td class="text-align:right"><p>0.2938144</p></td>
-<td class="text-align:right"><p>0.9172210</p></td>
-<td class="text-align:right"><p>0.2938144</p></td>
-<td class="text-align:right"><p>0.3372781</p></td>
-<td class="text-align:right"><p>0.3140496</p></td>
+<td class="text-align:right"><p>0.3431953</p></td>
+<td class="text-align:right"><p>0.9020319</p></td>
+<td class="text-align:right"><p>0.3005181</p></td>
+<td class="text-align:right"><p>0.9180207</p></td>
+<td class="text-align:right"><p>0.3005181</p></td>
+<td class="text-align:right"><p>0.3431953</p></td>
+<td class="text-align:right"><p>0.3204420</p></td>
 <td class="text-align:right"><p>0.1092437</p></td>
-<td class="text-align:right"><p>0.0368455</p></td>
-<td class="text-align:right"><p>0.1254040</p></td>
-<td class="text-align:right"><p>0.6189293</p></td>
+<td class="text-align:right"><p>0.0374919</p></td>
+<td class="text-align:right"><p>0.1247576</p></td>
+<td class="text-align:right"><p>0.6226136</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 7</p></td>
-<td class="text-align:right"><p>0.2413793</p></td>
+<td class="text-align:right"><p>0.2482759</p></td>
 <td class="text-align:right"><p>0.9493581</p></td>
-<td class="text-align:right"><p>0.3301887</p></td>
-<td class="text-align:right"><p>0.9236641</p></td>
-<td class="text-align:right"><p>0.3301887</p></td>
-<td class="text-align:right"><p>0.2413793</p></td>
-<td class="text-align:right"><p>0.2788845</p></td>
+<td class="text-align:right"><p>0.3364486</p></td>
+<td class="text-align:right"><p>0.9243056</p></td>
+<td class="text-align:right"><p>0.3364486</p></td>
+<td class="text-align:right"><p>0.2482759</p></td>
+<td class="text-align:right"><p>0.2857143</p></td>
 <td class="text-align:right"><p>0.0937298</p></td>
-<td class="text-align:right"><p>0.0226244</p></td>
-<td class="text-align:right"><p>0.0685197</p></td>
-<td class="text-align:right"><p>0.5953687</p></td>
+<td class="text-align:right"><p>0.0232708</p></td>
+<td class="text-align:right"><p>0.0691661</p></td>
+<td class="text-align:right"><p>0.5988170</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 8</p></td>
-<td class="text-align:right"><p>0.3043478</p></td>
-<td class="text-align:right"><p>0.9033189</p></td>
-<td class="text-align:right"><p>0.2677596</p></td>
-<td class="text-align:right"><p>0.9178886</p></td>
-<td class="text-align:right"><p>0.2677596</p></td>
-<td class="text-align:right"><p>0.3043478</p></td>
-<td class="text-align:right"><p>0.2848837</p></td>
+<td class="text-align:right"><p>0.3354037</p></td>
+<td class="text-align:right"><p>0.9047619</p></td>
+<td class="text-align:right"><p>0.2903226</p></td>
+<td class="text-align:right"><p>0.9213813</p></td>
+<td class="text-align:right"><p>0.2903226</p></td>
+<td class="text-align:right"><p>0.3354037</p></td>
+<td class="text-align:right"><p>0.3112392</p></td>
 <td class="text-align:right"><p>0.1040724</p></td>
-<td class="text-align:right"><p>0.0316742</p></td>
-<td class="text-align:right"><p>0.1182935</p></td>
-<td class="text-align:right"><p>0.6038334</p></td>
+<td class="text-align:right"><p>0.0349063</p></td>
+<td class="text-align:right"><p>0.1202327</p></td>
+<td class="text-align:right"><p>0.6200828</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 9</p></td>
-<td class="text-align:right"><p>0.4095745</p></td>
-<td class="text-align:right"><p>0.8668138</p></td>
-<td class="text-align:right"><p>0.2984496</p></td>
-<td class="text-align:right"><p>0.9138867</p></td>
-<td class="text-align:right"><p>0.2984496</p></td>
-<td class="text-align:right"><p>0.4095745</p></td>
-<td class="text-align:right"><p>0.3452915</p></td>
+<td class="text-align:right"><p>0.4308511</p></td>
+<td class="text-align:right"><p>0.8682855</p></td>
+<td class="text-align:right"><p>0.3115385</p></td>
+<td class="text-align:right"><p>0.9168609</p></td>
+<td class="text-align:right"><p>0.3115385</p></td>
+<td class="text-align:right"><p>0.4308511</p></td>
+<td class="text-align:right"><p>0.3616071</p></td>
 <td class="text-align:right"><p>0.1215255</p></td>
-<td class="text-align:right"><p>0.0497738</p></td>
-<td class="text-align:right"><p>0.1667744</p></td>
-<td class="text-align:right"><p>0.6381942</p></td>
+<td class="text-align:right"><p>0.0523594</p></td>
+<td class="text-align:right"><p>0.1680672</p></td>
+<td class="text-align:right"><p>0.6495683</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 10</p></td>
 <td class="text-align:right"><p>0.2847222</p></td>
-<td class="text-align:right"><p>0.9465431</p></td>
-<td class="text-align:right"><p>0.3534483</p></td>
-<td class="text-align:right"><p>0.9280224</p></td>
-<td class="text-align:right"><p>0.3534483</p></td>
+<td class="text-align:right"><p>0.9501069</p></td>
+<td class="text-align:right"><p>0.3693694</p></td>
+<td class="text-align:right"><p>0.9282730</p></td>
+<td class="text-align:right"><p>0.3693694</p></td>
 <td class="text-align:right"><p>0.2847222</p></td>
-<td class="text-align:right"><p>0.3153846</p></td>
+<td class="text-align:right"><p>0.3215686</p></td>
 <td class="text-align:right"><p>0.0930834</p></td>
 <td class="text-align:right"><p>0.0265029</p></td>
-<td class="text-align:right"><p>0.0749838</p></td>
-<td class="text-align:right"><p>0.6156327</p></td>
+<td class="text-align:right"><p>0.0717518</p></td>
+<td class="text-align:right"><p>0.6174146</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 11</p></td>
-<td class="text-align:right"><p>0.7090909</p></td>
-<td class="text-align:right"><p>0.9227557</p></td>
-<td class="text-align:right"><p>0.4126984</p></td>
-<td class="text-align:right"><p>0.9764359</p></td>
-<td class="text-align:right"><p>0.4126984</p></td>
-<td class="text-align:right"><p>0.7090909</p></td>
-<td class="text-align:right"><p>0.5217391</p></td>
+<td class="text-align:right"><p>0.7363636</p></td>
+<td class="text-align:right"><p>0.9199722</p></td>
+<td class="text-align:right"><p>0.4132653</p></td>
+<td class="text-align:right"><p>0.9785344</p></td>
+<td class="text-align:right"><p>0.4132653</p></td>
+<td class="text-align:right"><p>0.7363636</p></td>
+<td class="text-align:right"><p>0.5294118</p></td>
 <td class="text-align:right"><p>0.0711054</p></td>
-<td class="text-align:right"><p>0.0504202</p></td>
-<td class="text-align:right"><p>0.1221719</p></td>
-<td class="text-align:right"><p>0.8159233</p></td>
+<td class="text-align:right"><p>0.0523594</p></td>
+<td class="text-align:right"><p>0.1266968</p></td>
+<td class="text-align:right"><p>0.8281679</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 12</p></td>
-<td class="text-align:right"><p>0.3058824</p></td>
-<td class="text-align:right"><p>0.9377565</p></td>
-<td class="text-align:right"><p>0.2222222</p></td>
-<td class="text-align:right"><p>0.9587413</p></td>
-<td class="text-align:right"><p>0.2222222</p></td>
-<td class="text-align:right"><p>0.3058824</p></td>
-<td class="text-align:right"><p>0.2574257</p></td>
+<td class="text-align:right"><p>0.3529412</p></td>
+<td class="text-align:right"><p>0.9363885</p></td>
+<td class="text-align:right"><p>0.2439024</p></td>
+<td class="text-align:right"><p>0.9613764</p></td>
+<td class="text-align:right"><p>0.2439024</p></td>
+<td class="text-align:right"><p>0.3529412</p></td>
+<td class="text-align:right"><p>0.2884615</p></td>
 <td class="text-align:right"><p>0.0549451</p></td>
-<td class="text-align:right"><p>0.0168067</p></td>
-<td class="text-align:right"><p>0.0756303</p></td>
-<td class="text-align:right"><p>0.6218194</p></td>
+<td class="text-align:right"><p>0.0193924</p></td>
+<td class="text-align:right"><p>0.0795087</p></td>
+<td class="text-align:right"><p>0.6446648</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 13</p></td>
-<td class="text-align:right"><p>0.2417582</p></td>
-<td class="text-align:right"><p>0.9759615</p></td>
-<td class="text-align:right"><p>0.3859649</p></td>
-<td class="text-align:right"><p>0.9536913</p></td>
-<td class="text-align:right"><p>0.3859649</p></td>
-<td class="text-align:right"><p>0.2417582</p></td>
-<td class="text-align:right"><p>0.2972973</p></td>
+<td class="text-align:right"><p>0.1318681</p></td>
+<td class="text-align:right"><p>0.9807692</p></td>
+<td class="text-align:right"><p>0.3000000</p></td>
+<td class="text-align:right"><p>0.9475780</p></td>
+<td class="text-align:right"><p>0.3000000</p></td>
+<td class="text-align:right"><p>0.1318681</p></td>
+<td class="text-align:right"><p>0.1832061</p></td>
 <td class="text-align:right"><p>0.0588235</p></td>
-<td class="text-align:right"><p>0.0142211</p></td>
-<td class="text-align:right"><p>0.0368455</p></td>
-<td class="text-align:right"><p>0.6088599</p></td>
+<td class="text-align:right"><p>0.0077569</p></td>
+<td class="text-align:right"><p>0.0258565</p></td>
+<td class="text-align:right"><p>0.5563187</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 14</p></td>
-<td class="text-align:right"><p>0.2613636</p></td>
-<td class="text-align:right"><p>0.9705278</p></td>
-<td class="text-align:right"><p>0.3484848</p></td>
-<td class="text-align:right"><p>0.9561107</p></td>
-<td class="text-align:right"><p>0.3484848</p></td>
-<td class="text-align:right"><p>0.2613636</p></td>
-<td class="text-align:right"><p>0.2987013</p></td>
+<td class="text-align:right"><p>0.2954545</p></td>
+<td class="text-align:right"><p>0.9643592</p></td>
+<td class="text-align:right"><p>0.3333333</p></td>
+<td class="text-align:right"><p>0.9577944</p></td>
+<td class="text-align:right"><p>0.3333333</p></td>
+<td class="text-align:right"><p>0.2954545</p></td>
+<td class="text-align:right"><p>0.3132530</p></td>
 <td class="text-align:right"><p>0.0568843</p></td>
-<td class="text-align:right"><p>0.0148675</p></td>
-<td class="text-align:right"><p>0.0426632</p></td>
-<td class="text-align:right"><p>0.6159457</p></td>
+<td class="text-align:right"><p>0.0168067</p></td>
+<td class="text-align:right"><p>0.0504202</p></td>
+<td class="text-align:right"><p>0.6299068</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 15</p></td>
 <td class="text-align:right"><p>0.1568627</p></td>
-<td class="text-align:right"><p>0.9779412</p></td>
-<td class="text-align:right"><p>0.1951220</p></td>
-<td class="text-align:right"><p>0.9714475</p></td>
-<td class="text-align:right"><p>0.1951220</p></td>
+<td class="text-align:right"><p>0.9792781</p></td>
+<td class="text-align:right"><p>0.2051282</p></td>
+<td class="text-align:right"><p>0.9714854</p></td>
+<td class="text-align:right"><p>0.2051282</p></td>
 <td class="text-align:right"><p>0.1568627</p></td>
-<td class="text-align:right"><p>0.1739130</p></td>
+<td class="text-align:right"><p>0.1777778</p></td>
 <td class="text-align:right"><p>0.0329670</p></td>
 <td class="text-align:right"><p>0.0051713</p></td>
-<td class="text-align:right"><p>0.0265029</p></td>
-<td class="text-align:right"><p>0.5674020</p></td>
+<td class="text-align:right"><p>0.0252101</p></td>
+<td class="text-align:right"><p>0.5680704</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 16</p></td>
-<td class="text-align:right"><p>0.1521739</p></td>
-<td class="text-align:right"><p>0.9713524</p></td>
-<td class="text-align:right"><p>0.1400000</p></td>
-<td class="text-align:right"><p>0.9739479</p></td>
-<td class="text-align:right"><p>0.1400000</p></td>
-<td class="text-align:right"><p>0.1521739</p></td>
-<td class="text-align:right"><p>0.1458333</p></td>
+<td class="text-align:right"><p>0.1304348</p></td>
+<td class="text-align:right"><p>0.9773484</p></td>
+<td class="text-align:right"><p>0.1500000</p></td>
+<td class="text-align:right"><p>0.9734572</p></td>
+<td class="text-align:right"><p>0.1500000</p></td>
+<td class="text-align:right"><p>0.1304348</p></td>
+<td class="text-align:right"><p>0.1395349</p></td>
 <td class="text-align:right"><p>0.0297350</p></td>
-<td class="text-align:right"><p>0.0045249</p></td>
-<td class="text-align:right"><p>0.0323206</p></td>
-<td class="text-align:right"><p>0.5617632</p></td>
+<td class="text-align:right"><p>0.0038785</p></td>
+<td class="text-align:right"><p>0.0258565</p></td>
+<td class="text-align:right"><p>0.5538916</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 17</p></td>
-<td class="text-align:right"><p>0.0250000</p></td>
-<td class="text-align:right"><p>0.9993364</p></td>
-<td class="text-align:right"><p>0.5000000</p></td>
-<td class="text-align:right"><p>0.9747573</p></td>
-<td class="text-align:right"><p>0.5000000</p></td>
-<td class="text-align:right"><p>0.0250000</p></td>
-<td class="text-align:right"><p>0.0476190</p></td>
+<td class="text-align:right"><p>0.0500000</p></td>
+<td class="text-align:right"><p>0.9980093</p></td>
+<td class="text-align:right"><p>0.4000000</p></td>
+<td class="text-align:right"><p>0.9753567</p></td>
+<td class="text-align:right"><p>0.4000000</p></td>
+<td class="text-align:right"><p>0.0500000</p></td>
+<td class="text-align:right"><p>0.0888889</p></td>
 <td class="text-align:right"><p>0.0258565</p></td>
-<td class="text-align:right"><p>0.0006464</p></td>
 <td class="text-align:right"><p>0.0012928</p></td>
-<td class="text-align:right"><p>0.5121682</p></td>
+<td class="text-align:right"><p>0.0032321</p></td>
+<td class="text-align:right"><p>0.5240046</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 18</p></td>
-<td class="text-align:right"><p>0.2000000</p></td>
-<td class="text-align:right"><p>0.9947781</p></td>
-<td class="text-align:right"><p>0.2727273</p></td>
-<td class="text-align:right"><p>0.9921875</p></td>
-<td class="text-align:right"><p>0.2727273</p></td>
-<td class="text-align:right"><p>0.2000000</p></td>
-<td class="text-align:right"><p>0.2307692</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.9928198</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.9928198</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
+<td class="text-align:right"><p>0.2666667</p></td>
 <td class="text-align:right"><p>0.0096962</p></td>
-<td class="text-align:right"><p>0.0019392</p></td>
-<td class="text-align:right"><p>0.0071105</p></td>
-<td class="text-align:right"><p>0.5973890</p></td>
+<td class="text-align:right"><p>0.0025856</p></td>
+<td class="text-align:right"><p>0.0096962</p></td>
+<td class="text-align:right"><p>0.6297433</p></td>
 </tr>
 <tr class="row-even"><td class="text-align:left"><p>Class: 19</p></td>
 <td class="text-align:right"><p>0.0000000</p></td>
-<td class="text-align:right"><p>0.9993532</p></td>
-<td class="text-align:right"><p>0.0000000</p></td>
-<td class="text-align:right"><p>0.9993532</p></td>
-<td class="text-align:right"><p>0.0000000</p></td>
-<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>1.0000000</p></td>
 <td class="text-align:right"><p>NaN</p></td>
+<td class="text-align:right"><p>0.9993536</p></td>
+<td class="text-align:right"><p>NA</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>NA</p></td>
 <td class="text-align:right"><p>0.0006464</p></td>
 <td class="text-align:right"><p>0.0000000</p></td>
-<td class="text-align:right"><p>0.0006464</p></td>
-<td class="text-align:right"><p>0.4996766</p></td>
+<td class="text-align:right"><p>0.0000000</p></td>
+<td class="text-align:right"><p>0.5000000</p></td>
 </tr>
 <tr class="row-odd"><td class="text-align:left"><p>Class: 20</p></td>
 <td class="text-align:right"><p>0.0000000</p></td>
@@ -902,6 +922,38 @@ title="Print to PDF"
 <span class="n">algorithm</span> <span class="o">&lt;-</span> <span class="s">&quot;Gradient.Boosting&quot;</span>
 <span class="nf">save.class.acc.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">overall</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
 <span class="nf">save.class.pvv.result</span><span class="p">(</span><span class="n">confusion.matrix</span><span class="o">$</span><span class="n">byClass</span><span class="p">,</span> <span class="n">algorithm</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="prediction-with-unknown-data">
+<h2>Prediction with Unknown Data<a class="headerlink" href="#prediction-with-unknown-data" title="Permalink to this headline">#</a></h2>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Load the data</span>
+<span class="n">unk</span> <span class="o">&lt;-</span> <span class="nf">read.csv</span><span class="p">(</span><span class="s">&quot;./../data/classification_data/intermediates/unknown_data.csv&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Warning in read.table(file = file, header = header, sep = sep, quote =
+## quote, : incomplete final line found by readTableHeader on &#39;./../data/
+## classification_data/intermediates/unknown_data.csv&#39;
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="nf">dim</span><span class="p">(</span><span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1]  1 29
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="c1"># Predict using the built model</span>
+<span class="n">prediction</span> <span class="o">&lt;-</span> <span class="nf">predict</span><span class="p">(</span><span class="n">gbm.model</span><span class="p">,</span> <span class="n">unk</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## Using 100 trees...
+</pre></div>
+</div>
+<div class="highlight-r notranslate"><div class="highlight"><pre><span></span><span class="n">final.pred</span> <span class="o">=</span> <span class="nf">colnames</span><span class="p">(</span><span class="n">result</span><span class="p">)[</span><span class="nf">apply</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span><span class="m">1</span><span class="p">,</span><span class="n">which.max</span><span class="p">)]</span>
+<span class="n">final.pred</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>## [1] &quot;10&quot;
 </pre></div>
 </div>
 </section>
@@ -941,10 +993,10 @@ title="Print to PDF"
             <p class="prev-next-title">Random Forest</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="../notebooks/Football%20Player%20Data%20Regression.html" title="next page">
+    <a class='right-next' id="next-link" href="result.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Regression: Football Manager 2022 Player Data</p>
+        <p class="prev-next-title">Classification Result</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

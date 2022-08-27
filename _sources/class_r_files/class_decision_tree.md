@@ -23,6 +23,11 @@ source("./../helpers/helper.R")
 # Read training and testing data
 train <- read.csv("./../data/classification_data/intermediates/train.csv")
 test <- read.csv("./../data/classification_data/intermediates/test.csv")
+
+# Drop index columns
+drops <- c("X.1", "X")
+train <- train[, !(names(train) %in% drops)]
+test <- test[, !(names(test) %in% drops)]
 ```
 
 ## Model Training
@@ -107,8 +112,6 @@ kable(varImp(dtree.model))
 | ROE…Return.On.Equity                           |  94.20814 |
 | ROI…Return.On.Investment                       | 150.16250 |
 | Sector_Hlth                                    |  14.05407 |
-| X.1                                            |   0.00000 |
-| X                                              |   0.00000 |
 | Rating.Agency_Fitch.Ratings                    |   0.00000 |
 | Rating.Agency_Moody.s.Investors.Service        |   0.00000 |
 | Sector_BusEq                                   |   0.00000 |
@@ -133,3 +136,29 @@ algorithm <- "Decision.Tree"
 save.class.acc.result(confusion.matrix$overall, algorithm)
 save.class.pvv.result(confusion.matrix$byClass, algorithm)
 ```
+
+## Prediction with Unknown Data
+
+``` r
+# Load the data
+unk <- read.csv("./../data/classification_data/intermediates/unknown_data.csv")
+```
+
+    ## Warning in read.table(file = file, header = header, sep = sep, quote =
+    ## quote, : incomplete final line found by readTableHeader on './../data/
+    ## classification_data/intermediates/unknown_data.csv'
+
+``` r
+dim(unk)
+```
+
+    ## [1]  1 29
+
+``` r
+# Predict using the built model
+prediction <- predict(dtree.model, unk)
+final.pred = colnames(result)[apply(prediction,1,which.max)]
+final.pred
+```
+
+    ## NULL
